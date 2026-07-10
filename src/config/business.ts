@@ -31,6 +31,9 @@ export const business = {
   // Semt adı — bölgede yaygın kullanılan isim
   locality: 'İldem',
 
+  // Yapılandırılmış veride hizmet verilen bölgeler (yerel SEO)
+  areaServed: ['İldem', 'Gesi Fatih Mahallesi', 'Melikgazi', 'Kayseri'],
+
   geo: {
     latitude: 38.78281,
     longitude: 35.612537,

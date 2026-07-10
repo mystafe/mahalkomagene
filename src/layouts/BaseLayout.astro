@@ -35,6 +35,8 @@ const yapilandirilmisVeri = {
   telephone: business.phone.e164,
   image: [new URL('/og/mahal-komagene-sosyal.jpg', Astro.site).href],
   servesCuisine: business.servesCuisine,
+  areaServed: business.areaServed,
+  hasMenu: `${business.url}/urunler`,
   address: {
     '@type': 'PostalAddress',
     streetAddress: `${business.address.street}, ${business.address.neighborhood}`,
