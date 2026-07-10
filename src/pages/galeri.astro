@@ -1,0 +1,146 @@
+---
+import { Picture } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+import disCephe from '../assets/images/mahal-komagene-dis-cephe.jpeg';
+import disCepheKose from '../assets/images/mahal-komagene-dis-cephe-kose.jpeg';
+import aksamGorunum from '../assets/images/mahal-komagene-aksam-gorunum.jpeg';
+import giris from '../assets/images/mahal-komagene-giris.jpeg';
+import bulvarGorunum from '../assets/images/mahal-komagene-bulvar-gorunum.jpeg';
+import dondurmaKosesi from '../assets/images/mahal-komagene-dondurma-kosesi.jpeg';
+import dondurmaDolabi from '../assets/images/mahal-komagene-dondurma-dolabi.jpeg';
+import mezeTezgahi from '../assets/images/mahal-komagene-meze-tezgahi.jpeg';
+import icMekanTezgah from '../assets/images/mahal-komagene-ic-mekan-tezgah.jpeg';
+
+const fotograflar = [
+  {
+    src: disCephe,
+    alt: "Mahal Komagene İldem şubesinin Alparslan Türkeş Bulvarı üzerindeki dış görünümü",
+    genis: true,
+  },
+  {
+    src: dondurmaKosesi,
+    alt: "Neon Dondurma tabelalı girişin akşam görünümü",
+    genis: false,
+  },
+  {
+    src: mezeTezgahi,
+    alt: "Taze garnitürlerle hazırlanmış self servis çiğ köfte ve meze tezgahı",
+    genis: false,
+  },
+  {
+    src: disCepheKose,
+    alt: "Dükkanın köşeden akşam görünümü",
+    genis: false,
+  },
+  {
+    src: dondurmaDolabi,
+    alt: "Dondurma köşesindeki dolaplarda dondurma çeşitleri",
+    genis: false,
+  },
+  {
+    src: bulvarGorunum,
+    alt: "Mahal Komagene'nin bulvar tarafından görünümü",
+    genis: false,
+  },
+  {
+    src: icMekanTezgah,
+    alt: "Tezgah ve menü panolarıyla iç mekan",
+    genis: true,
+  },
+  {
+    src: giris,
+    alt: "Girişin bayraklı akşam görünümü",
+    genis: false,
+  },
+  {
+    src: aksamGorunum,
+    alt: "Dükkanın geniş açıdan akşam görünümü",
+    genis: false,
+  },
+];
+---
+
+<BaseLayout
+  title="Galeri | Mahal Komagene – İldem, Kayseri"
+  description="Mahal Komagene İldem şubesinden gerçek fotoğraflar: dış cephe, dondurma köşesi, self servis çiğ köfte tezgahı ve iç mekan."
+>
+  <section class="bolum">
+    <div class="icerik">
+      <div class="bolum-baslik">
+        <span class="ust-etiket">Galeri</span>
+        <h1>Dükkandan Gerçek Kareler</h1>
+        <p>
+          Tüm fotoğraflar İldem, Gesi Fatih Mahallesi'ndeki dükkanımızda
+          çekilmiştir.
+        </p>
+      </div>
+
+      <ul class="galeri">
+        {
+          fotograflar.map((f, i) => (
+            <li class={f.genis ? 'genis' : ''}>
+              <Picture
+                src={f.src}
+                widths={[420, 640, 900, 1200]}
+                sizes={
+                  f.genis
+                    ? '(min-width: 55rem) 62vw, 92vw'
+                    : '(min-width: 55rem) 30vw, (min-width: 40rem) 46vw, 92vw'
+                }
+                formats={['avif', 'webp']}
+                alt={f.alt}
+                loading={i < 2 ? 'eager' : 'lazy'}
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .galeri {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 40rem) {
+    .galeri {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 55rem) {
+    .galeri {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .genis {
+      grid-column: span 2;
+    }
+  }
+
+  .galeri li {
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--golge);
+  }
+
+  .galeri :global(img) {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .galeri li:hover :global(img) {
+    transform: scale(1.03);
+  }
+</style>

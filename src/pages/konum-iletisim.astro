@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LocationSection from '../components/LocationSection.astro';
+import { business } from '../config/business';
+---
+
+<BaseLayout
+  title="Konum & İletişim | Mahal Komagene – Gesi Fatih Mah., Melikgazi"
+  description="Mahal Komagene adres ve iletişim: Alparslan Türkeş Blv. 31/3D, Gesi Fatih Mahallesi, Melikgazi / Kayseri. Telefon, çalışma saatleri, harita ve yol tarifi."
+>
+  <LocationSection baslikSeviye="h1" />
+
+  <section class="bolum" aria-labelledby="ulasim-baslik">
+    <div class="icerik">
+      <div class="bolum-baslik">
+        <span class="ust-etiket">Ulaşım</span>
+        <h2 id="ulasim-baslik">Nasıl Gelinir?</h2>
+        <p>
+          Dükkanımız İldem'de, Gesi Fatih Mahallesi sınırları içinde, Alparslan
+          Türkeş Bulvarı üzerinde yer alıyor. Bulvar üzerinde olduğumuz için
+          araçla gelmek kolay; navigasyona aşağıdaki koordinatları
+          yazabilirsiniz.
+        </p>
+      </div>
+
+      <div class="ulasim-izgara">
+        <div class="ulasim-kart">
+          <h3>Koordinatlar</h3>
+          <p class="kod">{business.geo.latitude}, {business.geo.longitude}</p>
+          <a
+            href={business.maps.viewUrl}
+            target="_blank"
+            rel="noopener"
+            data-olay="click_directions"
+          >
+            Haritada görüntüle
+          </a>
+        </div>
+        <div class="ulasim-kart">
+          <h3>Telefonla Sorun</h3>
+          <p>
+            Yolu tarif edelim ya da ürün sorularınızı yanıtlayalım.
+          </p>
+          <a href={business.phone.href} data-olay="click_call">{business.phone.display}</a>
+        </div>
+        <div class="ulasim-kart">
+          <h3>Çalışma Saatleri</h3>
+          <p>{business.openingHours.display}</p>
+          <p class="ulasim-not">Gece 02.00'ye kadar açığız.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .ulasim-izgara {
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media (min-width: 48rem) {
+    .ulasim-izgara {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .ulasim-kart {
+    background: var(--beyaz);
+    border: 1px solid var(--cizgi);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--golge);
+  }
+
+  .ulasim-kart h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .ulasim-kart p {
+    color: var(--murekkep-soluk);
+    margin-bottom: 0.6rem;
+  }
+
+  .kod {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 1rem;
+    color: var(--murekkep) !important;
+    background: var(--krem-koyu);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    display: inline-block;
+  }
+
+  .ulasim-not {
+    font-size: 0.9rem;
+    margin-bottom: 0 !important;
+  }
+</style>

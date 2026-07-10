@@ -1,0 +1,227 @@
+/* ============================================
+   MAHAL KOMAGENE — Global Stiller
+   Mobil öncelikli, tek renk sistemi
+   ============================================ */
+
+:root {
+  /* Renkler */
+  --krem: #faf6ef;
+  --krem-koyu: #f3ecdf;
+  --beyaz: #ffffff;
+  --murekkep: #26201c;
+  --murekkep-soluk: #5c534d;
+  --kirmizi: #c2242f;
+  --kirmizi-koyu: #a11d27;
+  --amber: #e8a33d;
+  --amber-acik: #f7e8cd;
+  --cizgi: #e6ddce;
+
+  /* Tipografi */
+  --font: 'Manrope Variable', system-ui, -apple-system, 'Segoe UI', Roboto,
+    sans-serif;
+
+  /* Ölçüler */
+  --icerik-genislik: 72rem;
+  --radius: 14px;
+  --radius-buyuk: 22px;
+  --golge: 0 1px 3px rgb(38 32 28 / 0.08), 0 8px 24px rgb(38 32 28 / 0.07);
+  --golge-buyuk: 0 2px 6px rgb(38 32 28 / 0.1), 0 16px 40px rgb(38 32 28 / 0.14);
+
+  /* Mobil alt bar yüksekliği */
+  --mobil-bar: 4.25rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--murekkep);
+  background: var(--krem);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--kirmizi);
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  margin: 0 0 0.6em;
+}
+
+h1 {
+  font-size: clamp(1.9rem, 5.5vw, 3.1rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 4vw, 2.15rem);
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+/* ---------- Yerleşim ---------- */
+
+.icerik {
+  max-width: var(--icerik-genislik);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+.bolum {
+  padding-block: clamp(3rem, 8vw, 5.5rem);
+}
+
+.bolum-baslik {
+  max-width: 38rem;
+  margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+.bolum-baslik .ust-etiket {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--kirmizi);
+  margin-bottom: 0.6rem;
+}
+
+.bolum-baslik p {
+  color: var(--murekkep-soluk);
+  margin-bottom: 0;
+}
+
+/* ---------- Butonlar ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 3.1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn svg {
+  flex: none;
+}
+
+.btn-birincil {
+  background: var(--kirmizi);
+  color: var(--beyaz);
+  box-shadow: 0 4px 14px rgb(194 36 47 / 0.3);
+}
+
+.btn-birincil:hover {
+  background: var(--kirmizi-koyu);
+}
+
+.btn-ikincil {
+  background: var(--murekkep);
+  color: var(--beyaz);
+}
+
+.btn-ikincil:hover {
+  background: #3a322d;
+}
+
+.btn-cerceve {
+  background: transparent;
+  color: var(--murekkep);
+  border-color: var(--murekkep);
+}
+
+.btn-cerceve:hover {
+  background: var(--murekkep);
+  color: var(--beyaz);
+}
+
+.btn-acik {
+  background: var(--beyaz);
+  color: var(--murekkep);
+  border-color: var(--cizgi);
+}
+
+.btn-acik:hover {
+  border-color: var(--murekkep);
+}
+
+/* ---------- Erişilebilirlik ---------- */
+
+:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.atlama-linki {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 200;
+  background: var(--murekkep);
+  color: var(--beyaz);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 0 var(--radius) 0;
+}
+
+.atlama-linki:focus {
+  left: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Mobil alt bar için gövde boşluğu */
+@media (max-width: 47.9375rem) {
+  body {
+    padding-bottom: calc(var(--mobil-bar) + env(safe-area-inset-bottom));
+  }
+}

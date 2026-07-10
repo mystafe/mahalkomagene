@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { business } from '../config/business';
+---
+
+<BaseLayout
+  title="Sayfa Bulunamadı | Mahal Komagene"
+  description="Aradığınız sayfa bulunamadı. Mahal Komagene ana sayfasına dönün veya konum ve iletişim bilgilerimize göz atın."
+  noindex
+>
+  <section class="bolum bulunamadi">
+    <div class="icerik">
+      <p class="kod-404">404</p>
+      <h1>Bu Sayfa Yok Ama Biz Buradayız</h1>
+      <p class="bulunamadi-alt">
+        Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir. Dükkan yerinde
+        duruyor: {business.address.full}
+      </p>
+      <div class="bulunamadi-butonlar">
+        <a href="/" class="btn btn-birincil">Ana Sayfaya Dön</a>
+        <a href="/konum-iletisim" class="btn btn-cerceve">Konum &amp; İletişim</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .bulunamadi {
+    text-align: center;
+    padding-block: clamp(4rem, 12vw, 8rem);
+  }
+
+  .kod-404 {
+    font-size: clamp(4rem, 14vw, 7rem);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--amber);
+    margin-bottom: 0.5rem;
+  }
+
+  .bulunamadi-alt {
+    color: var(--murekkep-soluk);
+    max-width: 30rem;
+    margin-inline: auto;
+    margin-bottom: 2rem;
+  }
+
+  .bulunamadi-butonlar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+</style>

@@ -1,0 +1,149 @@
+---
+import { business } from '../config/business';
+
+const yil = new Date().getFullYear();
+---
+
+<footer class="alt-bolum">
+  <div class="icerik alt-ic">
+    <div class="alt-marka">
+      <p class="alt-logo">
+        <span>Mahal</span> <strong>Komagene</strong>
+      </p>
+      <p class="alt-slogan">
+        İldem, Gesi Fatih Mahallesi'nde çiğ köfte, meze, tatlı ve dondurma.
+      </p>
+    </div>
+
+    <div class="alt-sutun">
+      <h2 class="alt-baslik">Adres</h2>
+      <address>
+        {business.address.street}<br />
+        {business.address.neighborhood}<br />
+        {business.address.postalCode} {business.address.district} / {business.address.city}
+      </address>
+      <a href={business.maps.directionsUrl} target="_blank" rel="noopener" data-olay="click_directions">
+        Yol tarifi al
+      </a>
+    </div>
+
+    <div class="alt-sutun">
+      <h2 class="alt-baslik">İletişim</h2>
+      <p>
+        <a href={business.phone.href} data-olay="click_call">{business.phone.display}</a>
+      </p>
+      <p class="alt-saat">{business.openingHours.display}</p>
+      {
+        business.instagramUrl && (
+          <a href={business.instagramUrl} target="_blank" rel="noopener" data-olay="click_instagram">
+            Instagram
+          </a>
+        )
+      }
+    </div>
+
+    <div class="alt-sutun">
+      <h2 class="alt-baslik">Sayfalar</h2>
+      <ul class="alt-liste">
+        <li><a href="/urunler">Ürünler</a></li>
+        <li><a href="/galeri">Galeri</a></li>
+        <li><a href="/hakkimizda">Hakkımızda</a></li>
+        <li><a href="/konum-iletisim">Konum &amp; İletişim</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="icerik alt-telif">
+    <p>© {yil} {business.name} · Melikgazi, Kayseri</p>
+  </div>
+</footer>
+
+<style>
+  .alt-bolum {
+    background: var(--murekkep);
+    color: #e9e2d9;
+    margin-top: clamp(2rem, 6vw, 4rem);
+  }
+
+  .alt-ic {
+    display: grid;
+    gap: 2rem;
+    padding-block: clamp(2.5rem, 6vw, 4rem) 2rem;
+  }
+
+  @media (min-width: 48rem) {
+    .alt-ic {
+      grid-template-columns: 1.4fr 1fr 1fr 0.8fr;
+      gap: 2.5rem;
+    }
+  }
+
+  .alt-logo {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .alt-logo span {
+    font-weight: 500;
+  }
+
+  .alt-logo strong {
+    color: #f2b25c;
+    font-weight: 800;
+  }
+
+  .alt-slogan {
+    color: #b5aa9e;
+    font-size: 0.95rem;
+    max-width: 22rem;
+  }
+
+  .alt-baslik {
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #f2b25c;
+    margin-bottom: 0.8rem;
+  }
+
+  address {
+    font-style: normal;
+    margin-bottom: 0.6rem;
+    color: #e9e2d9;
+  }
+
+  .alt-bolum a {
+    color: #fff;
+    text-decoration-color: #7a6f66;
+    text-underline-offset: 3px;
+  }
+
+  .alt-bolum a:hover {
+    text-decoration-color: #f2b25c;
+  }
+
+  .alt-saat {
+    color: #b5aa9e;
+    margin-bottom: 0.4rem;
+  }
+
+  .alt-liste {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .alt-telif {
+    border-top: 1px solid rgb(255 255 255 / 0.12);
+    padding-block: 1.2rem;
+  }
+
+  .alt-telif p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #b5aa9e;
+  }
+</style>

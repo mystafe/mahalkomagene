@@ -1,0 +1,536 @@
+---
+import { Picture } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LocationSection from '../components/LocationSection.astro';
+import { business } from '../config/business';
+
+import disCephe from '../assets/images/mahal-komagene-dis-cephe.jpeg';
+import mezeTezgahi from '../assets/images/mahal-komagene-meze-tezgahi.jpeg';
+import icMekanTezgah from '../assets/images/mahal-komagene-ic-mekan-tezgah.jpeg';
+import dondurmaDolabi from '../assets/images/mahal-komagene-dondurma-dolabi.jpeg';
+import dondurmaKosesi from '../assets/images/mahal-komagene-dondurma-kosesi.jpeg';
+import disCepheKose from '../assets/images/mahal-komagene-dis-cephe-kose.jpeg';
+import giris from '../assets/images/mahal-komagene-giris.jpeg';
+---
+
+<BaseLayout
+  title="Mahal Komagene | İldem Çiğ Köfte – Melikgazi, Kayseri"
+  description="Mahal Komagene, Kayseri İldem'de çiğ köfte, meze, tatlı ve dondurma seçenekleriyle hizmetinizde. Adres, telefon, çalışma saatleri ve yol tarifi."
+>
+  <!-- A. HERO -->
+  <section class="hero">
+    <div class="icerik hero-izgara">
+      <div class="hero-metin">
+        <p class="hero-konum-cip">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+          İldem · Gesi Fatih Mah. · Melikgazi / Kayseri
+        </p>
+        <h1>İldem'de Çiğ Köfte, Meze, Tatlı ve Dondurma</h1>
+        <p class="hero-alt">
+          İldem, Gesi Fatih Mahallesi'nde çiğ köfte, meze, tatlı ve dondurma
+          seçenekleriyle Mahal Komagene'ye bekliyoruz. Alparslan Türkeş Bulvarı
+          üzerindeyiz; her gün 11.00'den gece 02.00'ye kadar açığız.
+        </p>
+        <div class="hero-butonlar">
+          <a
+            href={business.maps.directionsUrl}
+            target="_blank"
+            rel="noopener"
+            class="btn btn-birincil"
+            data-olay="click_directions"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.7 11.3 12.7 2.3a1 1 0 0 0-1.4 0l-9 9a1 1 0 0 0 0 1.4l9 9a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 0-1.4ZM14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5Z"/></svg>
+            Yol Tarifi Al
+          </a>
+          <a href={business.phone.href} class="btn btn-ikincil" data-olay="click_call">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.4 11.4 0 0 0 3.57.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.57 1 1 0 0 1-.25 1.02Z"/></svg>
+            Hemen Ara
+          </a>
+          <a href="/urunler" class="btn btn-acik" data-olay="click_menu">Ürünleri Gör</a>
+        </div>
+        <p class="hero-saat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm4.2 13.2-4.7-2.8a1 1 0 0 1-.5-.9V6.5a1 1 0 0 1 2 0v4.4l4.2 2.5a1 1 0 0 1-1 1.8Z"/></svg>
+          {business.openingHours.display}
+        </p>
+      </div>
+
+      <div class="hero-gorsel">
+        <Picture
+          src={disCephe}
+          widths={[480, 768, 1080, 1600]}
+          sizes="(min-width: 55rem) 46vw, 92vw"
+          formats={['avif', 'webp']}
+          alt="Mahal Komagene İldem şubesinin Alparslan Türkeş Bulvarı üzerindeki dış görünümü, akşam saatlerinde aydınlatılmış cephesiyle"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- B. ÜRÜN ÖNİZLEME -->
+  <section class="bolum" aria-labelledby="urunler-baslik">
+    <div class="icerik">
+      <div class="bolum-baslik">
+        <span class="ust-etiket">Ürünler</span>
+        <h2 id="urunler-baslik">Tezgahımızda Neler Var?</h2>
+        <p>
+          Çiğ köfteden dondurmaya dört ana kategoride servis yapıyoruz. Hepsine
+          bir arada, tek durakta ulaşabilirsiniz.
+        </p>
+      </div>
+
+      <ul class="urun-izgara">
+        <li class="urun-kart">
+          <div class="urun-gorsel">
+            <Picture
+              src={mezeTezgahi}
+              widths={[480, 720, 1000]}
+              sizes="(min-width: 55rem) 23vw, (min-width: 40rem) 46vw, 92vw"
+              formats={['avif', 'webp']}
+              alt="Mahal Komagene'nin taze malzemelerle hazırlanmış self servis çiğ köfte tezgahı"
+              loading="lazy"
+            />
+          </div>
+          <div class="urun-metin">
+            <h3>Çiğ Köfte</h3>
+            <p>Self servis tezgahımızda taze yeşillik ve soslarla.</p>
+          </div>
+        </li>
+        <li class="urun-kart">
+          <div class="urun-gorsel">
+            <Picture
+              src={icMekanTezgah}
+              widths={[480, 720, 1000]}
+              sizes="(min-width: 55rem) 23vw, (min-width: 40rem) 46vw, 92vw"
+              formats={['avif', 'webp']}
+              alt="Mahal Komagene tezgahında sıralanmış meze çeşitleri ve taze garnitürler"
+              loading="lazy"
+            />
+          </div>
+          <div class="urun-metin">
+            <h3>Mezeler</h3>
+            <p>Tezgahımızda günlük hazırlanan meze çeşitleri.</p>
+          </div>
+        </li>
+        <li class="urun-kart">
+          <div class="urun-gorsel urun-gorsel-bos" aria-hidden="true">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C7 3 3 6.6 3 11c0 2.5 1.3 4.7 3.4 6.2-.1.8-.5 1.9-1.4 2.8 1.8 0 3.3-.7 4.3-1.4.9.2 1.8.4 2.7.4 5 0 9-3.6 9-8s-4-8-9-8Z" opacity=".25"/><path d="M8.5 10.5h7a1 1 0 0 1 0 2h-7a1 1 0 0 1 0-2Z"/></svg>
+          </div>
+          <div class="urun-metin">
+            <h3>Tatlılar</h3>
+            <p>Tatlı çeşitlerimiz için tezgahımıza uğrayın.</p>
+          </div>
+        </li>
+        <li class="urun-kart">
+          <div class="urun-gorsel">
+            <Picture
+              src={dondurmaDolabi}
+              widths={[480, 720, 1000]}
+              sizes="(min-width: 55rem) 23vw, (min-width: 40rem) 46vw, 92vw"
+              formats={['avif', 'webp']}
+              alt="Mahal Komagene'nin neon Dondurma tabelalı köşesinde dondurma dolapları"
+              loading="lazy"
+            />
+          </div>
+          <div class="urun-metin">
+            <h3>Dondurma</h3>
+            <p>Dondurma köşemizde dolap boyu çeşit.</p>
+          </div>
+        </li>
+      </ul>
+
+      <div class="urun-hepsi">
+        <a href="/urunler" class="btn btn-cerceve">Tüm Ürünleri Gör</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- C. YEREL TANITIM -->
+  <section class="bolum tanitim-bolum" aria-labelledby="tanitim-baslik">
+    <div class="icerik tanitim-izgara">
+      <div>
+        <span class="ust-etiket tanitim-etiket">Mahal Komagene</span>
+        <h2 id="tanitim-baslik">Mahallenin Çiğ Köftecisi</h2>
+        <p>
+          Mahal Komagene, Melikgazi'nin İldem bölgesinde, Gesi Fatih
+          Mahallesi'nde hizmet veren bir çiğ köfte ve dondurma noktası. Çiğ
+          köftenin yanında meze, tatlı ve dondurma çeşitlerimizle gündüz de gece
+          de uğrayabileceğiniz bir yer olmayı amaçlıyoruz.
+        </p>
+        <p>
+          Alparslan Türkeş Bulvarı üzerindeyiz; İldem'deyseniz bize uğrayın.
+          Her gün 11.00'den gece 02.00'ye kadar açığız.
+        </p>
+        <a href="/hakkimizda" class="tanitim-link">Hakkımızda daha fazlası →</a>
+      </div>
+      <div class="tanitim-gorsel">
+        <Picture
+          src={dondurmaKosesi}
+          widths={[480, 768, 1080]}
+          sizes="(min-width: 55rem) 38vw, 92vw"
+          formats={['avif', 'webp']}
+          alt="Mahal Komagene'nin neon Dondurma tabelalı girişinin akşam görünümü"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- D. GALERİ ÖNİZLEME -->
+  <section class="bolum" aria-labelledby="galeri-baslik">
+    <div class="icerik">
+      <div class="bolum-baslik">
+        <span class="ust-etiket">Galeri</span>
+        <h2 id="galeri-baslik">Dükkandan Kareler</h2>
+        <p>Dış cephe, tezgah ve dondurma köşemizden gerçek fotoğraflar.</p>
+      </div>
+
+      <ul class="galeri-izgara">
+        <li>
+          <Picture
+            src={disCepheKose}
+            widths={[420, 640, 900]}
+            sizes="(min-width: 55rem) 30vw, (min-width: 40rem) 46vw, 92vw"
+            formats={['avif', 'webp']}
+            alt="Mahal Komagene İldem şubesinin köşeden akşam görünümü"
+            loading="lazy"
+          />
+        </li>
+        <li>
+          <Picture
+            src={mezeTezgahi}
+            widths={[420, 640, 900]}
+            sizes="(min-width: 55rem) 30vw, (min-width: 40rem) 46vw, 92vw"
+            formats={['avif', 'webp']}
+            alt="Taze garnitürlerle dolu self servis çiğ köfte ve meze tezgahı"
+            loading="lazy"
+          />
+        </li>
+        <li>
+          <Picture
+            src={giris}
+            widths={[420, 640, 900]}
+            sizes="(min-width: 55rem) 30vw, (min-width: 40rem) 46vw, 92vw"
+            formats={['avif', 'webp']}
+            alt="Mahal Komagene girişinin bayraklı akşam görünümü"
+            loading="lazy"
+          />
+        </li>
+      </ul>
+
+      <div class="urun-hepsi">
+        <a href="/galeri" class="btn btn-cerceve">Galerinin Tamamı</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- E. KONUM -->
+  <LocationSection />
+
+  <!-- F. SON CTA -->
+  <section class="bolum son-cta" aria-labelledby="cta-baslik">
+    <div class="icerik">
+      <h2 id="cta-baslik">Bizi Bulmak Çok Kolay</h2>
+      <p class="son-cta-alt">
+        Alparslan Türkeş Bulvarı üzerindeyiz. Konumu açın, yol tarifini alın.
+      </p>
+      <div class="son-cta-izgara">
+        <a
+          href={business.maps.directionsUrl}
+          target="_blank"
+          rel="noopener"
+          class="son-cta-kart"
+          data-olay="click_directions"
+        >
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.7 11.3 12.7 2.3a1 1 0 0 0-1.4 0l-9 9a1 1 0 0 0 0 1.4l9 9a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 0-1.4ZM14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5Z"/></svg>
+          <strong>Yol Tarifi</strong>
+          <span>Google Haritalar'da aç</span>
+        </a>
+        <a href={business.phone.href} class="son-cta-kart" data-olay="click_call">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.4 11.4 0 0 0 3.57.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.57 1 1 0 0 1-.25 1.02Z"/></svg>
+          <strong>Telefon</strong>
+          <span>{business.phone.display}</span>
+        </a>
+        <div class="son-cta-kart son-cta-kart-pasif">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm4.2 13.2-4.7-2.8a1 1 0 0 1-.5-.9V6.5a1 1 0 0 1 2 0v4.4l4.2 2.5a1 1 0 0 1-1 1.8Z"/></svg>
+          <strong>Çalışma Saatleri</strong>
+          <span>{business.openingHours.display}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ---------- Hero ---------- */
+  .hero {
+    padding-block: clamp(2rem, 6vw, 4.5rem);
+    background: linear-gradient(180deg, var(--krem) 0%, var(--krem-koyu) 100%);
+  }
+
+  .hero-izgara {
+    display: grid;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  @media (min-width: 55rem) {
+    .hero-izgara {
+      grid-template-columns: 1.1fr 1fr;
+      gap: 3rem;
+    }
+  }
+
+  .hero-konum-cip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: var(--beyaz);
+    border: 1px solid var(--cizgi);
+    border-radius: 999px;
+    padding: 0.4rem 0.95rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--murekkep-soluk);
+    margin-bottom: 1.1rem;
+  }
+
+  .hero-konum-cip svg {
+    color: var(--kirmizi);
+  }
+
+  .hero h1 {
+    margin-bottom: 0.5em;
+  }
+
+  .hero-alt {
+    font-size: 1.1rem;
+    color: var(--murekkep-soluk);
+    max-width: 34rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .hero-butonlar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .hero-saat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--murekkep);
+    margin: 0;
+  }
+
+  .hero-saat svg {
+    color: var(--amber);
+  }
+
+  .hero-gorsel :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-buyuk);
+    box-shadow: var(--golge-buyuk);
+  }
+
+  /* ---------- Ürün kartları ---------- */
+  .urun-izgara {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.1rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 55rem) {
+    .urun-izgara {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .urun-kart {
+    background: var(--beyaz);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--golge);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .urun-kart:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--golge-buyuk);
+  }
+
+  .urun-gorsel :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .urun-gorsel-bos {
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--amber-acik);
+    color: var(--amber);
+  }
+
+  .urun-metin {
+    padding: 0.9rem 1rem 1.1rem;
+  }
+
+  .urun-metin h3 {
+    margin-bottom: 0.25rem;
+    font-size: 1.08rem;
+  }
+
+  .urun-metin p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--murekkep-soluk);
+    line-height: 1.5;
+  }
+
+  .urun-hepsi {
+    margin-top: 1.75rem;
+    text-align: center;
+  }
+
+  /* ---------- Yerel tanıtım ---------- */
+  .tanitim-bolum {
+    background: var(--murekkep);
+    color: #efe9e0;
+  }
+
+  .tanitim-etiket {
+    color: var(--amber) !important;
+  }
+
+  .tanitim-bolum h2 {
+    color: var(--beyaz);
+  }
+
+  .tanitim-bolum p {
+    color: #c9bfb4;
+    max-width: 34rem;
+  }
+
+  .tanitim-izgara {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  @media (min-width: 55rem) {
+    .tanitim-izgara {
+      grid-template-columns: 1.2fr 1fr;
+    }
+  }
+
+  .tanitim-link {
+    color: var(--amber);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .tanitim-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .tanitim-gorsel :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius-buyuk);
+  }
+
+  /* ---------- Galeri önizleme ---------- */
+  .galeri-izgara {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.1rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 40rem) {
+    .galeri-izgara {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .galeri-izgara :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius);
+    box-shadow: var(--golge);
+  }
+
+  /* ---------- Son CTA ---------- */
+  .son-cta {
+    text-align: center;
+  }
+
+  .son-cta-alt {
+    color: var(--murekkep-soluk);
+    margin-bottom: 2rem;
+  }
+
+  .son-cta-izgara {
+    display: grid;
+    gap: 1rem;
+    max-width: 52rem;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 40rem) {
+    .son-cta-izgara {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .son-cta-kart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    background: var(--beyaz);
+    border: 1px solid var(--cizgi);
+    border-radius: var(--radius);
+    padding: 1.5rem 1rem;
+    text-decoration: none;
+    color: var(--murekkep);
+    box-shadow: var(--golge);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  a.son-cta-kart:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--golge-buyuk);
+  }
+
+  .son-cta-kart svg {
+    color: var(--kirmizi);
+    margin-bottom: 0.3rem;
+  }
+
+  .son-cta-kart strong {
+    font-size: 1.05rem;
+  }
+
+  .son-cta-kart span {
+    font-size: 0.9rem;
+    color: var(--murekkep-soluk);
+  }
+</style>

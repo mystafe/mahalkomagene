@@ -1,0 +1,79 @@
+---
+import { business } from '../config/business';
+---
+
+<!-- Mobil yapışkan eylem çubuğu: Ara / Yol Tarifi / Menü -->
+<nav class="mobil-bar" aria-label="Hızlı işlemler">
+  <a href={business.phone.href} class="mobil-eylem" data-olay="click_call">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.4 11.4 0 0 0 3.57.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.57 1 1 0 0 1-.25 1.02Z"/></svg>
+    <span>Ara</span>
+  </a>
+  <a
+    href={business.maps.directionsUrl}
+    target="_blank"
+    rel="noopener"
+    class="mobil-eylem mobil-eylem-onemli"
+    data-olay="click_directions"
+  >
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.7 11.3 12.7 2.3a1 1 0 0 0-1.4 0l-9 9a1 1 0 0 0 0 1.4l9 9a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 0-1.4ZM14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5Z"/></svg>
+    <span>Yol Tarifi</span>
+  </a>
+  <a href="/urunler" class="mobil-eylem" data-olay="click_menu">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2Zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2Zm0 6h10a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2Z"/></svg>
+    <span>Menü</span>
+  </a>
+</nav>
+
+<style>
+  .mobil-bar {
+    display: none;
+  }
+
+  @media (max-width: 47.9375rem) {
+    .mobil-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 110;
+      display: grid;
+      grid-template-columns: 1fr 1.3fr 1fr;
+      align-items: stretch;
+      gap: 0.5rem;
+      min-height: var(--mobil-bar);
+      padding: 0.5rem 0.75rem calc(0.5rem + env(safe-area-inset-bottom));
+      background: rgb(250 246 239 / 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--cizgi);
+    }
+
+    .mobil-eylem {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.15rem;
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--murekkep);
+      font-size: 0.78rem;
+      font-weight: 700;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobil-eylem:active {
+      background: var(--krem-koyu);
+    }
+
+    .mobil-eylem-onemli {
+      background: var(--kirmizi);
+      color: var(--beyaz);
+      box-shadow: 0 4px 12px rgb(194 36 47 / 0.35);
+    }
+
+    .mobil-eylem-onemli:active {
+      background: var(--kirmizi-koyu);
+    }
+  }
+</style>

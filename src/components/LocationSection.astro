@@ -1,0 +1,180 @@
+---
+import { business } from '../config/business';
+
+interface Props {
+  /** Sayfada tek H1 kuralı için başlık seviyesi */
+  baslikSeviye?: 'h1' | 'h2';
+}
+
+const { baslikSeviye = 'h2' } = Astro.props;
+const Baslik = baslikSeviye;
+---
+
+<section class="bolum konum-bolum" id="konum" aria-labelledby="konum-baslik">
+  <div class="icerik">
+    <div class="bolum-baslik">
+      <span class="ust-etiket">Konum</span>
+      <Baslik id="konum-baslik">Buradayız: Alparslan Türkeş Bulvarı</Baslik>
+      <p>
+        İldem, Gesi Fatih Mahallesi'nde Alparslan Türkeş Bulvarı üzerinde hizmet
+        veriyoruz. Konumu açın, yol tarifini alın; bulvar üzerinde olduğumuz için
+        ulaşım kolay.
+      </p>
+    </div>
+
+    <div class="konum-izgara">
+      <div class="konum-kart">
+        <dl class="konum-bilgi">
+          <div class="bilgi-satir">
+            <dt>Adres</dt>
+            <dd>
+              {business.address.street}<br />
+              {business.address.neighborhood}<br />
+              {business.address.postalCode} {business.address.district} / {business.address.city}
+            </dd>
+          </div>
+          <div class="bilgi-satir">
+            <dt>Telefon</dt>
+            <dd>
+              <a href={business.phone.href} data-olay="click_call">{business.phone.display}</a>
+            </dd>
+          </div>
+          <div class="bilgi-satir">
+            <dt>Çalışma Saatleri</dt>
+            <dd>{business.openingHours.display}</dd>
+          </div>
+        </dl>
+
+        <div class="konum-butonlar">
+          <a
+            href={business.maps.directionsUrl}
+            target="_blank"
+            rel="noopener"
+            class="btn btn-birincil"
+            data-olay="click_directions"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.7 11.3 12.7 2.3a1 1 0 0 0-1.4 0l-9 9a1 1 0 0 0 0 1.4l9 9a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 0-1.4ZM14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5Z"/></svg>
+            Yol Tarifi Al
+          </a>
+          <a href={business.phone.href} class="btn btn-cerceve" data-olay="click_call">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.4 11.4 0 0 0 3.57.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.57 1 1 0 0 1-.25 1.02Z"/></svg>
+            Hemen Ara
+          </a>
+        </div>
+      </div>
+
+      <div class="harita-kart">
+        <iframe
+          src={business.maps.embedUrl}
+          title="Mahal Komagene konumu — Google Haritalar"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+        <a
+          href={business.maps.viewUrl}
+          target="_blank"
+          rel="noopener"
+          class="harita-ac"
+          data-olay="click_directions"
+        >
+          Haritayı Google Haritalar'da aç ↗
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .konum-bolum {
+    background: var(--krem-koyu);
+  }
+
+  .konum-izgara {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 55rem) {
+    .konum-izgara {
+      grid-template-columns: 1fr 1.35fr;
+      align-items: stretch;
+    }
+  }
+
+  .konum-kart {
+    background: var(--beyaz);
+    border-radius: var(--radius-buyuk);
+    box-shadow: var(--golge);
+    padding: clamp(1.5rem, 3.5vw, 2.25rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .konum-bilgi {
+    margin: 0;
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .bilgi-satir dt {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--kirmizi);
+    margin-bottom: 0.2rem;
+  }
+
+  .bilgi-satir dd {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+
+  .konum-butonlar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .konum-butonlar .btn {
+    flex: 1 1 auto;
+  }
+
+  .harita-kart {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-buyuk);
+    overflow: hidden;
+    box-shadow: var(--golge);
+    background: var(--beyaz);
+    min-height: 20rem;
+  }
+
+  .harita-kart iframe {
+    display: block;
+    width: 100%;
+    flex: 1;
+    min-height: 20rem;
+    border: 0;
+    background: var(--krem-koyu);
+  }
+
+  .harita-ac {
+    display: block;
+    text-align: center;
+    padding: 0.85rem 1rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: var(--murekkep);
+    border-top: 1px solid var(--cizgi);
+  }
+
+  .harita-ac:hover {
+    color: var(--kirmizi);
+  }
+</style>
