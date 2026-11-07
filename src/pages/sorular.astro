@@ -34,7 +34,12 @@ const toplam = no;
     <div class="adim" data-adim="giris">
       <div class="kutu">
         <label for="dolduran" class="etiket-buyuk">Önce adınız</label>
-        <input id="dolduran" type="text" autocomplete="name" placeholder="Adınız Soyadınız" value="Ali" />
+        <input id="dolduran" type="text" autocomplete="name" placeholder="Adın Soyadın" />
+        <div class="kod-alan" data-kod-alan hidden>
+          <label for="erisim-kodu">Erişim kodu</label>
+          <input id="erisim-kodu" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Mustafa'nın gönderdiği kod" />
+          <p class="neden">Linkten girince kod kendiliğinden gelir. Gelmediyse Mustafa'dan kodu isteyip buraya yazın.</p>
+        </div>
         <button type="button" class="btn btn-vurgu" data-basla disabled>Başla <span class="ok" aria-hidden="true">→</span></button>
         <p class="hata" data-giris-hata role="alert" hidden></p>
         <ul class="ipucu">
@@ -142,7 +147,8 @@ const toplam = no;
   const yuklenenListe = kok.querySelector<HTMLUListElement>('[data-yuklenen]')!;
 
   // linkteki anahtar: #k=... (sunucuya URL'de gitmez); bir kez okunup saklanır
-  const hashK = new URLSearchParams(location.hash.slice(1)).get('k');
+  // #k=... tercih edilir; bazı uygulamalar # kısmını düşürürse ?k=... da kabul edilir
+  const hashK = new URLSearchParams(location.hash.slice(1)).get('k') || new URLSearchParams(location.search).get('k');
   type Durum = {
     id: string;
     k: string;
@@ -332,7 +338,13 @@ const toplam = no;
   });
 
   // ── adımlar ──
-  if (durum.ad) adInput.value = durum.ad;
+  adInput.value = durum.ad;
+  const kodAlan = kok.querySelector<HTMLElement>('[data-kod-alan]')!;
+  const kodInput = kok.querySelector<HTMLInputElement>('#erisim-kodu')!;
+  if (!durum.k) kodAlan.hidden = false;
+  kodInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !basla.disabled) basla.click();
+  });
   const adKontrol = () => (basla.disabled = adInput.value.trim().length < 2);
   adInput.addEventListener('input', adKontrol);
   adInput.addEventListener('keydown', (e) => {
@@ -349,9 +361,15 @@ const toplam = no;
   basla.addEventListener('click', async () => {
     girisHata.hidden = true;
     if (!durum.k) {
-      girisHata.textContent = 'Bu link eksik. Linki Mustafa\'dan tekrar isteyin.';
-      girisHata.hidden = false;
-      return;
+      const kod = kodInput.value.trim();
+      if (!kod) {
+        kodAlan.hidden = false;
+        girisHata.textContent = 'Erişim kodunu yazın ya da Mustafa\'nın gönderdiği linkten girin.';
+        girisHata.hidden = false;
+        kodInput.focus();
+        return;
+      }
+      durum.k = kod;
     }
     basla.disabled = true;
     basla.textContent = 'Kontrol ediliyor…';
@@ -363,7 +381,13 @@ const toplam = no;
       sunucuyaKaydet();
     } catch (e) {
       const s = (e as { status?: number }).status;
-      girisHata.textContent = s === 401 ? 'Bu link geçersiz. Linki Mustafa\'dan tekrar isteyin.' : 'Bağlantı kurulamadı, internetinizi kontrol edip tekrar deneyin.';
+      if (s === 401) {
+        durum.k = '';
+        yerelKaydet();
+        kodAlan.hidden = false;
+        kodInput.value = '';
+      }
+      girisHata.textContent = s === 401 ? 'Kod ya da link geçersiz. Mustafa\'nın gönderdiği linkten girin ya da kodu tekrar yazın.' : 'Bağlantı kurulamadı, internetinizi kontrol edip tekrar deneyin.';
       girisHata.hidden = false;
     } finally {
       basla.innerHTML = 'Başla <span class="ok" aria-hidden="true">→</span>';
@@ -447,6 +471,17 @@ const toplam = no;
   .btn[disabled] {
     opacity: 0.45;
     pointer-events: none;
+  }
+  .kod-alan {
+    display: grid;
+    gap: 0.4rem;
+    width: 100%;
+  }
+  .kod-alan[hidden] {
+    display: none;
+  }
+  .kod-alan label {
+    font-weight: 700;
   }
   .ipucu {
     margin: 0.4rem 0 0;
