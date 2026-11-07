@@ -78,7 +78,9 @@ const yil = new Date().getFullYear();
   <div class="kap alt-telif">
     <p class="kunye">© {yil} {business.name}</p>
     <p class="kunye">{business.locality} · {business.address.district} · {business.address.city}</p>
-    <p class="kunye">{business.geo.latitude}° K · {business.geo.longitude}° D</p>
+    <p class="kunye">
+      Site:{' '}<a class="alt-imza" href="https://www.mustafaevleksiz.com" target="_blank" rel="noopener">Mustafa Evleksiz</a>
+    </p>
   </div>
 </footer>
 
@@ -178,5 +180,14 @@ const yil = new Date().getFullYear();
   }
   .alt-telif .kunye {
     font-size: 0.66rem;
+  }
+  .alt-imza {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .alt-imza:hover,
+  .alt-imza:focus-visible {
+    color: var(--fg);
   }
 </style>

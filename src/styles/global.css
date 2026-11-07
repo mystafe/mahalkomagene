@@ -80,7 +80,7 @@
   --ember-ink: #fff6f2;
   --bulb: #9a6200;
   --bulb-rgb: 154 98 0;
-  --grain-o: 0.38;
+  --grain-o: 0.24;
   --map-filter: grayscale(0.55) contrast(1.02);
 }
 @media (prefers-color-scheme: light) {
@@ -101,10 +101,42 @@
     --ember-ink: #fff6f2;
     --bulb: #9a6200;
     --bulb-rgb: 154 98 0;
-    --grain-o: 0.38;
+    --grain-o: 0.24;
     --map-filter: grayscale(0.55) contrast(1.02);
   }
 }
+/* ── KOYU ALAN: fotoğraf üstü bölgeler (giriş fotoğrafı) temadan bağımsız gece kalır.
+   Gündüz temasında krem perde fotoğrafı soldurmasın diye. Türetilmiş belirteçler
+   (--chip, --ghost, --hero-shade…) :root'ta çözüldüğü için burada yeniden tanımlanır.
+   Başlık çubuğu da fotoğrafın üstündeyken (kaydırılmamış, menü kapalı) bu düzeni alır. ── */
+.koyu-alan,
+html:not([data-menu-acik]) .ust[data-hero]:not([data-kaydi]) {
+  color-scheme: dark;
+  --bg: #0b0c10;
+  --bg-rgb: 11 12 16;
+  --bg-raise: #13151b;
+  --bg-sink: #07080b;
+  --fg: #f2ebe0;
+  --fg-rgb: 242 235 224;
+  --fg-dim: #b9b0a3;
+  --fg-mute: #8f877c;
+  --line: #24262d;
+  --line-strong: #44464f;
+  --ember: #ff5a48;
+  --ember-rgb: 255 90 72;
+  --ember-ink: #1b0907;
+  --bulb: #f5bd4f;
+  --bulb-rgb: 245 189 79;
+  --chip: rgb(var(--bg-rgb) / 0.82);
+  --edge: rgb(var(--fg-rgb) / 0.7);
+  --ghost: rgb(var(--fg-rgb) / 0.42);
+  --hero-shade:
+    linear-gradient(to bottom, rgb(var(--bg-rgb) / 0.78) 0, rgb(var(--bg-rgb) / 0.35) 12%, rgb(var(--bg-rgb) / 0) 26%),
+    linear-gradient(to top, rgb(var(--bg-rgb) / 1) 0, rgb(var(--bg-rgb) / 0.88) 22%, rgb(var(--bg-rgb) / 0.4) 46%, rgb(var(--bg-rgb) / 0) 64%);
+  --hero-shade-side: linear-gradient(to right, rgb(var(--bg-rgb) / 0.82) 0, rgb(var(--bg-rgb) / 0.5) 32%, rgb(var(--bg-rgb) / 0.12) 52%, rgb(var(--bg-rgb) / 0) 66%);
+  color: var(--fg);
+}
+
 @supports (height: 100svh) {
   :root {
     --hero-h: max(620px, 100svh);
