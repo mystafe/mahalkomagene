@@ -1,8 +1,14 @@
 # Mahal Komagene — mahalkomagene.com
 
 İldem / Gesi Fatih Mahallesi, Melikgazi / Kayseri'de hizmet veren Mahal
-Komagene'nin resmi web sitesi. Astro ile üretilmiş, tamamen statik,
-JavaScript'siz, mobil öncelikli bir yerel işletme sitesidir.
+Komagene'nin resmi web sitesi. Astro ile üretilmiş, tamamen statik, mobil
+öncelikli bir yerel işletme sitesidir. Tasarım dili "Mavi Saat": gece (varsayılan)
+ve gündüz teması, Anton başlık + JetBrains Mono künye etiketleri + Manrope metin.
+Tasarım belirteçleri `src/styles/global.css` başındadır.
+
+JavaScript yalnız katman ekler (`src/scripts/site.ts`, ~5 KB): tema anahtarı,
+mobil tam ekran menü, "şu an açık mı" göstergesi, kaydırmada beliren öğeler,
+galeri ışık kutusu. Site JS kapalıyken de eksiksiz çalışır (menü `:target` ile açılır).
 
 ## Komutlar
 
@@ -50,9 +56,10 @@ Telefon, adres veya saat değişirse sadece bu dosyayı düzenleyip yeniden
 - Yeni fotoğraf eklerken: dosyayı `src/assets/images/` içine koyun,
   ilgili sayfada `import` edip `<Picture>` ile kullanın ve **doğal Türkçe
   alt metni** yazın (görüntüyü tarif eden, anahtar kelime yığmayan).
-- Tatlı kategorisinin fotoğrafı henüz yok — `urunler.astro` ve
-  `index.astro` içindeki `urun-gorsel-bos` / `kategori-gorsel-bos`
-  placeholder'ını gerçek fotoğrafla değiştirin.
+- Tatlı kategorisinin fotoğrafı henüz yok — `index.astro` içindeki `tezgah`
+  dizisinde `tatli` öğesinin `gorsel` alanını ve `urunler.astro` içindeki
+  `kategoriler` dizisinde aynı alanı gerçek fotoğrafla doldurun (tipografik
+  `panel-bos` / `kategori-bos` paneli kendiliğinden kalkar).
 - Sosyal paylaşım görseli: `public/og/mahal-komagene-sosyal.jpg` (1200×630).
 
 ## Yayına alma (deployment)

@@ -1,208 +1,212 @@
 ---
 import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
 import { business } from '../config/business';
 
 import mezeTezgahi from '../assets/images/mahal-komagene-meze-tezgahi.jpeg';
 import icMekanTezgah from '../assets/images/mahal-komagene-ic-mekan-tezgah.jpeg';
 import dondurmaDolabi from '../assets/images/mahal-komagene-dondurma-dolabi.jpeg';
+
+const kategoriler = [
+  {
+    id: 'cig-kofte',
+    ad: 'Çiğ Köfte',
+    etiket: 'Tezgah · Self servis',
+    gorsel: mezeTezgahi,
+    alt: "Mahal Komagene'nin taze domates, limon, yeşillik ve soslarla hazırlanmış self servis çiğ köfte tezgahı",
+    metin:
+      'Tezgahımızda çiğ köftenin yanında taze yeşillik, garnitür ve sos seçenekleri sizi bekliyor. Self servis düzenimizle porsiyonunuzu istediğiniz gibi hazırlatabilirsiniz.',
+  },
+  {
+    id: 'meze',
+    ad: 'Mezeler',
+    etiket: 'Tezgah · Meze',
+    gorsel: icMekanTezgah,
+    alt: 'Mahal Komagene tezgahında sıralı meze kapları ve taze garnitür çeşitleri',
+    metin:
+      'Tezgahımızda günlük hazırlanan meze çeşitlerimiz mevcut. Çiğ köftenizin yanına ya da tek başına alabilirsiniz.',
+  },
+  {
+    id: 'tatli',
+    ad: 'Tatlılar',
+    etiket: 'Tezgah · Tatlı',
+    gorsel: null,
+    alt: '',
+    metin: '',
+  },
+  {
+    id: 'dondurma',
+    ad: 'Dondurma',
+    etiket: 'Köşe · Dondurma',
+    gorsel: dondurmaDolabi,
+    alt: 'Mahal Komagene dondurma köşesindeki dolaplarda çeşit çeşit dondurma',
+    metin:
+      'Neon tabelalı dondurma köşemizde dolap boyu dondurma çeşidi bulunuyor. Yaz kış açığız; gece geç saatte de dondurma alabilirsiniz.',
+  },
+];
 ---
 
 <BaseLayout
   title="Ürünler | Çiğ Köfte, Meze, Tatlı ve Dondurma – Mahal Komagene"
   description="Mahal Komagene İldem'de çiğ köfte, meze, tatlı ve dondurma kategorilerinde servis yapar. Ürün kategorilerimize göz atın, tezgahımıza uğrayın."
 >
-  <section class="bolum">
-    <div class="icerik">
-      <div class="bolum-baslik">
-        <span class="ust-etiket">Ürünler</span>
-        <h1>Çiğ Köfte, Meze, Tatlı ve Dondurma</h1>
-        <p>
-          Dört ana kategoride servis yapıyoruz. Tezgahımız her gün {business.openingHours.displayShort} arası açık; gelin, seçin, tadına bakın.
-        </p>
-      </div>
-
-      <div class="kategori-liste">
-        <article class="kategori">
-          <div class="kategori-gorsel">
-            <Picture
-              src={mezeTezgahi}
-              widths={[480, 768, 1080]}
-              sizes="(min-width: 55rem) 44vw, 92vw"
-              formats={['avif', 'webp']}
-              alt="Mahal Komagene'nin taze domates, limon, yeşillik ve soslarla hazırlanmış self servis çiğ köfte tezgahı"
-              loading="eager"
-              fetchpriority="high"
-            />
-          </div>
-          <div class="kategori-metin">
-            <h2>Çiğ Köfte</h2>
-            <p>
-              Tezgahımızda çiğ köftenin yanında taze yeşillik, garnitür ve sos
-              seçenekleri sizi bekliyor. Self servis düzenimizle porsiyonunuzu
-              istediğiniz gibi hazırlatabilirsiniz.
-            </p>
-          </div>
-        </article>
-
-        <article class="kategori kategori-ters">
-          <div class="kategori-gorsel">
-            <Picture
-              src={icMekanTezgah}
-              widths={[480, 768, 1080]}
-              sizes="(min-width: 55rem) 44vw, 92vw"
-              formats={['avif', 'webp']}
-              alt="Mahal Komagene tezgahında sıralı meze kapları ve taze garnitür çeşitleri"
-              loading="lazy"
-            />
-          </div>
-          <div class="kategori-metin">
-            <h2>Mezeler</h2>
-            <p>
-              Tezgahımızda günlük hazırlanan meze çeşitlerimiz mevcut. Çiğ
-              köftenizin yanına ya da tek başına alabilirsiniz.
-            </p>
-          </div>
-        </article>
-
-        <article class="kategori">
-          <div class="kategori-gorsel kategori-gorsel-bos" role="img" aria-label="Tatlı kategorisi — fotoğraf yakında eklenecek">
-            <svg width="56" height="56" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C7 3 3 6.6 3 11c0 2.5 1.3 4.7 3.4 6.2-.1.8-.5 1.9-1.4 2.8 1.8 0 3.3-.7 4.3-1.4.9.2 1.8.4 2.7.4 5 0 9-3.6 9-8s-4-8-9-8Z" opacity=".25"/><path d="M8.5 10.5h7a1 1 0 0 1 0 2h-7a1 1 0 0 1 0-2Z"/></svg>
-            <span>Fotoğraf yakında</span>
-          </div>
-          <div class="kategori-metin">
-            <h2>Tatlılar</h2>
-            <p>
-              Tatlı çeşitlerimiz tezgahımızda. Güncel çeşitler için bize
-              uğrayabilir ya da <a href={business.phone.href} data-olay="click_call">telefonla sorabilirsiniz</a>.
-            </p>
-          </div>
-        </article>
-
-        <article class="kategori kategori-ters">
-          <div class="kategori-gorsel">
-            <Picture
-              src={dondurmaDolabi}
-              widths={[480, 768, 1080]}
-              sizes="(min-width: 55rem) 44vw, 92vw"
-              formats={['avif', 'webp']}
-              alt="Mahal Komagene dondurma köşesindeki dolaplarda çeşit çeşit dondurma"
-              loading="lazy"
-            />
-          </div>
-          <div class="kategori-metin">
-            <h2>Dondurma</h2>
-            <p>
-              Neon tabelalı dondurma köşemizde dolap boyu dondurma çeşidi
-              bulunuyor. Yaz kış açığız; gece geç saatte de dondurma
-              alabilirsiniz.
-            </p>
-          </div>
-        </article>
-      </div>
-
-      <div class="urunler-cta">
-        <p>Karar veremediniz mi? Gelin, tezgahtan bakarak seçin.</p>
-        <div class="urunler-cta-butonlar">
-          <a
-            href={business.maps.directionsUrl}
-            target="_blank"
-            rel="noopener"
-            class="btn btn-birincil"
-            data-olay="click_directions"
-          >
-            Yol Tarifi Al
+  <PageHead
+    etiket="Ürünler · Tezgah"
+    no="04 kategori"
+    lead={`Dört ana kategoride servis yapıyoruz. Tezgahımız her gün ${business.openingHours.displayShort} arası açık; gelin, seçin, tadına bakın.`}
+  >
+    <Fragment slot="baslik">Çiğ Köfte, Meze,{' '}<br /><span class="vurgu">Tatlı ve Dondurma</span></Fragment>
+    <nav slot="sag" class="atla" aria-label="Kategoriler">
+      {
+        kategoriler.map((k, i) => (
+          <a href={`#${k.id}`} class="kunye">
+            <b>{String(i + 1).padStart(2, '0')}</b> {k.ad}
           </a>
-          <a href={business.phone.href} class="btn btn-cerceve" data-olay="click_call">
-            {business.phone.display}
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+        ))
+      }
+    </nav>
+  </PageHead>
+
+  <div class="kap kategoriler">
+    {
+      kategoriler.map((k, i) => (
+        <article
+          class:list={['kategori', { ters: i % 2 === 1 }]}
+          id={k.id}
+          aria-labelledby={`${k.id}-baslik`}
+        >
+          {k.gorsel ? (
+            <figure class="kadraj kategori-gorsel" data-reveal="perde">
+              <Picture
+                src={k.gorsel}
+                widths={[480, 768, 1080, 1400]}
+                sizes="(min-width: 1000px) 56vw, 92vw"
+                formats={['avif', 'webp']}
+                width={1200}
+                alt={k.alt}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                fetchpriority={i === 0 ? 'high' : 'auto'}
+              />
+              <figcaption class="kadraj-etiket">
+                <b>{String(i + 1).padStart(2, '0')}</b> {k.etiket}
+              </figcaption>
+            </figure>
+          ) : (
+            <div class="kategori-gorsel kategori-bos" role="img" aria-label="Tatlı kategorisi" data-reveal="perde">
+              <span class="kategori-bos-yazi display" aria-hidden="true">Tatlı</span>
+              <span class="kunye kategori-bos-not">Tezgah · Tatlı</span>
+            </div>
+          )}
+
+          <div class="kategori-metin">
+            <span class="kategori-no display" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h2 id={`${k.id}-baslik`} class="d-m" data-reveal>{k.ad}</h2>
+            <p data-reveal style="--d:1">
+              {k.id === 'tatli' ? (
+                <>
+                  Tatlı çeşitlerimiz tezgahımızda. Güncel çeşitler için bize uğrayabilir ya da{' '}
+                  <a class="ulink" href={business.phone.href} data-olay="click_call">telefonla sorabilirsiniz</a>.
+                </>
+              ) : (
+                k.metin
+              )}
+            </p>
+            <span class="kunye" data-reveal style="--d:2">{k.etiket}</span>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+
 </BaseLayout>
 
 <style>
-  .kategori-liste {
-    display: grid;
-    gap: clamp(1.5rem, 4vw, 3rem);
+  .atla {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+  }
+  .atla a {
+    color: var(--fg);
+    text-decoration: none;
+    padding-block: 0.4rem;
+    border-bottom: 1px solid var(--line-strong);
+    transition: border-color 0.3s;
+  }
+  .atla a:hover {
+    border-color: var(--ember);
   }
 
+  .kategoriler {
+    display: grid;
+  }
   .kategori {
     display: grid;
-    gap: 1.25rem;
-    align-items: center;
-    background: var(--beyaz);
-    border-radius: var(--radius-buyuk);
-    overflow: hidden;
-    box-shadow: var(--golge);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    padding-block: clamp(2.5rem, 6vw, 5rem);
+    border-top: 1px solid var(--line);
+    scroll-margin-top: var(--hdr-h);
   }
-
-  @media (min-width: 55rem) {
+  @media (min-width: 1000px) {
     .kategori {
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
+      grid-template-columns: 1.4fr 1fr;
+      align-items: end;
     }
-
-    .kategori-ters .kategori-gorsel {
+    .kategori.ters {
+      grid-template-columns: 1fr 1.4fr;
+    }
+    .kategori.ters .kategori-gorsel {
       order: 2;
     }
   }
-
-  .kategori-gorsel :global(img) {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
+  .kategori-gorsel {
+    aspect-ratio: 4 / 5;
   }
-
-  .kategori-gorsel-bos {
-    aspect-ratio: 4 / 3;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    background: var(--amber-acik);
-    color: var(--amber);
-    font-weight: 700;
-    font-size: 0.9rem;
+  @media (min-width: 640px) {
+    .kategori-gorsel {
+      aspect-ratio: 3 / 2;
+    }
+  }
+  .kategori-bos {
+    position: relative;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(120% 90% at 30% 20%, rgb(var(--ember-rgb) / 0.16), transparent 60%),
+      var(--bg-raise);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .kategori-bos-yazi {
+    font-size: clamp(6rem, 20vw, 15rem);
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--line-strong);
+  }
+  .kategori-bos-not {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
   }
 
   .kategori-metin {
-    padding: 1.25rem 1.5rem 1.75rem;
+    display: grid;
+    gap: 1rem;
+    align-content: end;
+    justify-items: start;
   }
-
-  @media (min-width: 55rem) {
-    .kategori-metin {
-      padding: 2.5rem 3rem;
-    }
+  .kategori-no {
+    font-size: clamp(4rem, 9vw, 7rem);
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--ember);
   }
-
-  .kategori-metin h2 {
-    margin-bottom: 0.4em;
-  }
-
   .kategori-metin p {
-    color: var(--murekkep-soluk);
-    margin: 0;
+    color: var(--fg-dim);
+    max-width: 30rem;
+    font-size: 1.08rem;
   }
 
-  .urunler-cta {
-    margin-top: clamp(2.5rem, 6vw, 4rem);
-    text-align: center;
-  }
 
-  .urunler-cta p {
-    font-size: 1.15rem;
-    font-weight: 700;
-    margin-bottom: 1.1rem;
-  }
-
-  .urunler-cta-butonlar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem;
-  }
 </style>

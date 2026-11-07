@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LocationSection from '../components/LocationSection.astro';
+import OpenStatus from '../components/OpenStatus.astro';
 import { business } from '../config/business';
 ---
 
@@ -8,93 +9,118 @@ import { business } from '../config/business';
   title="Konum & İletişim | Mahal Komagene – Gesi Fatih Mah., Melikgazi"
   description="Mahal Komagene adres ve iletişim: Alparslan Türkeş Blv. 31/3D, Gesi Fatih Mahallesi, Melikgazi / Kayseri. Telefon, çalışma saatleri, harita ve yol tarifi."
 >
-  <LocationSection baslikSeviye="h1" />
+  <LocationSection baslikSeviye="h1" no="Konum & İletişim" />
 
-  <section class="bolum" aria-labelledby="ulasim-baslik">
-    <div class="icerik">
-      <div class="bolum-baslik">
-        <span class="ust-etiket">Ulaşım</span>
-        <h2 id="ulasim-baslik">Nasıl Gelinir?</h2>
-        <p>
-          Dükkanımız İldem'de, Gesi Fatih Mahallesi sınırları içinde, Alparslan
-          Türkeş Bulvarı üzerinde yer alıyor. Bulvar üzerinde olduğumuz için
-          araçla gelmek kolay; navigasyona aşağıdaki koordinatları
-          yazabilirsiniz.
-        </p>
-      </div>
+  <section class="bolum-sik kap ulasim" aria-labelledby="ulasim-baslik">
+    <div class="serit">
+      <span class="kunye">Ulaşım</span>
+      <span class="kunye">{business.address.district} · {business.address.city}</span>
+    </div>
+    <div class="ulasim-ust">
+      <h2 id="ulasim-baslik" class="d-l" data-reveal>Nasıl{' '}<br /><span class="vurgu">gelinir?</span></h2>
+      <p class="lead" data-reveal style="--d:1">
+        Dükkanımız İldem'de, Gesi Fatih Mahallesi sınırları içinde, Alparslan
+        Türkeş Bulvarı üzerinde yer alıyor. Bulvar üzerinde olduğumuz için araçla
+        gelmek kolay; navigasyona aşağıdaki koordinatları yazabilirsiniz.
+      </p>
+    </div>
 
-      <div class="ulasim-izgara">
-        <div class="ulasim-kart">
-          <h3>Koordinatlar</h3>
-          <p class="kod">{business.geo.latitude}, {business.geo.longitude}</p>
-          <a
-            href={business.maps.viewUrl}
-            target="_blank"
-            rel="noopener"
-            data-olay="click_directions"
-          >
-            Haritada görüntüle
-          </a>
-        </div>
-        <div class="ulasim-kart">
-          <h3>Telefonla Sorun</h3>
-          <p>
-            Yolu tarif edelim ya da ürün sorularınızı yanıtlayalım.
-          </p>
+    <div class="ulasim-izgara">
+      <article class="ulasim-kart" data-reveal>
+        <h3 class="kunye"><b>01</b> Koordinatlar</h3>
+        <p class="ulasim-deger kod">{business.geo.latitude}, {business.geo.longitude}</p>
+        <a
+          class="ulink"
+          href={business.maps.viewUrl}
+          target="_blank"
+          rel="noopener"
+          data-olay="click_directions"
+        >
+          Haritada görüntüle <span class="ok" aria-hidden="true">↗</span>
+        </a>
+      </article>
+      <article class="ulasim-kart" data-reveal style="--d:1">
+        <h3 class="kunye"><b>02</b> Telefonla sorun</h3>
+        <p class="ulasim-deger">
           <a href={business.phone.href} data-olay="click_call">{business.phone.display}</a>
-        </div>
-        <div class="ulasim-kart">
-          <h3>Çalışma Saatleri</h3>
-          <p>{business.openingHours.display}</p>
-          <p class="ulasim-not">Gece 02.00'ye kadar açığız.</p>
-        </div>
-      </div>
+        </p>
+        <p>Yolu tarif edelim ya da ürün sorularınızı yanıtlayalım.</p>
+      </article>
+      <article class="ulasim-kart" data-reveal style="--d:2">
+        <h3 class="kunye"><b>03</b> Çalışma saatleri</h3>
+        <p class="ulasim-deger">{business.openingHours.display}</p>
+        <p>Gece {business.openingHours.closes.replace(':', '.')}'ye kadar açığız.</p>
+        <OpenStatus yedek={false} />
+      </article>
     </div>
   </section>
 </BaseLayout>
 
 <style>
+  .ulasim {
+    padding-top: 0;
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+  .ulasim-ust {
+    display: grid;
+    gap: 1.5rem;
+    padding-block: clamp(1.5rem, 4vw, 3rem) clamp(2.5rem, 5vw, 3.5rem);
+  }
+  @media (min-width: 1000px) {
+    .ulasim-ust {
+      grid-template-columns: 1.4fr 1fr;
+      align-items: end;
+    }
+  }
   .ulasim-izgara {
     display: grid;
-    gap: 1rem;
+    border-top: 1px solid var(--line);
   }
-
-  @media (min-width: 48rem) {
+  @media (min-width: 900px) {
     .ulasim-izgara {
       grid-template-columns: repeat(3, 1fr);
     }
+    .ulasim-kart + .ulasim-kart {
+      border-left: 1px solid var(--line);
+      padding-left: clamp(1.25rem, 2.5vw, 2rem);
+    }
   }
-
   .ulasim-kart {
-    background: var(--beyaz);
-    border: 1px solid var(--cizgi);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    box-shadow: var(--golge);
+    display: grid;
+    align-content: start;
+    justify-items: start;
+    gap: 0.85rem;
+    padding: 1.75rem 1.25rem 1.75rem 0;
+    border-bottom: 1px solid var(--line);
   }
-
-  .ulasim-kart h3 {
-    font-size: 1.05rem;
-    margin-bottom: 0.5rem;
+  .ulasim-deger {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(1.7rem, 2.8vw, 2.3rem);
+    line-height: 1.08;
+    text-transform: uppercase;
+    letter-spacing: 0;
   }
-
-  .ulasim-kart p {
-    color: var(--murekkep-soluk);
-    margin-bottom: 0.6rem;
+  .ulasim-deger.kod {
+    font-family: var(--mono);
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    font-weight: 500;
+    letter-spacing: 0.04em;
   }
-
-  .kod {
-    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
-    font-size: 1rem;
-    color: var(--murekkep) !important;
-    background: var(--krem-koyu);
-    border-radius: 8px;
-    padding: 0.5rem 0.75rem;
-    display: inline-block;
+  .ulasim-deger a {
+    text-decoration: none;
   }
-
-  .ulasim-not {
-    font-size: 0.9rem;
-    margin-bottom: 0 !important;
+  .ulasim-deger a:hover {
+    color: var(--ember);
+  }
+  .ulasim-kart h3.kunye {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+  }
+  .ulasim-kart p:not(.ulasim-deger) {
+    color: var(--fg-dim);
   }
 </style>

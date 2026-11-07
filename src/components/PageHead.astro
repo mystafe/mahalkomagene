@@ -1,0 +1,75 @@
+---
+/** Alt sayfa başlığı: künye şeridi + dev başlık + giriş metni (+ isteğe bağlı sağ yuva) */
+interface Props {
+  etiket: string;
+  no?: string;
+  lead?: string;
+}
+const { etiket, no, lead } = Astro.props;
+---
+
+<header class="sayfa-bas kap">
+  <div class="serit">
+    <span class="kunye">{etiket}</span>
+    {no && <span class="kunye">{no}</span>}
+  </div>
+  <div class="sayfa-bas-izgara">
+    <h1 class="sayfa-baslik"><slot name="baslik" /></h1>
+    {
+      (lead || Astro.slots.has('sag')) && (
+        <div class="sayfa-bas-sag">
+          {lead && <p class="lead">{lead}</p>}
+          <slot name="sag" />
+        </div>
+      )
+    }
+  </div>
+</header>
+
+<style>
+  .sayfa-bas {
+    padding-top: calc(var(--hdr-h) + clamp(2rem, 6vw, 4rem));
+    padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
+  .sayfa-bas-izgara {
+    display: grid;
+    gap: 1.75rem;
+    padding-top: clamp(1.5rem, 4vw, 3rem);
+  }
+  @media (min-width: 1000px) {
+    .sayfa-bas-izgara {
+      grid-template-columns: 1.55fr 1fr;
+      align-items: end;
+      gap: 3rem;
+    }
+  }
+  .sayfa-baslik {
+    font-size: clamp(3rem, 9.4vw, 8.6rem);
+  }
+  .sayfa-baslik :global(.vurgu) {
+    color: var(--ember);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .sayfa-baslik {
+      animation: bas-gel 1.1s var(--ease-cine) both;
+    }
+    .sayfa-bas-sag {
+      animation: bas-gel 1.1s var(--ease-cine) 0.15s both;
+    }
+  }
+  @keyframes bas-gel {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .sayfa-bas-sag {
+    display: grid;
+    gap: 1.25rem;
+    justify-items: start;
+  }
+</style>

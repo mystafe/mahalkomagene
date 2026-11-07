@@ -1,8 +1,13 @@
 ---
 import { business } from '../config/business';
+import OpenStatus from './OpenStatus.astro';
+
+interface Props {
+  heroUstunde?: boolean;
+}
+const { heroUstunde = false } = Astro.props;
 
 const yol = Astro.url.pathname.replace(/\/$/, '') || '/';
-
 const linkler = [
   { href: '/', etiket: 'Ana Sayfa' },
   { href: '/urunler', etiket: 'Ürünler' },
@@ -12,24 +17,17 @@ const linkler = [
 ];
 ---
 
-<header class="ust-bar">
-  <div class="icerik ust-bar-ic">
-    <a href="/" class="marka" aria-label="Mahal Komagene ana sayfa">
-      <span class="marka-mahal">Mahal</span>
-      <span class="marka-komagene">Komagene</span>
+<header class="ust" data-ust-bar data-hero={heroUstunde ? '' : undefined}>
+  <div class="ust-ic">
+    <a href="/" class="marka" aria-label={`${business.name} ana sayfa`}>
+      <span class="marka-nokta" aria-hidden="true"></span>
+      <span class="marka-ad">Mahal <span>Komagene</span></span>
     </a>
 
-    <nav aria-label="Ana menü">
-      <input type="checkbox" id="menu-ac" class="menu-kutu" aria-hidden="true" />
-      <label for="menu-ac" class="menu-dugme" aria-hidden="true">
-        <span class="cizgi"></span>
-        <span class="cizgi"></span>
-        <span class="cizgi"></span>
-        <span class="menu-yazi">Menü</span>
-      </label>
-      <ul class="menu-liste">
+    <nav class="ust-nav" aria-label="Ana menü">
+      <ul>
         {
-          linkler.map((l) => (
+          linkler.slice(1).map((l) => (
             <li>
               <a href={l.href} aria-current={yol === l.href ? 'page' : undefined}>
                 {l.etiket}
@@ -37,161 +35,426 @@ const linkler = [
             </li>
           ))
         }
-        <li class="menu-ara">
-          <a href={business.phone.href} class="btn btn-birincil">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.4 11.4 0 0 0 3.57.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.57 1 1 0 0 1-.25 1.02Z"/></svg>
-            Hemen Ara
-          </a>
-        </li>
       </ul>
     </nav>
+
+    <div class="ust-sag">
+      <OpenStatus kisa class="ust-durum" />
+      <button type="button" class="tema" data-tema-dugme hidden aria-pressed="false" aria-label="Gündüz teması">
+        <span class="tema-ray" aria-hidden="true"><span class="tema-top"></span></span>
+      </button>
+      <a href={business.phone.href} class="ust-ara" data-olay="click_call">
+        Ara <span class="ok" aria-hidden="true">↗</span>
+      </a>
+      <button
+        type="button"
+        class="menu-dugme"
+        data-menu-dugme
+        aria-expanded="false"
+        aria-controls="menu-panel"
+      >
+        <span class="menu-yazi">Menü</span>
+        <span class="menu-cizgi" aria-hidden="true"><i></i><i></i></span>
+      </button>
+      <!-- JS yoksa: aynı paneli :target ile açan bağlantı -->
+      <a href="#menu-panel" class="menu-dugme menu-dugme-nojs">
+        <span class="menu-yazi">Menü</span>
+        <span class="menu-cizgi" aria-hidden="true"><i></i><i></i></span>
+      </a>
+    </div>
   </div>
 </header>
 
+<!-- Tam ekran menü (yalnız dar ekranda, JS ile açılır) -->
+<div class="menu-panel" id="menu-panel" data-menu-panel>
+  <a href="#" class="menu-kapat-nojs kunye">Kapat ✕</a>
+  <nav class="menu-nav" aria-label="Mobil menü">
+    <ol>
+      {
+        linkler.map((l, i) => (
+          <li style={`--i:${i}`}>
+            <a href={l.href} aria-current={yol === l.href ? 'page' : undefined}>
+              <span class="kunye">{String(i + 1).padStart(2, '0')}</span>
+              <span class="menu-link-ad">{l.etiket}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+  <div class="menu-alt">
+    <OpenStatus />
+    <a href={business.phone.href} class="menu-tel" data-olay="click_call">{business.phone.display}</a>
+    <p class="kunye">{business.address.street} · {business.locality} · {business.address.city}</p>
+  </div>
+</div>
+
 <style>
-  .ust-bar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgb(250 246 239 / 0.92);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--cizgi);
+  /* ── başlık çubuğu ── */
+  .ust {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 200;
+    height: var(--hdr-h);
+    color: var(--fg);
+    background: rgb(var(--bg-rgb) / 0.94);
+    border-bottom: 1px solid var(--line);
+    transition:
+      background-color 0.5s var(--ease-cine),
+      border-color 0.5s var(--ease-cine);
+  }
+  .ust[data-hero]:not([data-kaydi]) {
+    background: transparent;
+    border-bottom-color: transparent;
+  }
+  :global(html[data-menu-acik]) .ust {
+    background: var(--bg);
+    border-bottom-color: var(--line);
   }
 
-  .ust-bar-ic {
+  .ust-ic {
+    height: 100%;
+    max-width: var(--max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    min-height: 4rem;
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   .marka {
-    display: flex;
-    align-items: baseline;
-    gap: 0.4rem;
-    text-decoration: none;
-    line-height: 1;
-  }
-
-  .marka-mahal {
-    font-weight: 500;
-    font-size: 1.25rem;
-    letter-spacing: 0.01em;
-    color: var(--murekkep);
-  }
-
-  .marka-komagene {
-    font-weight: 800;
-    font-size: 1.25rem;
-    letter-spacing: -0.01em;
-    color: var(--kirmizi);
-  }
-
-  .menu-liste {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 1.6rem;
+    gap: 0.6rem;
+    text-decoration: none;
+    margin-right: auto;
+    flex: none;
+  }
+  .marka-nokta {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--ember);
+  }
+  .marka-ad {
+    font-family: var(--display);
+    font-size: 1.32rem;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+  .marka-ad span {
+    color: var(--ember);
+  }
+
+  /* masaüstü bağlantıları */
+  .ust-nav {
+    display: none;
+  }
+  .ust-nav ul {
+    display: flex;
+    gap: clamp(1.1rem, 2vw, 2rem);
     list-style: none;
     margin: 0;
     padding: 0;
   }
-
-  .menu-liste a:not(.btn) {
-    color: var(--murekkep);
+  .ust-nav a {
+    position: relative;
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
     text-decoration: none;
-    font-weight: 600;
-    font-size: 0.97rem;
+    color: rgb(var(--fg-rgb) / 0.86);
     padding-block: 0.5rem;
   }
-
-  .menu-liste a:not(.btn):hover,
-  .menu-liste a[aria-current='page']:not(.btn) {
-    color: var(--kirmizi);
+  .ust-nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.15rem;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.45s var(--ease-cine);
+  }
+  .ust-nav a:hover,
+  .ust-nav a[aria-current='page'] {
+    color: var(--fg);
+  }
+  .ust-nav a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  .ust-nav a[aria-current='page']::after {
+    background: var(--ember);
+    transform: scaleX(1);
   }
 
-  .menu-liste a[aria-current='page']:not(.btn) {
-    text-decoration: underline;
-    text-underline-offset: 6px;
-    text-decoration-thickness: 2px;
+  .ust-sag {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
   }
-
-  .menu-ara .btn {
-    min-height: 2.5rem;
-    padding: 0.4rem 1.1rem;
-    font-size: 0.92rem;
-  }
-
-  .menu-kutu,
-  .menu-dugme {
+  .ust-sag :global(.ust-durum) {
     display: none;
   }
 
-  /* Mobil menü — CSS ile, JavaScript'siz */
-  @media (max-width: 55rem) {
-    .menu-dugme {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      cursor: pointer;
-      padding: 0.6rem 0.2rem 0.6rem 0.6rem;
-      -webkit-tap-highlight-color: transparent;
-    }
+  /* tema anahtarı */
+  .tema {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+  }
+  .tema[hidden] {
+    display: none;
+  }
+  .tema-ray {
+    position: relative;
+    width: 34px;
+    height: 18px;
+    border: 1px solid var(--ghost);
+    border-radius: 999px;
+  }
+  .tema-top {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--fg);
+    transition: transform 0.45s var(--ease-cine);
+    /* gece: hilal */
+    box-shadow: inset -4px -1px 0 0 var(--bg);
+  }
+  .tema[aria-pressed='true'] .tema-top {
+    transform: translateX(16px);
+    box-shadow: none;
+    background: var(--ember);
+  }
 
-    .menu-dugme .cizgi {
+  .ust-ara {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    height: 40px;
+    padding-inline: 0.95rem;
+    border: 1px solid var(--ghost);
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition:
+      background-color 0.35s var(--ease-cine),
+      color 0.35s var(--ease-cine),
+      border-color 0.35s var(--ease-cine);
+  }
+  @media (hover: hover) {
+    .ust-ara:hover {
+      background: var(--ember);
+      border-color: var(--ember);
+      color: var(--ember-ink);
+    }
+  }
+
+  /* menü düğmesi: yalnız JS varken ve dar ekranda */
+  .menu-dugme {
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    height: 44px;
+    padding: 0 0 0 0.35rem;
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    -webkit-tap-highlight-color: transparent;
+  }
+  :global(.js) .menu-dugme:not(.menu-dugme-nojs) {
+    display: inline-flex;
+  }
+  .menu-dugme-nojs {
+    text-decoration: none;
+  }
+  :global(html:not(.js)) .menu-dugme-nojs {
+    display: inline-flex;
+  }
+  .menu-kapat-nojs {
+    display: none;
+  }
+  :global(html:not(.js)) .menu-panel:target {
+    visibility: visible;
+    clip-path: inset(0 0 0 0);
+    transition: none;
+  }
+  :global(html:not(.js)) .menu-panel:target .menu-link-ad {
+    transform: none;
+    opacity: 1;
+  }
+  :global(html:not(.js)) .menu-panel:target .menu-kapat-nojs {
+    display: inline-flex;
+    align-self: flex-end;
+    min-height: 44px;
+    align-items: center;
+    padding-inline: 0.9rem;
+    border: 1px solid var(--ghost);
+    color: var(--fg);
+    text-decoration: none;
+  }
+  .menu-cizgi {
+    position: relative;
+    width: 18px;
+    height: 8px;
+  }
+  .menu-cizgi i {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform 0.5s var(--ease-cine), top 0.5s var(--ease-cine);
+  }
+  .menu-cizgi i:first-child {
+    top: 0;
+  }
+  .menu-cizgi i:last-child {
+    top: 6.5px;
+  }
+  .menu-dugme[aria-expanded='true'] .menu-cizgi i:first-child {
+    top: 3.25px;
+    transform: rotate(45deg);
+  }
+  .menu-dugme[aria-expanded='true'] .menu-cizgi i:last-child {
+    top: 3.25px;
+    transform: rotate(-45deg);
+  }
+
+  @media (max-width: 479px) {
+    .ust-ara {
       display: none;
     }
-
-    .menu-yazi {
-      font-weight: 700;
-      font-size: 0.95rem;
-      border: 2px solid var(--murekkep);
-      border-radius: 999px;
-      padding: 0.35rem 1rem;
+    .marka-ad {
+      font-size: 1.18rem;
     }
+  }
 
-    .menu-liste {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0;
-      background: var(--krem);
-      border-bottom: 1px solid var(--cizgi);
-      box-shadow: var(--golge-buyuk);
-      padding: 0.5rem 1.25rem 1.25rem;
-    }
-
-    .menu-kutu:checked ~ .menu-liste {
-      display: flex;
-    }
-
-    .menu-liste li {
-      border-bottom: 1px solid var(--cizgi);
-    }
-
-    .menu-liste li:last-child {
-      border-bottom: none;
-    }
-
-    .menu-liste a:not(.btn) {
+  @media (min-width: 960px) {
+    .ust-nav {
       display: block;
-      padding: 0.9rem 0.25rem;
-      font-size: 1.05rem;
     }
-
-    .menu-ara {
-      padding-top: 1rem;
+    :global(.js) .menu-dugme:not(.menu-dugme-nojs),
+    :global(html:not(.js)) .menu-dugme-nojs {
+      display: none;
     }
+    .ust-ara {
+      height: 42px;
+    }
+  }
+  @media (min-width: 1180px) {
+    .ust-sag :global(.ust-durum) {
+      display: inline-flex;
+      margin-right: 0.4rem;
+    }
+  }
 
-    .menu-ara .btn {
-      width: 100%;
-      min-height: 3rem;
-      font-size: 1rem;
+  /* ── tam ekran menü ── */
+  .menu-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 190;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: calc(var(--hdr-h) + 1.5rem) var(--gutter) calc(1.5rem + env(safe-area-inset-bottom));
+    background: var(--bg);
+    visibility: hidden;
+    clip-path: inset(0 0 100% 0);
+    transition:
+      clip-path 0.7s var(--ease-cut),
+      visibility 0s linear 0.7s;
+    overflow-y: auto;
+  }
+  :global(html[data-menu-acik]) .menu-panel {
+    visibility: visible;
+    clip-path: inset(0 0 0 0);
+    transition:
+      clip-path 0.7s var(--ease-cut),
+      visibility 0s;
+  }
+  :global(html[data-menu-acik]) {
+    overflow: hidden;
+  }
+
+  .menu-nav ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+  .menu-nav li {
+    border-bottom: 1px solid var(--line);
+  }
+  .menu-nav a {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding-block: 0.85rem;
+    text-decoration: none;
+  }
+  .menu-link-ad {
+    font-family: var(--display);
+    font-size: clamp(2.3rem, 11vw, 4.2rem);
+    line-height: 1.08;
+    text-transform: uppercase;
+    transform: translateY(40%);
+    opacity: 0;
+    transition:
+      transform 0.8s var(--ease-cine),
+      opacity 0.6s var(--ease-cine),
+      color 0.3s;
+    transition-delay: calc(0.12s + var(--i) * 0.05s);
+  }
+  :global(html[data-menu-acik]) .menu-link-ad {
+    transform: none;
+    opacity: 1;
+  }
+  .menu-nav a[aria-current='page'] .menu-link-ad,
+  .menu-nav a:hover .menu-link-ad {
+    color: var(--ember);
+  }
+
+  .menu-alt {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .menu-tel {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 8vw, 2.6rem);
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  @media (min-width: 960px) {
+    .menu-panel {
+      display: none;
     }
   }
 </style>

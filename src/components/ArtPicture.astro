@@ -1,0 +1,68 @@
+---
+/**
+ * Sanat yönetimli <picture>: dar ekranda dikey kare, geniş ekranda yatay kare.
+ * Her ikisi de AVIF + WebP + JPEG yedekli, çok genişlikli üretilir.
+ */
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+
+interface Props {
+  dar: ImageMetadata;
+  genis: ImageMetadata;
+  alt: string;
+  /** Geniş kareye geçiş eşiği */
+  esik?: string;
+  darGenislikler?: number[];
+  genisGenislikler?: number[];
+  sizes?: string;
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'auto';
+  class?: string;
+}
+
+const {
+  dar,
+  genis,
+  alt,
+  esik = '(min-width: 800px)',
+  darGenislikler = [480, 720, 1000, 1400],
+  genisGenislikler = [960, 1440, 1920, 2048],
+  sizes = '100vw',
+  loading = 'lazy',
+  fetchpriority = 'auto',
+  class: sinif,
+} = Astro.props;
+
+const set = async (src: ImageMetadata, widths: number[], format: 'avif' | 'webp' | 'jpeg') => {
+  const kullan = widths.filter((w) => w <= src.width);
+  const img = await getImage({ src, widths: kullan.length ? kullan : [src.width], format, quality: format === 'avif' ? 60 : 72 });
+  return img.srcSet.attribute;
+};
+
+const [gAvif, gWebp, dAvif, dWebp, dJpeg] = await Promise.all([
+  set(genis, genisGenislikler, 'avif'),
+  set(genis, genisGenislikler, 'webp'),
+  set(dar, darGenislikler, 'avif'),
+  set(dar, darGenislikler, 'webp'),
+  set(dar, darGenislikler, 'jpeg'),
+]);
+const yedek = await getImage({ src: dar, width: Math.min(1000, dar.width), format: 'jpeg', quality: 72 });
+---
+
+<picture class={sinif}>
+  <source media={esik} type="image/avif" srcset={gAvif} sizes={sizes} />
+  <source media={esik} type="image/webp" srcset={gWebp} sizes={sizes} />
+  <source type="image/avif" srcset={dAvif} sizes={sizes} />
+  <source type="image/webp" srcset={dWebp} sizes={sizes} />
+  <img
+    src={yedek.src}
+    srcset={dJpeg}
+    sizes={sizes}
+    alt={alt}
+    width={dar.width}
+    height={dar.height}
+    loading={loading}
+    decoding={loading === 'eager' ? 'sync' : 'async'}
+    fetchpriority={fetchpriority}
+  />
+</picture>

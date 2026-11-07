@@ -1,0 +1,117 @@
+---
+interface Props {
+  ogeler: string[];
+  /** Okuyucu için tek satırlık özet (kayan şerit ekran okuyucuya gizlenir) */
+  ozet: string;
+}
+const { ogeler, ozet } = Astro.props;
+const seri = [...ogeler, ...ogeler];
+---
+
+<div class="kayan" data-kayan>
+  <p class="sr-only">{ozet}</p>
+  <button type="button" class="kayan-dugme" data-kayan-dugme hidden aria-pressed="false" aria-label="Kayan yazıyı durdur">Durdur</button>
+  <div class="kayan-ray" aria-hidden="true">
+    {
+      [0, 1].map(() => (
+        <ul>
+          {seri.map((o) => (
+            <li>
+              <span>{o}</span>
+              <i />
+            </li>
+          ))}
+        </ul>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .kayan {
+    position: relative;
+    overflow: hidden;
+    border-block: 1px solid var(--line);
+    padding-block: 1.1rem;
+    background: var(--bg);
+  }
+  .kayan-ray {
+    display: flex;
+    width: max-content;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .kayan-ray {
+      animation: kay 48s linear infinite;
+    }
+    .kayan:hover .kayan-ray,
+    .kayan:focus-within .kayan-ray,
+    .kayan[data-durdu] .kayan-ray {
+      animation-play-state: paused;
+    }
+  }
+  .kayan ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .kayan li {
+    display: flex;
+    align-items: center;
+  }
+  .kayan span {
+    font-family: var(--display);
+    font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-inline: clamp(1.1rem, 2.4vw, 2rem);
+  }
+  .kayan li:nth-child(even) span {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--fg-dim);
+  }
+  .kayan i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ember);
+    flex: none;
+  }
+  .kayan-dugme {
+    position: absolute;
+    right: var(--gutter);
+    top: 50%;
+    z-index: 2;
+    transform: translateY(-50%);
+    min-height: 32px;
+    padding: 0 0.7rem;
+    background: var(--bg);
+    color: var(--fg);
+    border: 1px solid var(--line-strong);
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .kayan-dugme[aria-pressed='true'] {
+    background: var(--fg);
+    color: var(--bg);
+  }
+  .kayan-dugme[hidden] {
+    display: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .kayan-dugme {
+      display: none;
+    }
+  }
+  @keyframes kay {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

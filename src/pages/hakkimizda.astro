@@ -1,175 +1,251 @@
 ---
 import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import OpenStatus from '../components/OpenStatus.astro';
 import { business } from '../config/business';
 
 import dondurmaKosesi from '../assets/images/mahal-komagene-dondurma-kosesi.jpeg';
 import aksamGorunum from '../assets/images/mahal-komagene-aksam-gorunum.jpeg';
+import mezeTezgahi from '../assets/images/mahal-komagene-meze-tezgahi.jpeg';
 ---
 
 <BaseLayout
   title="Hakkımızda | Mahal Komagene – İldem, Melikgazi"
   description="Mahal Komagene, Kayseri Melikgazi'nin İldem bölgesinde, Gesi Fatih Mahallesi'nde çiğ köfte, meze, tatlı ve dondurma servisi yapan bir mahalle dükkanıdır."
 >
-  <section class="bolum">
-    <div class="icerik hakkinda-izgara">
-      <div class="hakkinda-metin">
-        <span class="ust-etiket">Hakkımızda</span>
-        <h1>İldem'in Mahal Komagene'si</h1>
-        <p>
+  <PageHead etiket="Hakkımızda" no={business.locality}>
+    <Fragment slot="baslik">İldem'in{' '}<br /><span class="vurgu">Mahal Komagene'si</span></Fragment>
+    <p slot="sag" class="lead">
+      {business.address.street}, {business.address.neighborhood} ·
+      {' '}{business.address.district} / {business.address.city}
+    </p>
+  </PageHead>
+
+  <section class="kap hikaye" aria-label="Dükkanımız">
+    <figure class="kadraj hikaye-ana" data-reveal="perde">
+      <Picture
+        src={aksamGorunum}
+        widths={[600, 960, 1400, 2000]}
+        sizes="(min-width: 1000px) 60vw, 92vw"
+        formats={['avif', 'webp']}
+        width={1200}
+        alt="Mahal Komagene'nin akşam saatlerinde geniş açıdan dış görünümü"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <figcaption class="kadraj-etiket"><b>Kare</b> Alparslan Türkeş Blv.</figcaption>
+    </figure>
+
+    <div class="hikaye-metin">
+      <p class="hikaye-buyuk" data-reveal>
+        Alparslan Türkeş Bulvarı üzerindeki dükkanımızda çiğ köftenin yanında meze,
+        tatlı ve dondurma çeşitleri de bulunuyor.
+      </p>
+      <div class="hikaye-paragraflar">
+        <p data-reveal style="--d:1">
           Mahal Komagene, Kayseri Melikgazi'nin İldem bölgesinde, Gesi Fatih
-          Mahallesi'nde hizmet veren bir çiğ köfte dükkanı. Alparslan Türkeş
-          Bulvarı üzerindeki dükkanımızda çiğ köftenin yanında meze, tatlı ve
-          dondurma çeşitleri de bulunuyor.
+          Mahallesi'nde hizmet veren bir çiğ köfte dükkanı.
         </p>
-        <p>
+        <p data-reveal style="--d:2">
           Self servis tezgahımızda çiğ köftenizi taze yeşillik ve soslarla
           kendinize göre hazırlatabilirsiniz. Neon tabelalı dondurma köşemiz ise
           özellikle yaz akşamlarının uğrak noktası.
         </p>
-        <p>
-          Her gün 11.00'den gece 02.00'ye kadar açığız. Gündüz yemek arası,
+        <p data-reveal style="--d:3">
+          Her gün {business.openingHours.opens.replace(':', '.')}'den gece
+          {' '}{business.openingHours.closes.replace(':', '.')}'ye kadar açığız. Gündüz yemek arası,
           gece tatlı ya da dondurma — ne zaman yolunuz düşerse bekleriz.
         </p>
-
-        <div class="hakkinda-butonlar">
-          <a
-            href={business.maps.directionsUrl}
-            target="_blank"
-            rel="noopener"
-            class="btn btn-birincil"
-            data-olay="click_directions"
-          >
-            Yol Tarifi Al
-          </a>
-          <a href="/urunler" class="btn btn-cerceve" data-olay="click_menu">Ürünleri Gör</a>
-        </div>
       </div>
+      <div class="hikaye-dugmeler">
+        <a
+          href={business.maps.directionsUrl}
+          target="_blank"
+          rel="noopener"
+          class="btn btn-vurgu"
+          data-olay="click_directions"
+        >
+          Yol tarifi al <span class="ok" aria-hidden="true">↗</span>
+        </a>
+        <a href="/urunler" class="btn" data-olay="click_menu">Ürünleri gör</a>
+      </div>
+    </div>
 
-      <div class="hakkinda-gorseller">
+    <div class="hikaye-ikili">
+      <figure class="kadraj" data-reveal="perde">
         <Picture
-          src={dondurmaKosesi}
-          widths={[420, 640, 900]}
-          sizes="(min-width: 55rem) 34vw, 92vw"
+          src={mezeTezgahi}
+          widths={[480, 720, 1000]}
+          sizes="(min-width: 760px) 44vw, 92vw"
           formats={['avif', 'webp']}
-          alt="Mahal Komagene'nin neon Dondurma tabelalı girişi"
-          loading="eager"
-        />
-        <Picture
-          src={aksamGorunum}
-          widths={[420, 640, 900]}
-          sizes="(min-width: 55rem) 34vw, 92vw"
-          formats={['avif', 'webp']}
-          alt="Dükkanın akşam saatlerinde geniş açıdan görünümü"
+          width={1200}
+          alt="Self servis çiğ köfte tezgahında taze yeşillik ve garnitürler"
           loading="lazy"
         />
-      </div>
+        <figcaption class="kadraj-etiket"><b>01</b> Self servis tezgah</figcaption>
+      </figure>
+      <figure class="kadraj" data-reveal="perde" style="--d:2">
+        <Picture
+          src={dondurmaKosesi}
+          widths={[480, 720, 1000]}
+          sizes="(min-width: 760px) 44vw, 92vw"
+          formats={['avif', 'webp']}
+          width={1200}
+          alt="Mahal Komagene'nin neon Dondurma tabelalı girişi"
+          loading="lazy"
+        />
+        <figcaption class="kadraj-etiket"><b>02</b> Neon dondurma köşesi</figcaption>
+      </figure>
     </div>
   </section>
 
-  <section class="bolum ozet-bolum" aria-labelledby="ozet-baslik">
-    <div class="icerik">
-      <h2 id="ozet-baslik">Kısaca Mahal Komagene</h2>
-      <dl class="ozet-izgara">
-        <div class="ozet-kart">
-          <dt>Neredeyiz?</dt>
-          <dd>
-            {business.address.street}, {business.address.neighborhood},
-            {business.address.district} / {business.address.city}
-          </dd>
-        </div>
-        <div class="ozet-kart">
-          <dt>Ne var?</dt>
-          <dd>Çiğ köfte, meze, tatlı ve dondurma.</dd>
-        </div>
-        <div class="ozet-kart">
-          <dt>Ne zaman açığız?</dt>
-          <dd>{business.openingHours.display}</dd>
-        </div>
-        <div class="ozet-kart">
-          <dt>Nasıl ulaşırım?</dt>
-          <dd>
-            <a href={business.phone.href} data-olay="click_call">{business.phone.display}</a>
-            &nbsp;·&nbsp;
-            <a href="/konum-iletisim">Konum &amp; İletişim</a>
-          </dd>
-        </div>
-      </dl>
+  <section class="bolum kap ozet" aria-labelledby="ozet-baslik">
+    <div class="serit">
+      <span class="kunye">Kısaca</span>
+      <span class="kunye">{business.name}</span>
     </div>
+    <h2 id="ozet-baslik" class="d-l ozet-baslik" data-reveal>Kısaca{' '}<br /><span class="vurgu">Mahal Komagene</span></h2>
+    <dl class="ozet-liste">
+      <div class="ozet-satir" data-reveal>
+        <dt><span class="kunye">01</span> Neredeyiz?</dt>
+        <dd>
+          {business.address.street}, {business.address.neighborhood},
+          {' '}{business.address.district} / {business.address.city}
+        </dd>
+      </div>
+      <div class="ozet-satir" data-reveal>
+        <dt><span class="kunye">02</span> Ne var?</dt>
+        <dd>Çiğ köfte, meze, tatlı ve dondurma.</dd>
+      </div>
+      <div class="ozet-satir" data-reveal>
+        <dt><span class="kunye">03</span> Ne zaman açığız?</dt>
+        <dd>
+          {business.openingHours.display}
+          <OpenStatus class="ozet-durum" yedek={false} />
+        </dd>
+      </div>
+      <div class="ozet-satir" data-reveal>
+        <dt><span class="kunye">04</span> Nasıl ulaşırım?</dt>
+        <dd>
+          <a class="ulink" href={business.phone.href} data-olay="click_call">{business.phone.display}</a>
+          <span class="ayrac" aria-hidden="true">·</span>
+          <a class="ulink" href="/konum-iletisim">Konum &amp; İletişim</a>
+        </dd>
+      </div>
+    </dl>
   </section>
 </BaseLayout>
 
 <style>
-  .hakkinda-izgara {
+  .hikaye {
     display: grid;
-    gap: 2.5rem;
-    align-items: start;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    padding-bottom: clamp(3rem, 7vw, 5rem);
   }
-
-  @media (min-width: 55rem) {
-    .hakkinda-izgara {
-      grid-template-columns: 1.25fr 1fr;
-      gap: 3.5rem;
+  .hikaye-ana {
+    aspect-ratio: 4 / 3;
+  }
+  .hikaye-ana :global(img) {
+    object-position: 50% 86%;
+  }
+  @media (min-width: 760px) {
+    .hikaye-ana {
+      aspect-ratio: 21 / 9;
+    }
+    .hikaye-ana :global(img) {
+      object-position: 50% 62%;
     }
   }
-
-  .hakkinda-metin p {
-    color: var(--murekkep-soluk);
-    max-width: 36rem;
+  .hikaye-metin {
+    display: grid;
+    gap: 2rem;
   }
-
-  .hakkinda-butonlar {
+  @media (min-width: 1000px) {
+    .hikaye-metin {
+      grid-template-columns: 1.2fr 1fr;
+      column-gap: 4rem;
+    }
+    .hikaye-dugmeler {
+      grid-column: 2;
+    }
+  }
+  .hikaye-buyuk {
+    font-size: clamp(1.45rem, 2.8vw, 2.3rem);
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    text-wrap: pretty;
+  }
+  .hikaye-paragraflar {
+    display: grid;
+    gap: 1rem;
+    color: var(--fg-dim);
+  }
+  .hikaye-dugmeler {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin-top: 1.5rem;
   }
-
-  .hakkinda-gorseller {
+  .hikaye-ikili {
     display: grid;
-    gap: 1rem;
+    gap: clamp(1rem, 2vw, 1.5rem);
   }
-
-  .hakkinda-gorseller :global(img) {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    border-radius: var(--radius-buyuk);
-    box-shadow: var(--golge);
+  .hikaye-ikili .kadraj {
+    aspect-ratio: 4 / 5;
   }
-
-  .ozet-bolum {
-    background: var(--krem-koyu);
-  }
-
-  .ozet-izgara {
-    display: grid;
-    gap: 1rem;
-    margin: 1.5rem 0 0;
-  }
-
-  @media (min-width: 40rem) {
-    .ozet-izgara {
-      grid-template-columns: repeat(2, 1fr);
+  @media (min-width: 760px) {
+    .hikaye-ikili {
+      grid-template-columns: 1fr 1fr;
+    }
+    .hikaye-ikili .kadraj:last-child {
+      margin-top: 5rem;
     }
   }
 
-  .ozet-kart {
-    background: var(--beyaz);
-    border-radius: var(--radius);
-    padding: 1.4rem 1.5rem;
-    box-shadow: var(--golge);
+  .ozet-baslik {
+    padding-block: clamp(1.5rem, 4vw, 3rem) clamp(2rem, 5vw, 3.5rem);
   }
-
-  .ozet-kart dt {
-    font-weight: 800;
-    font-size: 0.95rem;
-    color: var(--kirmizi);
-    margin-bottom: 0.35rem;
+  .ozet-liste {
+    border-bottom: 1px solid var(--line);
   }
-
-  .ozet-kart dd {
-    margin: 0;
-    color: var(--murekkep);
+  .ozet-satir {
+    display: grid;
+    gap: 0.6rem;
+    padding-block: 1.4rem;
+    border-top: 1px solid var(--line);
+  }
+  @media (min-width: 760px) {
+    .ozet-satir {
+      grid-template-columns: 1fr 1.4fr;
+      gap: 2rem;
+      align-items: baseline;
+    }
+  }
+  .ozet-satir dt {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    font-family: var(--display);
+    font-size: clamp(1.6rem, 3vw, 2.3rem);
+    line-height: 1.08;
+    text-transform: uppercase;
+  }
+  .ozet-satir dt .kunye {
+    color: var(--ember);
+  }
+  .ozet-satir dd {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1rem;
+    font-size: 1.1rem;
+    color: var(--fg-dim);
+  }
+  .ozet-satir dd a {
+    color: var(--fg);
+  }
+  .ayrac {
+    color: var(--fg-mute);
   }
 </style>

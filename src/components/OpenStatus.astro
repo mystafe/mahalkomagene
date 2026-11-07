@@ -1,0 +1,82 @@
+---
+/**
+ * "Şu an açık mı?" göstergesi. JS yoksa sabit çalışma saatini gösterir;
+ * JS varsa İstanbul saatine göre AÇIK / KAPALI yazar (src/scripts/site.ts).
+ */
+import { business } from '../config/business';
+
+interface Props {
+  kisa?: boolean;
+  class?: string;
+  /** false: saatler zaten yanında yazıyorsa JS yokken hiç görünme (tekrar olmasın) */
+  yedek?: boolean;
+}
+const { kisa = false, class: sinif = '', yedek: yedekGoster = true } = Astro.props;
+const yedek = kisa ? business.openingHours.displayShort : business.openingHours.display;
+---
+
+<span
+  class:list={['durum', sinif]}
+  data-durum={kisa ? 'kisa' : 'uzun'}
+  data-acilis={business.openingHours.opens}
+  data-kapanis={business.openingHours.closes}
+  hidden={!yedekGoster}
+>
+  <span class="durum-isik" aria-hidden="true"></span>
+  <span data-durum-metin>{yedekGoster ? yedek : ''}</span>
+</span>
+
+<style>
+  .durum[hidden] {
+    display: none;
+  }
+  .durum {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.35;
+  }
+  .durum[data-durum='kisa'] {
+    white-space: nowrap;
+  }
+  .durum-isik {
+    position: relative;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--fg-mute);
+    flex: none;
+  }
+  .durum[data-acik='true'] .durum-isik {
+    background: var(--bulb);
+    box-shadow: 0 0 0 3px rgb(var(--bulb-rgb) / 0.18), 0 0 12px rgb(var(--bulb-rgb) / 0.7);
+  }
+  .durum[data-acik='false'] .durum-isik {
+    background: var(--ember);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .durum[data-acik='true'] .durum-isik::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: var(--bulb);
+      animation: nabiz 2.4s var(--ease-cine) infinite;
+    }
+  }
+  @keyframes nabiz {
+    0% {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    100% {
+      transform: scale(3.2);
+      opacity: 0;
+    }
+  }
+</style>

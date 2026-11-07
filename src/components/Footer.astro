@@ -1,149 +1,182 @@
 ---
 import { business } from '../config/business';
-
+import OpenStatus from './OpenStatus.astro';
 const yil = new Date().getFullYear();
 ---
 
-<footer class="alt-bolum">
-  <div class="icerik alt-ic">
-    <div class="alt-marka">
-      <p class="alt-logo">
-        <span>Mahal</span> <strong>Komagene</strong>
+<footer class="alt">
+  <div class="kap">
+    <div class="alt-ust">
+      <p class="alt-cagri display">
+        İldem'deyseniz{' '}<br /><span class="vurgu">bir uğrayın.</span>
       </p>
-      <p class="alt-slogan">
-        İldem, Gesi Fatih Mahallesi'nde çiğ köfte, meze, tatlı ve dondurma.
-      </p>
+      <div class="alt-eylem">
+        <a
+          href={business.maps.directionsUrl}
+          target="_blank"
+          rel="noopener"
+          class="btn btn-vurgu"
+          data-olay="click_directions"
+        >
+          Yol tarifi al <span class="ok" aria-hidden="true">↗</span>
+        </a>
+        <a href={business.phone.href} class="btn" data-olay="click_call">
+          {business.phone.display}
+        </a>
+      </div>
     </div>
 
-    <div class="alt-sutun">
-      <h2 class="alt-baslik">Adres</h2>
-      <address>
-        {business.address.street}<br />
-        {business.address.neighborhood}<br />
-        {business.address.postalCode} {business.address.district} / {business.address.city}
-      </address>
-      <a href={business.maps.directionsUrl} target="_blank" rel="noopener" data-olay="click_directions">
-        Yol tarifi al
-      </a>
-    </div>
-
-    <div class="alt-sutun">
-      <h2 class="alt-baslik">İletişim</h2>
-      <p>
-        <a href={business.phone.href} data-olay="click_call">{business.phone.display}</a>
-      </p>
-      <p class="alt-saat">{business.openingHours.display}</p>
-      {
-        business.instagramUrl && (
-          <a href={business.instagramUrl} target="_blank" rel="noopener" data-olay="click_instagram">
-            Instagram
-          </a>
-        )
-      }
-    </div>
-
-    <div class="alt-sutun">
-      <h2 class="alt-baslik">Sayfalar</h2>
-      <ul class="alt-liste">
-        <li><a href="/urunler">Ürünler</a></li>
-        <li><a href="/galeri">Galeri</a></li>
-        <li><a href="/hakkimizda">Hakkımızda</a></li>
-        <li><a href="/konum-iletisim">Konum &amp; İletişim</a></li>
-      </ul>
+    <div class="alt-izgara">
+      <div class="alt-sutun">
+        <h2 class="kunye">Adres</h2>
+        <address>
+          {business.address.street}<br />
+          {business.address.neighborhood}<br />
+          {business.address.postalCode} {business.address.district} / {business.address.city}
+        </address>
+      </div>
+      <div class="alt-sutun">
+        <h2 class="kunye">Saatler</h2>
+        <p>{business.openingHours.display}</p>
+        <OpenStatus yedek={false} />
+      </div>
+      <div class="alt-sutun">
+        <h2 class="kunye">İletişim</h2>
+        <p>
+          <a class="ulink" href={business.phone.href} data-olay="click_call">{business.phone.display}</a>
+        </p>
+        {
+          business.instagramUrl && (
+            <p>
+              <a
+                class="ulink"
+                href={business.instagramUrl}
+                target="_blank"
+                rel="noopener"
+                data-olay="click_instagram"
+              >
+                Instagram
+              </a>
+            </p>
+          )
+        }
+      </div>
+      <nav class="alt-sutun" aria-label="Alt menü">
+        <h2 class="kunye">Sayfalar</h2>
+        <ul>
+          <li><a class="ulink" href="/urunler">Ürünler</a></li>
+          <li><a class="ulink" href="/galeri">Galeri</a></li>
+          <li><a class="ulink" href="/hakkimizda">Hakkımızda</a></li>
+          <li><a class="ulink" href="/konum-iletisim">Konum &amp; İletişim</a></li>
+        </ul>
+      </nav>
     </div>
   </div>
 
-  <div class="icerik alt-telif">
-    <p>© {yil} {business.name} · Melikgazi, Kayseri</p>
+  <p class="alt-dev display" aria-hidden="true">Mahal Komagene</p>
+
+  <div class="kap alt-telif">
+    <p class="kunye">© {yil} {business.name}</p>
+    <p class="kunye">{business.locality} · {business.address.district} · {business.address.city}</p>
+    <p class="kunye">{business.geo.latitude}° K · {business.geo.longitude}° D</p>
   </div>
 </footer>
 
 <style>
-  .alt-bolum {
-    background: var(--murekkep);
-    color: #e9e2d9;
-    margin-top: clamp(2rem, 6vw, 4rem);
+  .alt {
+    position: relative;
+    margin-top: 0;
+    padding-top: clamp(4rem, 10vw, 7.5rem);
+    background: var(--bg-sink);
+    border-top: 1px solid var(--line);
+    overflow: hidden;
   }
 
-  .alt-ic {
+  .alt-ust {
     display: grid;
     gap: 2rem;
-    padding-block: clamp(2.5rem, 6vw, 4rem) 2rem;
+    align-items: end;
+    padding-bottom: clamp(3rem, 7vw, 5rem);
   }
-
-  @media (min-width: 48rem) {
-    .alt-ic {
-      grid-template-columns: 1.4fr 1fr 1fr 0.8fr;
-      gap: 2.5rem;
+  .alt-cagri {
+    font-size: clamp(2.8rem, 9vw, 7.5rem);
+  }
+  .alt-eylem {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  @media (min-width: 900px) {
+    .alt-ust {
+      grid-template-columns: 1.4fr 1fr;
+    }
+    .alt-eylem {
+      justify-content: flex-end;
     }
   }
 
-  .alt-logo {
-    font-size: 1.4rem;
-    margin-bottom: 0.5rem;
+  .alt-izgara {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
   }
-
-  .alt-logo span {
-    font-weight: 500;
+  @media (min-width: 900px) {
+    .alt-izgara {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
-
-  .alt-logo strong {
-    color: #f2b25c;
-    font-weight: 800;
+  .alt-sutun {
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+    padding: 1.5rem 1rem 1.75rem 0;
+    font-size: 0.98rem;
+    color: var(--fg-dim);
   }
-
-  .alt-slogan {
-    color: #b5aa9e;
-    font-size: 0.95rem;
-    max-width: 22rem;
-  }
-
-  .alt-baslik {
-    font-size: 0.8rem;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #f2b25c;
-    margin-bottom: 0.8rem;
-  }
-
-  address {
-    font-style: normal;
-    margin-bottom: 0.6rem;
-    color: #e9e2d9;
-  }
-
-  .alt-bolum a {
-    color: #fff;
-    text-decoration-color: #7a6f66;
-    text-underline-offset: 3px;
-  }
-
-  .alt-bolum a:hover {
-    text-decoration-color: #f2b25c;
-  }
-
-  .alt-saat {
-    color: #b5aa9e;
+  .alt-sutun .kunye {
     margin-bottom: 0.4rem;
+    color: var(--fg-mute);
+    font-size: 0.7rem;
   }
-
-  .alt-liste {
+  .alt-sutun address {
+    font-style: normal;
+  }
+  .alt-sutun a {
+    color: var(--fg);
+  }
+  .alt-sutun ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 0.55rem;
+    gap: 0.45rem;
+  }
+
+  /* dev marka yazısı: alt kenara oturur */
+  .alt-dev {
+    margin-top: clamp(1.5rem, 5vw, 3rem);
+    padding-inline: var(--gutter);
+    font-size: clamp(3.2rem, 13.6vw, 13.5rem);
+    line-height: 0.78;
+    white-space: nowrap;
+    text-align: center;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--line-strong);
+    user-select: none;
+    transform: translateY(0.08em);
   }
 
   .alt-telif {
-    border-top: 1px solid rgb(255 255 255 / 0.12);
-    padding-block: 1.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--line);
+    position: relative;
+    background: var(--bg-sink);
   }
-
-  .alt-telif p {
-    margin: 0;
-    font-size: 0.88rem;
-    color: #b5aa9e;
+  .alt-telif .kunye {
+    font-size: 0.66rem;
   }
 </style>

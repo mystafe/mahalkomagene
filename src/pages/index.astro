@@ -1,537 +1,950 @@
 ---
 import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ArtPicture from '../components/ArtPicture.astro';
+import Marquee from '../components/Marquee.astro';
+import OpenStatus from '../components/OpenStatus.astro';
 import LocationSection from '../components/LocationSection.astro';
 import { business } from '../config/business';
 
 import disCephe from '../assets/images/mahal-komagene-dis-cephe.jpeg';
+import disCepheKose from '../assets/images/mahal-komagene-dis-cephe-kose.jpeg';
 import mezeTezgahi from '../assets/images/mahal-komagene-meze-tezgahi.jpeg';
 import icMekanTezgah from '../assets/images/mahal-komagene-ic-mekan-tezgah.jpeg';
 import dondurmaDolabi from '../assets/images/mahal-komagene-dondurma-dolabi.jpeg';
 import dondurmaKosesi from '../assets/images/mahal-komagene-dondurma-kosesi.jpeg';
-import disCepheKose from '../assets/images/mahal-komagene-dis-cephe-kose.jpeg';
 import giris from '../assets/images/mahal-komagene-giris.jpeg';
+import aksamGorunum from '../assets/images/mahal-komagene-aksam-gorunum.jpeg';
+import bulvarGorunum from '../assets/images/mahal-komagene-bulvar-gorunum.jpeg';
+
+const saat = business.openingHours;
+const [acilis, kapanis] = [saat.opens.replace(':', '.'), saat.closes.replace(':', '.')];
+
+const tezgah = [
+  {
+    id: 'cig-kofte',
+    ad: 'Çiğ Köfte',
+    metin: 'Self servis tezgahımızda taze yeşillik ve soslarla; porsiyonunuzu istediğiniz gibi hazırlatın.',
+    gorsel: mezeTezgahi,
+    alt: "Mahal Komagene'nin taze malzemelerle hazırlanmış self servis çiğ köfte tezgahı",
+    etiket: 'Tezgah · Self servis',
+  },
+  {
+    id: 'meze',
+    ad: 'Meze',
+    metin: 'Tezgahımızda günlük hazırlanan meze çeşitleri. Çiğ köftenin yanına ya da tek başına.',
+    gorsel: icMekanTezgah,
+    alt: 'Mahal Komagene tezgahında sıralanmış meze çeşitleri ve taze garnitürler',
+    etiket: 'Tezgah · Meze',
+  },
+  {
+    id: 'tatli',
+    ad: 'Tatlı',
+    metin: 'Tatlı çeşitlerimiz tezgahımızda. Güncel çeşitler için uğrayın ya da telefonla sorun.',
+    gorsel: null,
+    alt: '',
+    etiket: 'Tezgah · Tatlı',
+  },
+  {
+    id: 'dondurma',
+    ad: 'Dondurma',
+    metin: 'Neon tabelalı dondurma köşemizde dolap boyu çeşit. Gece geç saatte de dondurma alabilirsiniz.',
+    gorsel: dondurmaDolabi,
+    alt: "Mahal Komagene'nin neon Dondurma tabelalı köşesinde dondurma dolapları",
+    etiket: 'Köşe · Dondurma',
+  },
+];
+
+const kareler = [
+  { src: disCepheKose, alt: 'Mahal Komagene İldem şubesinin köşeden akşam görünümü', etiket: 'Dış cephe' },
+  { src: icMekanTezgah, alt: 'Menü panoları ve paket dolaplarıyla tezgahın arkası', etiket: 'İç mekan' },
+  { src: giris, alt: 'Mahal Komagene girişinin bayraklı akşam görünümü', etiket: 'Giriş' },
+  { src: bulvarGorunum, alt: "Mahal Komagene'nin bulvar tarafından görünümü", etiket: 'Bulvar' },
+];
 ---
 
 <BaseLayout
   title="Mahal Komagene | İldem Çiğ Köfte – Melikgazi, Kayseri"
   description="Mahal Komagene, Kayseri İldem'de çiğ köftenin adresi. Gesi Fatih Mahallesi, Alparslan Türkeş Bulvarı üzerindeyiz. Adres, telefon, çalışma saatleri ve yol tarifi."
+  heroUstunde
 >
-  <!-- A. HERO -->
-  <section class="hero">
-    <div class="icerik hero-izgara">
-      <div class="hero-metin">
-        <p class="hero-konum-cip">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
-          İldem · Gesi Fatih Mah. · Melikgazi / Kayseri
-        </p>
-        <h1>İldem'de Çiğ Köfte</h1>
-        <p class="hero-alt">
-          Mahal Komagene, İldem Gesi Fatih Mahallesi'nde çiğ köftenin adresi.
-          Alparslan Türkeş Bulvarı üzerindeyiz; çiğ köftenin yanında meze, tatlı
-          ve dondurma da bulabilirsiniz. Her gün 11.00'den gece 02.00'ye kadar
-          açığız.
-        </p>
-        <div class="hero-butonlar">
-          <a
-            href={business.maps.directionsUrl}
-            target="_blank"
-            rel="noopener"
-            class="btn btn-birincil"
-            data-olay="click_directions"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.7 11.3 12.7 2.3a1 1 0 0 0-1.4 0l-9 9a1 1 0 0 0 0 1.4l9 9a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 0-1.4ZM14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5Z"/></svg>
-            Yol Tarifi Al
-          </a>
-          <a href={business.phone.href} class="btn btn-ikincil" data-olay="click_call">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.4 11.4 0 0 0 3.57.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.57 1 1 0 0 1-.25 1.02Z"/></svg>
-            Hemen Ara
-          </a>
-          <a href="/urunler" class="btn btn-acik" data-olay="click_menu">Ürünleri Gör</a>
-        </div>
-        <p class="hero-saat">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm4.2 13.2-4.7-2.8a1 1 0 0 1-.5-.9V6.5a1 1 0 0 1 2 0v4.4l4.2 2.5a1 1 0 0 1-1 1.8Z"/></svg>
-          {business.openingHours.display}
-        </p>
-      </div>
+  <!-- ═══ KAHRAMAN ═══ -->
+  <section class="hero" aria-labelledby="hero-baslik">
+    <div class="hero-foto">
+      <ArtPicture
+        dar={disCepheKose}
+        genis={disCephe}
+        alt="Mahal Komagene İldem şubesinin Alparslan Türkeş Bulvarı üzerindeki dış görünümü, mavi saatte aydınlatılmış cephesiyle"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+    <div class="hero-perde" aria-hidden="true"></div>
 
-      <div class="hero-gorsel">
-        <Picture
-          src={disCephe}
-          widths={[480, 768, 1080, 1600]}
-          sizes="(min-width: 55rem) 46vw, 92vw"
-          formats={['avif', 'webp']}
-          alt="Mahal Komagene İldem şubesinin Alparslan Türkeş Bulvarı üzerindeki dış görünümü, akşam saatlerinde aydınlatılmış cephesiyle"
-          loading="eager"
-          fetchpriority="high"
-        />
+    <div class="hero-ic kap">
+      <dl class="hero-kunye" aria-label="Kısaca">
+        <div><dt>Konum</dt><dd>İldem · Gesi Fatih</dd></div>
+        <div><dt>Saat</dt><dd>{acilis} → {kapanis}</dd></div>
+        <div><dt>Tezgah</dt><dd>Self servis çiğ köfte</dd></div>
+        <div><dt>Adres</dt><dd>Alparslan Türkeş Blv.</dd></div>
+        <div><dt>Gün</dt><dd>Her gün açık</dd></div>
+      </dl>
+
+      <div class="hero-alt">
+        <p class="kunye hero-ust-satir">
+          <span class="hero-nokta" aria-hidden="true"></span>
+          {business.name} · {business.address.district} / {business.address.city}
+        </p>
+        <h1 id="hero-baslik" class="hero-baslik">
+          <span class="satir-maske"><span>İldem'de</span></span>{' '}
+          <span class="satir-maske"><span>Çiğ Köfte<span class="vurgu">.</span></span></span>
+        </h1>
+
+        <div class="hero-alt-izgara">
+          <p class="hero-lead">
+            Mahal Komagene, İldem Gesi Fatih Mahallesi'nde çiğ köftenin adresi.
+            Alparslan Türkeş Bulvarı üzerindeyiz; çiğ köftenin yanında meze, tatlı
+            ve dondurma da bulabilirsiniz. Her gün {acilis}'den gece {kapanis}'ye kadar açığız.
+          </p>
+          <div class="hero-eylem">
+            <div class="hero-dugmeler">
+              <a
+                href={business.maps.directionsUrl}
+                target="_blank"
+                rel="noopener"
+                class="btn btn-vurgu"
+                data-olay="click_directions"
+              >
+                Yol tarifi al <span class="ok" aria-hidden="true">↗</span>
+              </a>
+              <a href={business.phone.href} class="btn" data-olay="click_call">Hemen ara</a>
+              <a href="/urunler" class="btn hero-urun" data-olay="click_menu">Ürünler</a>
+            </div>
+            <OpenStatus />
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div class="hero-koordinat kunye" aria-hidden="true">
+      <span>{business.geo.latitude}° K</span>
+      <span>{business.geo.longitude}° D</span>
     </div>
   </section>
 
-  <!-- B. ÜRÜN ÖNİZLEME -->
-  <section class="bolum" aria-labelledby="urunler-baslik">
-    <div class="icerik">
-      <div class="bolum-baslik">
-        <span class="ust-etiket">Ürünler</span>
-        <h2 id="urunler-baslik">Tezgahımızda Neler Var?</h2>
-        <p>
-          Çiğ köfteden dondurmaya dört ana kategoride servis yapıyoruz. Hepsine
-          bir arada, tek durakta ulaşabilirsiniz.
-        </p>
+  <Marquee
+    ozet="Çiğ köfte, meze, tatlı ve dondurma — her gün 11.00 ile 02.00 arası, Alparslan Türkeş Bulvarı, İldem."
+    ogeler={['Çiğ köfte', 'Meze', 'Tatlı', 'Dondurma', `Her gün ${acilis} – ${kapanis}`, 'Alparslan Türkeş Blv.', 'İldem · Kayseri']}
+  />
+
+  <!-- ═══ 01 · MAHALLE ═══ -->
+  <section class="bolum tanitim" aria-labelledby="tanitim-baslik">
+    <div class="kap">
+      <div class="serit">
+        <span class="kunye">Mahal Komagene</span>
+        <span class="kunye">01</span>
       </div>
 
-      <ul class="urun-izgara">
-        <li class="urun-kart">
-          <div class="urun-gorsel">
+      <div class="tanitim-izgara">
+        <div class="tanitim-metin">
+          <h2 id="tanitim-baslik" class="d-l" data-reveal>
+            Mahallenin{' '}<br /><span class="vurgu">çiğ köftecisi.</span>
+          </h2>
+          <p class="tanitim-buyuk" data-reveal style="--d:1">
+            Melikgazi'nin İldem bölgesinde, Gesi Fatih Mahallesi'nde bir çiğ köfte
+            ve dondurma noktası. Gündüz de gece de uğrayabileceğiniz bir yer olmayı
+            amaçlıyoruz.
+          </p>
+          <p class="lead" data-reveal style="--d:2">
+            Çiğ köftenin yanında meze, tatlı ve dondurma çeşitlerimizle
+            Alparslan Türkeş Bulvarı üzerindeyiz; İldem'deyseniz bize uğrayın.
+          </p>
+          <a href="/hakkimizda" class="tanitim-link kunye" data-reveal style="--d:3">
+            Hakkımızda daha fazlası <span class="ok ok-sag" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div class="tanitim-gorseller">
+          <figure class="kadraj tanitim-g1" data-reveal="perde">
+            <Picture
+              src={aksamGorunum}
+              widths={[480, 720, 1000]}
+              sizes="(min-width: 1000px) 30vw, 70vw"
+              formats={['avif', 'webp']}
+              width={1200}
+              alt="Mahal Komagene'nin akşam saatlerinde geniş açıdan görünümü"
+              loading="lazy"
+            />
+            <figcaption class="kadraj-etiket"><b>Kare</b> Akşam</figcaption>
+          </figure>
+          <figure class="kadraj tanitim-g2" data-reveal="perde" style="--d:2">
             <Picture
               src={mezeTezgahi}
-              widths={[480, 720, 1000]}
-              sizes="(min-width: 55rem) 23vw, (min-width: 40rem) 46vw, 92vw"
+              widths={[400, 640, 860]}
+              sizes="(min-width: 1000px) 20vw, 50vw"
               formats={['avif', 'webp']}
-              alt="Mahal Komagene'nin taze malzemelerle hazırlanmış self servis çiğ köfte tezgahı"
+              width={1200}
+              alt="Self servis tezgahta limon, domates ve yeşilliklerle dolu çiğ köfte garnitürleri"
               loading="lazy"
             />
-          </div>
-          <div class="urun-metin">
-            <h3>Çiğ Köfte</h3>
-            <p>Self servis tezgahımızda taze yeşillik ve soslarla.</p>
-          </div>
-        </li>
-        <li class="urun-kart">
-          <div class="urun-gorsel">
-            <Picture
-              src={icMekanTezgah}
-              widths={[480, 720, 1000]}
-              sizes="(min-width: 55rem) 23vw, (min-width: 40rem) 46vw, 92vw"
-              formats={['avif', 'webp']}
-              alt="Mahal Komagene tezgahında sıralanmış meze çeşitleri ve taze garnitürler"
-              loading="lazy"
-            />
-          </div>
-          <div class="urun-metin">
-            <h3>Mezeler</h3>
-            <p>Tezgahımızda günlük hazırlanan meze çeşitleri.</p>
-          </div>
-        </li>
-        <li class="urun-kart">
-          <div class="urun-gorsel urun-gorsel-bos" aria-hidden="true">
-            <svg width="44" height="44" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C7 3 3 6.6 3 11c0 2.5 1.3 4.7 3.4 6.2-.1.8-.5 1.9-1.4 2.8 1.8 0 3.3-.7 4.3-1.4.9.2 1.8.4 2.7.4 5 0 9-3.6 9-8s-4-8-9-8Z" opacity=".25"/><path d="M8.5 10.5h7a1 1 0 0 1 0 2h-7a1 1 0 0 1 0-2Z"/></svg>
-          </div>
-          <div class="urun-metin">
-            <h3>Tatlılar</h3>
-            <p>Tatlı çeşitlerimiz için tezgahımıza uğrayın.</p>
-          </div>
-        </li>
-        <li class="urun-kart">
-          <div class="urun-gorsel">
-            <Picture
-              src={dondurmaDolabi}
-              widths={[480, 720, 1000]}
-              sizes="(min-width: 55rem) 23vw, (min-width: 40rem) 46vw, 92vw"
-              formats={['avif', 'webp']}
-              alt="Mahal Komagene'nin neon Dondurma tabelalı köşesinde dondurma dolapları"
-              loading="lazy"
-            />
-          </div>
-          <div class="urun-metin">
-            <h3>Dondurma</h3>
-            <p>Dondurma köşemizde dolap boyu çeşit.</p>
-          </div>
-        </li>
-      </ul>
-
-      <div class="urun-hepsi">
-        <a href="/urunler" class="btn btn-cerceve">Tüm Ürünleri Gör</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- C. YEREL TANITIM -->
-  <section class="bolum tanitim-bolum" aria-labelledby="tanitim-baslik">
-    <div class="icerik tanitim-izgara">
-      <div>
-        <span class="ust-etiket tanitim-etiket">Mahal Komagene</span>
-        <h2 id="tanitim-baslik">Mahallenin Çiğ Köftecisi</h2>
-        <p>
-          Mahal Komagene, Melikgazi'nin İldem bölgesinde, Gesi Fatih
-          Mahallesi'nde hizmet veren bir çiğ köfte ve dondurma noktası. Çiğ
-          köftenin yanında meze, tatlı ve dondurma çeşitlerimizle gündüz de gece
-          de uğrayabileceğiniz bir yer olmayı amaçlıyoruz.
-        </p>
-        <p>
-          Alparslan Türkeş Bulvarı üzerindeyiz; İldem'deyseniz bize uğrayın.
-          Her gün 11.00'den gece 02.00'ye kadar açığız.
-        </p>
-        <a href="/hakkimizda" class="tanitim-link">Hakkımızda daha fazlası →</a>
-      </div>
-      <div class="tanitim-gorsel">
-        <Picture
-          src={dondurmaKosesi}
-          widths={[480, 768, 1080]}
-          sizes="(min-width: 55rem) 38vw, 92vw"
-          formats={['avif', 'webp']}
-          alt="Mahal Komagene'nin neon Dondurma tabelalı girişinin akşam görünümü"
-          loading="lazy"
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- D. GALERİ ÖNİZLEME -->
-  <section class="bolum" aria-labelledby="galeri-baslik">
-    <div class="icerik">
-      <div class="bolum-baslik">
-        <span class="ust-etiket">Galeri</span>
-        <h2 id="galeri-baslik">Dükkandan Kareler</h2>
-        <p>Dış cephe, tezgah ve dondurma köşemizden gerçek fotoğraflar.</p>
-      </div>
-
-      <ul class="galeri-izgara">
-        <li>
-          <Picture
-            src={disCepheKose}
-            widths={[420, 640, 900]}
-            sizes="(min-width: 55rem) 30vw, (min-width: 40rem) 46vw, 92vw"
-            formats={['avif', 'webp']}
-            alt="Mahal Komagene İldem şubesinin köşeden akşam görünümü"
-            loading="lazy"
-          />
-        </li>
-        <li>
-          <Picture
-            src={mezeTezgahi}
-            widths={[420, 640, 900]}
-            sizes="(min-width: 55rem) 30vw, (min-width: 40rem) 46vw, 92vw"
-            formats={['avif', 'webp']}
-            alt="Taze garnitürlerle dolu self servis çiğ köfte ve meze tezgahı"
-            loading="lazy"
-          />
-        </li>
-        <li>
-          <Picture
-            src={giris}
-            widths={[420, 640, 900]}
-            sizes="(min-width: 55rem) 30vw, (min-width: 40rem) 46vw, 92vw"
-            formats={['avif', 'webp']}
-            alt="Mahal Komagene girişinin bayraklı akşam görünümü"
-            loading="lazy"
-          />
-        </li>
-      </ul>
-
-      <div class="urun-hepsi">
-        <a href="/galeri" class="btn btn-cerceve">Galerinin Tamamı</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- E. KONUM -->
-  <LocationSection />
-
-  <!-- F. SON CTA -->
-  <section class="bolum son-cta" aria-labelledby="cta-baslik">
-    <div class="icerik">
-      <h2 id="cta-baslik">Bizi Bulmak Çok Kolay</h2>
-      <p class="son-cta-alt">
-        Alparslan Türkeş Bulvarı üzerindeyiz. Konumu açın, yol tarifini alın.
-      </p>
-      <div class="son-cta-izgara">
-        <a
-          href={business.maps.directionsUrl}
-          target="_blank"
-          rel="noopener"
-          class="son-cta-kart"
-          data-olay="click_directions"
-        >
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.7 11.3 12.7 2.3a1 1 0 0 0-1.4 0l-9 9a1 1 0 0 0 0 1.4l9 9a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 0-1.4ZM14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5Z"/></svg>
-          <strong>Yol Tarifi</strong>
-          <span>Google Haritalar'da aç</span>
-        </a>
-        <a href={business.phone.href} class="son-cta-kart" data-olay="click_call">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.4 11.4 0 0 0 3.57.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.57 1 1 0 0 1-.25 1.02Z"/></svg>
-          <strong>Telefon</strong>
-          <span>{business.phone.display}</span>
-        </a>
-        <div class="son-cta-kart son-cta-kart-pasif">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm4.2 13.2-4.7-2.8a1 1 0 0 1-.5-.9V6.5a1 1 0 0 1 2 0v4.4l4.2 2.5a1 1 0 0 1-1 1.8Z"/></svg>
-          <strong>Çalışma Saatleri</strong>
-          <span>{business.openingHours.display}</span>
+            <figcaption class="kadraj-etiket"><b>Kare</b> Tezgah</figcaption>
+          </figure>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- ═══ 02 · TEZGAH ═══ -->
+  <section class="bolum tezgah" aria-labelledby="tezgah-baslik" data-tezgah>
+    <div class="kap">
+      <div class="serit">
+        <span class="kunye">Ürünler · Tezgah</span>
+        <span class="kunye">02</span>
+      </div>
+
+      <div class="tezgah-izgara">
+        <div class="tezgah-sol">
+          <div class="tezgah-yapiskan">
+            <h2 id="tezgah-baslik" class="d-l">Tezgahta{' '}<br />neler var?</h2>
+            <p class="lead">
+              Çiğ köfteden dondurmaya dört ana kategori; hepsi bir arada, tek durakta.
+            </p>
+            <ol class="tezgah-liste" aria-label="Kategoriler">
+              {
+                tezgah.map((t, i) => (
+                  <li>
+                    <a href={`#${t.id}`} data-tezgah-link data-etkin={i === 0 ? '' : undefined}>
+                      <span class="kunye">{String(i + 1).padStart(2, '0')}</span>
+                      <span class="tezgah-ad">{t.ad}</span>
+                    </a>
+                  </li>
+                ))
+              }
+            </ol>
+            <div class="tezgah-alt">
+              <span class="kunye"><span data-tezgah-sayac>01</span> / 04</span>
+              <a href="/urunler" class="btn" data-olay="click_menu">
+                Tüm ürünler <span class="ok ok-sag" aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="tezgah-sag">
+          {
+            tezgah.map((t, i) => (
+              <article class="panel" id={t.id} data-tezgah-panel aria-labelledby={`${t.id}-ad`}>
+                {t.gorsel ? (
+                  <figure class="kadraj panel-gorsel" data-reveal="perde">
+                    <Picture
+                      src={t.gorsel}
+                      widths={[480, 720, 1000, 1400]}
+                      sizes="(min-width: 1000px) 52vw, 92vw"
+                      formats={['avif', 'webp']}
+                      width={1200}
+                      alt={t.alt}
+                      loading="lazy"
+                    />
+                    <figcaption class="kadraj-etiket">
+                      <b>{String(i + 1).padStart(2, '0')}</b> {t.etiket}
+                    </figcaption>
+                  </figure>
+                ) : (
+                  <div class="panel-gorsel panel-bos" data-reveal="perde">
+                    <span class="panel-bos-yazi display" aria-hidden="true">Tatlı</span>
+                    <span class="kunye panel-bos-not">Tezgah · Tatlı</span>
+                  </div>
+                )}
+                <div class="panel-metin">
+                  <h3 id={`${t.id}-ad`}>
+                    <span class="kunye">{String(i + 1).padStart(2, '0')}</span> {t.ad}
+                  </h3>
+                  <p>
+                    {t.id === 'tatli' ? (
+                      <>
+                        Tatlı çeşitlerimiz tezgahımızda. Güncel çeşitler için uğrayın ya da{' '}
+                        <a class="ulink" href={business.phone.href} data-olay="click_call">telefonla sorun</a>.
+                      </>
+                    ) : (
+                      t.metin
+                    )}
+                  </p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 03 · GECE ═══ -->
+  <section class="gece" aria-labelledby="gece-baslik">
+    <figure class="gece-foto">
+      <Picture
+        src={dondurmaKosesi}
+        widths={[600, 900, 1300, 1536]}
+        sizes="(min-width: 1000px) 50vw, 100vw"
+        formats={['avif', 'webp']}
+        width={1200}
+        alt="Neon Dondurma tabelası altında dondurma dolaplarıyla Mahal Komagene'nin dondurma köşesi"
+        loading="lazy"
+      />
+    </figure>
+    <div class="gece-metin">
+      <div class="serit">
+        <span class="kunye">Gece de açık</span>
+        <span class="kunye">03</span>
+      </div>
+      <h2 id="gece-baslik" class="d-l" data-reveal>
+        Gece{' '}<br />{kapanis}'ye{' '}<br /><span class="vurgu">kadar açığız.</span>
+      </h2>
+      <p class="lead" data-reveal style="--d:1">
+        Gündüz yemek arası, gece tatlı ya da dondurma — ne zaman yolunuz düşerse
+        bekleriz. Neon tabelalı dondurma köşemiz özellikle yaz akşamlarının uğrak
+        noktası.
+      </p>
+      <div class="saat-blok" data-reveal style="--d:2">
+        <div>
+          <span class="kunye">Açılış</span>
+          <span class="saat-rakam">{acilis}</span>
+        </div>
+        <span class="saat-ok" aria-hidden="true">→</span>
+        <div>
+          <span class="kunye">Kapanış</span>
+          <span class="saat-rakam">{kapanis}</span>
+        </div>
+      </div>
+      <p class="gece-durum" data-reveal style="--d:3">
+        <span class="kunye">Her gün açık</span>
+        <OpenStatus yedek={false} />
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ 04 · KARELER ═══ -->
+  <section class="bolum kareler" aria-labelledby="kareler-baslik">
+    <div class="kap">
+      <div class="serit">
+        <span class="kunye">Galeri</span>
+        <span class="kunye">04</span>
+      </div>
+      <div class="kareler-ust">
+        <h2 id="kareler-baslik" class="d-l" data-reveal>Dükkandan{' '}<br />kareler</h2>
+        <div class="kareler-ust-sag" data-reveal style="--d:1">
+          <p class="lead">Dış cephe, tezgah ve dondurma köşemizden gerçek fotoğraflar.</p>
+          <a href="/galeri" class="btn">
+            Galerinin tamamı <span class="ok ok-sag" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <ul class="serit-film" aria-label="Fotoğraflar" tabindex="0">
+      {
+        kareler.map((k, i) => (
+          <li>
+            <figure class="kadraj film-kare">
+              <Picture
+                src={k.src}
+                widths={[400, 640, 900]}
+                sizes="(min-width: 1000px) 28vw, 74vw"
+                formats={['avif', 'webp']}
+                width={1200}
+                alt={k.alt}
+                loading="lazy"
+              />
+              <figcaption class="kadraj-etiket">
+                <b>{String(i + 1).padStart(2, '0')}</b> {k.etiket}
+              </figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- ═══ 05 · KONUM ═══ -->
+  <LocationSection no="05" />
 </BaseLayout>
 
 <style>
-  /* ---------- Hero ---------- */
+  /* ═══ KAHRAMAN ═══ */
   .hero {
-    padding-block: clamp(2rem, 6vw, 4.5rem);
-    background: linear-gradient(180deg, var(--krem) 0%, var(--krem-koyu) 100%);
+    position: relative;
+    min-height: var(--hero-h);
+    display: flex;
+    isolation: isolate;
+    overflow: hidden;
   }
-
-  .hero-izgara {
-    display: grid;
-    gap: 2rem;
-    align-items: center;
+  .hero-foto {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
   }
-
-  @media (min-width: 55rem) {
-    .hero-izgara {
-      grid-template-columns: 1.1fr 1fr;
-      gap: 3rem;
+  .hero-foto :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 35%;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-foto :global(img) {
+      animation: yakinlas 2.4s var(--ease-cine) both;
+    }
+  }
+  @keyframes yakinlas {
+    from {
+      transform: scale(1.08);
+      opacity: 0.4;
+    }
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+  .hero-perde {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--hero-shade);
+  }
+  @media (min-width: 800px) {
+    .hero-perde {
+      background: var(--hero-shade), var(--hero-shade-side);
+    }
+  }
+  @media (max-width: 799px) {
+    .hero-perde {
+      background:
+        linear-gradient(to bottom, rgb(var(--bg-rgb) / 0.75) 0, rgb(var(--bg-rgb) / 0) 16%),
+        linear-gradient(to top, rgb(var(--bg-rgb) / 1) 0, rgb(var(--bg-rgb) / 0.9) 36%, rgb(var(--bg-rgb) / 0.62) 56%, rgb(var(--bg-rgb) / 0) 76%);
+    }
+    .hero-ust-satir {
+      width: max-content;
+      max-width: 100%;
+      padding: 0.3rem 0.55rem;
+      background: var(--chip);
+    }
+  }
+  @media (max-width: 767px) {
+    .hero .hero-ic {
+      padding-bottom: calc(var(--mobil-bar) + env(safe-area-inset-bottom) + 1.25rem);
     }
   }
 
-  .hero-konum-cip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    background: var(--beyaz);
-    border: 1px solid var(--cizgi);
-    border-radius: 999px;
-    padding: 0.4rem 0.95rem;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--murekkep-soluk);
-    margin-bottom: 1.1rem;
+  .hero-ic {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-top: calc(var(--hdr-h) + clamp(1.25rem, 4vw, 2.5rem));
+    padding-bottom: clamp(1.75rem, 5vw, 3.5rem);
   }
 
-  .hero-konum-cip svg {
-    color: var(--kirmizi);
+  /* künye kutusu: sol üstte, VibeX sahne künyesi gibi */
+  .hero-kunye {
+    display: none;
+    align-self: flex-start;
+    gap: 0.35rem;
   }
-
-  .hero h1 {
-    margin-bottom: 0.5em;
+  .hero-kunye div {
+    display: flex;
+    gap: 0.6rem;
+    width: max-content;
+    padding: 0.32rem 0.55rem;
+    background: var(--chip);
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .hero-kunye dt {
+    color: var(--ember);
+    min-width: 4.4em;
+  }
+  .hero-kunye dd {
+    color: var(--fg);
+  }
+  @media (min-width: 800px) {
+    .hero-kunye {
+      display: grid;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-kunye div {
+      animation: kunye-gel 0.8s var(--ease-cine) both;
+    }
+    .hero-kunye div:nth-child(1) { animation-delay: 0.5s; }
+    .hero-kunye div:nth-child(2) { animation-delay: 0.6s; }
+    .hero-kunye div:nth-child(3) { animation-delay: 0.7s; }
+    .hero-kunye div:nth-child(4) { animation-delay: 0.8s; }
+    .hero-kunye div:nth-child(5) { animation-delay: 0.9s; }
+  }
+  @keyframes kunye-gel {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
   }
 
   .hero-alt {
-    font-size: 1.1rem;
-    color: var(--murekkep-soluk);
-    max-width: 34rem;
-    margin-bottom: 1.6rem;
+    margin-top: auto;
   }
-
-  .hero-butonlar {
+  .hero-ust-satir {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-bottom: 1.4rem;
-  }
-
-  .hero-saat {
-    display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    font-weight: 700;
-    color: var(--murekkep);
-    margin: 0;
+    gap: 0.6rem;
+    color: var(--fg);
+    margin-bottom: 1rem;
   }
-
-  .hero-saat svg {
-    color: var(--amber);
+  .hero-nokta {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ember);
   }
-
-  .hero-gorsel :global(img) {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    border-radius: var(--radius-buyuk);
-    box-shadow: var(--golge-buyuk);
+  .hero-baslik {
+    font-size: clamp(3.4rem, min(12vw, 17svh), 11.5rem);
+    line-height: 1.08;
+    margin-bottom: clamp(1.25rem, 3vw, 2rem);
+    margin-left: -0.04em;
   }
-
-  /* ---------- Ürün kartları ---------- */
-  .urun-izgara {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 1.1rem;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 55rem) {
-    .urun-izgara {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-
-  .urun-kart {
-    background: var(--beyaz);
-    border-radius: var(--radius);
+  /* maske Türkçe üst işaretlerine (İ, Ğ, Ö, Ü) yer bırakır */
+  .satir-maske {
+    display: block;
     overflow: hidden;
-    box-shadow: var(--golge);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding-top: 0.2em;
+    margin-top: -0.2em;
+    padding-bottom: 0.04em;
+    margin-bottom: -0.04em;
+  }
+  .satir-maske > span {
+    display: block;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .satir-maske > span {
+      animation: satir-yuksel 1.2s var(--ease-cine) both;
+    }
+    .satir-maske:nth-child(2) > span {
+      animation-delay: 0.12s;
+    }
+  }
+  @keyframes satir-yuksel {
+    from {
+      transform: translateY(105%);
+    }
+    to {
+      transform: none;
+    }
   }
 
-  .urun-kart:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--golge-buyuk);
+  .hero-alt-izgara {
+    display: grid;
+    gap: 1.5rem;
   }
-
-  .urun-gorsel :global(img) {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
+  @media (min-width: 1000px) {
+    .hero-alt-izgara {
+      grid-template-columns: minmax(0, 34rem) auto;
+      justify-content: space-between;
+      align-items: end;
+    }
   }
-
-  .urun-gorsel-bos {
-    aspect-ratio: 4 / 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--amber-acik);
-    color: var(--amber);
-  }
-
-  .urun-metin {
-    padding: 0.9rem 1rem 1.1rem;
-  }
-
-  .urun-metin h3 {
-    margin-bottom: 0.25rem;
-    font-size: 1.08rem;
-  }
-
-  .urun-metin p {
-    margin: 0;
-    font-size: 0.9rem;
-    color: var(--murekkep-soluk);
-    line-height: 1.5;
-  }
-
-  .urun-hepsi {
-    margin-top: 1.75rem;
-    text-align: center;
-  }
-
-  /* ---------- Yerel tanıtım ---------- */
-  .tanitim-bolum {
-    background: var(--murekkep);
-    color: #efe9e0;
-  }
-
-  .tanitim-etiket {
-    color: var(--amber) !important;
-  }
-
-  .tanitim-bolum h2 {
-    color: var(--beyaz);
-  }
-
-  .tanitim-bolum p {
-    color: #c9bfb4;
+  .hero-lead {
+    font-size: clamp(1.02rem, 1.4vw, 1.18rem);
+    line-height: 1.55;
+    color: rgb(var(--fg-rgb) / 0.9);
     max-width: 34rem;
   }
-
-  .tanitim-izgara {
-    display: grid;
-    gap: 2.5rem;
-    align-items: center;
-  }
-
-  @media (min-width: 55rem) {
-    .tanitim-izgara {
-      grid-template-columns: 1.2fr 1fr;
-    }
-  }
-
-  .tanitim-link {
-    color: var(--amber);
-    font-weight: 700;
-    text-decoration: none;
-  }
-
-  .tanitim-link:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
-
-  .tanitim-gorsel :global(img) {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    border-radius: var(--radius-buyuk);
-  }
-
-  /* ---------- Galeri önizleme ---------- */
-  .galeri-izgara {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 1.1rem;
-    grid-template-columns: 1fr;
-  }
-
-  @media (min-width: 40rem) {
-    .galeri-izgara {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .galeri-izgara :global(img) {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    border-radius: var(--radius);
-    box-shadow: var(--golge);
-  }
-
-  /* ---------- Son CTA ---------- */
-  .son-cta {
-    text-align: center;
-  }
-
-  .son-cta-alt {
-    color: var(--murekkep-soluk);
-    margin-bottom: 2rem;
-  }
-
-  .son-cta-izgara {
+  .hero-eylem {
     display: grid;
     gap: 1rem;
-    max-width: 52rem;
-    margin-inline: auto;
+    justify-items: start;
   }
-
-  @media (min-width: 40rem) {
-    .son-cta-izgara {
-      grid-template-columns: repeat(3, 1fr);
+  @media (min-width: 1000px) {
+    .hero-eylem {
+      justify-items: end;
+    }
+  }
+  .hero-dugmeler {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+  @media (max-width: 479px) {
+    .hero-dugmeler .btn {
+      flex: 1 1 auto;
+    }
+    .hero-urun {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-ust-satir,
+    .hero-alt-izgara {
+      animation: sol-gel 1s var(--ease-cine) 0.35s both;
+    }
+  }
+  @keyframes sol-gel {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
     }
   }
 
-  .son-cta-kart {
+  .hero-koordinat {
+    position: absolute;
+    right: var(--gutter);
+    top: calc(var(--hdr-h) + clamp(1.25rem, 4vw, 2.5rem));
+    display: none;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.2rem;
+    color: var(--fg);
+  }
+  @media (min-width: 800px) {
+    .hero-koordinat {
+      display: flex;
+    }
+  }
+
+  /* ═══ 01 · TANITIM ═══ */
+  .tanitim-izgara {
+    display: grid;
+    gap: clamp(3rem, 7vw, 5rem);
+    padding-top: clamp(2rem, 5vw, 3.5rem);
+  }
+  @media (min-width: 1000px) {
+    .tanitim-izgara {
+      grid-template-columns: 1.15fr 1fr;
+      align-items: start;
+    }
+  }
+  .tanitim-metin {
+    display: grid;
+    gap: 1.6rem;
+    align-content: start;
+  }
+  .tanitim-buyuk {
+    font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    font-weight: 500;
+    max-width: 36rem;
+    text-wrap: pretty;
+  }
+  .tanitim-link {
+    color: var(--fg);
+    text-decoration: none;
+    justify-self: start;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--ember);
+  }
+
+  .tanitim-gorseller {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    align-items: start;
+  }
+  .tanitim-g1 {
+    grid-column: 1 / 10;
+    grid-row: 1;
+    aspect-ratio: 1 / 1;
+  }
+  .tanitim-g1 :global(img) {
+    object-position: 50% 88%;
+  }
+  .tanitim-g2 {
+    grid-column: 7 / 13;
+    grid-row: 1;
+    margin-top: 48%;
+    aspect-ratio: 3 / 4;
+    outline: 10px solid var(--bg);
+  }
+
+  /* ═══ 02 · TEZGAH ═══ */
+  .tezgah-izgara {
+    display: grid;
+    gap: clamp(2.5rem, 6vw, 4rem);
+    padding-top: clamp(2rem, 5vw, 3.5rem);
+  }
+  .tezgah-yapiskan {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .tezgah-liste {
+    display: none;
+    list-style: none;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+  .tezgah-liste li {
+    border-bottom: 1px solid var(--line);
+  }
+  .tezgah-liste a {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding-block: 0.7rem;
+    text-decoration: none;
+    color: var(--fg-mute);
+    transition: color 0.4s var(--ease-cine);
+  }
+  .tezgah-ad {
+    font-family: var(--display);
+    font-size: clamp(1.9rem, 3vw, 2.6rem);
+    line-height: 1;
+    text-transform: uppercase;
+    transition: transform 0.5s var(--ease-cine);
+  }
+  .tezgah-liste a:hover,
+  .tezgah-liste a[data-etkin] {
+    color: var(--fg);
+  }
+  .tezgah-liste a[data-etkin] .tezgah-ad {
+    transform: translateX(0.5rem);
+  }
+  .tezgah-liste a[data-etkin] .kunye {
+    color: var(--ember);
+  }
+  .tezgah-alt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .tezgah-alt > .kunye {
+    display: none;
+  }
+
+  @media (min-width: 1000px) {
+    .tezgah-izgara {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: clamp(3rem, 6vw, 6rem);
+    }
+    .tezgah-yapiskan {
+      position: sticky;
+      top: calc(var(--hdr-h) + 2.5rem);
+    }
+    .tezgah-liste,
+    .tezgah-alt > .kunye {
+      display: block;
+    }
+    .tezgah-liste {
+      display: block;
+    }
+  }
+
+  .tezgah-sag {
+    display: grid;
+    gap: clamp(3rem, 7vw, 6rem);
+  }
+  .panel {
+    display: grid;
+    gap: 1.25rem;
+    scroll-margin-top: calc(var(--hdr-h) + 2rem);
+  }
+  .panel-gorsel {
+    aspect-ratio: 4 / 5;
+  }
+  @media (min-width: 640px) {
+    .panel-gorsel {
+      aspect-ratio: 5 / 4;
+    }
+  }
+  .panel-bos {
+    position: relative;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(120% 90% at 30% 20%, rgb(var(--ember-rgb) / 0.16), transparent 60%),
+      var(--bg-raise);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .panel-bos-yazi {
+    font-size: clamp(6rem, 22vw, 16rem);
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--line-strong);
+  }
+  .panel-bos-not {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+  }
+  .panel-metin {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .panel-metin {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 2rem;
+      align-items: baseline;
+    }
+  }
+  .panel-metin h3 {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(2rem, 3.6vw, 2.8rem);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0;
+  }
+  .panel-metin h3 .kunye {
+    color: var(--ember);
+  }
+  .panel-metin p {
+    color: var(--fg-dim);
+    max-width: 30rem;
+  }
+
+  /* ═══ 03 · GECE ═══ */
+  .gece {
+    display: grid;
+    background: var(--bg-sink);
+    border-block: 1px solid var(--line);
+  }
+  @media (min-width: 1000px) {
+    .gece {
+      grid-template-columns: 1fr 1fr;
+      min-height: min(100vh, 960px);
+    }
+  }
+  .gece-foto {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+  }
+  @media (min-width: 1000px) {
+    .gece-foto {
+      aspect-ratio: auto;
+    }
+  }
+  .gece-foto :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 48%;
+  }
+  .gece-metin {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    gap: 1.75rem;
+    padding: clamp(3rem, 8vw, 6rem) var(--gutter);
+  }
+  @media (min-width: 1000px) {
+    .gece-metin {
+      padding-inline: clamp(3rem, 6vw, 6rem);
+    }
+  }
+  .gece-metin .serit {
+    margin-bottom: 0.5rem;
+  }
+  .saat-blok {
+    display: flex;
+    align-items: flex-end;
+    gap: clamp(1rem, 3vw, 2rem);
+    padding-block: 1.5rem;
+    border-block: 1px solid var(--line);
+  }
+  .saat-blok > div {
+    display: grid;
+    gap: 0.4rem;
+  }
+  .saat-rakam {
+    font-family: var(--display);
+    font-size: clamp(3.4rem, 8vw, 6rem);
+    line-height: 0.85;
+  }
+  .saat-ok {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    line-height: 1;
+    color: var(--ember);
+    padding-bottom: 0.3rem;
+  }
+  .gece-durum {
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 0.35rem;
-    background: var(--beyaz);
-    border: 1px solid var(--cizgi);
-    border-radius: var(--radius);
-    padding: 1.5rem 1rem;
-    text-decoration: none;
-    color: var(--murekkep);
-    box-shadow: var(--golge);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    gap: 1rem 1.5rem;
   }
 
-  a.son-cta-kart:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--golge-buyuk);
+  /* ═══ 04 · KARELER ═══ */
+  .kareler {
+    padding-bottom: clamp(2rem, 5vw, 3.5rem);
   }
-
-  .son-cta-kart svg {
-    color: var(--kirmizi);
-    margin-bottom: 0.3rem;
+  .kareler-ust {
+    display: grid;
+    gap: 1.75rem;
+    padding-block: clamp(2rem, 5vw, 3.5rem) clamp(2rem, 5vw, 3rem);
   }
-
-  .son-cta-kart strong {
-    font-size: 1.05rem;
+  .kareler-ust-sag {
+    display: grid;
+    gap: 1.25rem;
+    justify-items: start;
   }
-
-  .son-cta-kart span {
-    font-size: 0.9rem;
-    color: var(--murekkep-soluk);
+  @media (min-width: 1000px) {
+    .kareler-ust {
+      grid-template-columns: 1.4fr 1fr;
+      align-items: end;
+    }
+  }
+  .serit-film {
+    display: flex;
+    gap: clamp(0.75rem, 1.6vw, 1.25rem);
+    list-style: none;
+    margin: 0;
+    padding: 0 var(--gutter) 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
+    overscroll-behavior-x: contain;
+  }
+  .serit-film:focus-visible {
+    outline-offset: -2px;
+  }
+  .serit-film li {
+    flex: 0 0 auto;
+    width: min(74vw, 420px);
+    scroll-snap-align: start;
+  }
+  @media (min-width: 1000px) {
+    .serit-film li {
+      width: clamp(300px, 28vw, 460px);
+    }
+    .serit-film li:nth-child(even) {
+      margin-top: 4rem;
+    }
+  }
+  .film-kare {
+    aspect-ratio: 3 / 4;
+  }
+  .film-kare :global(img) {
+    transition: transform 1.2s var(--ease-cine);
+  }
+  @media (hover: hover) {
+    .film-kare:hover :global(img) {
+      transform: scale(1.04);
+    }
   }
 </style>
