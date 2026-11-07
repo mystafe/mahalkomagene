@@ -7,6 +7,8 @@ export default defineConfig({
   trailingSlash: 'never',
   integrations: [
     sitemap({
+      // dükkân soru formu arama motorlarına kapalı
+      filter: (sayfa) => !sayfa.includes('/sorular'),
       changefreq: 'weekly',
       lastmod: new Date(),
     }),

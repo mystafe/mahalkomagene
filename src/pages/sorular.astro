@@ -1,0 +1,622 @@
+---
+/**
+ * Dükkân sahibine soru formu. Herkese açık değil: yalnız linkteki anahtarla (#k=...)
+ * çalışır, arama motorlarına kapalı, site haritasında yok, menüde bağlantısı yok.
+ * Cevaplar ve fotoğraflar özel Blob deposuna (mahalkomagene-form) gider.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { gruplar, cekimListesi } from '../data/dukkanSorulari';
+
+let no = 0;
+const numarali = gruplar.map((g) => ({ ...g, sorular: g.sorular.map((s) => ({ ...s, no: ++no })) }));
+const toplam = no;
+---
+
+<BaseLayout
+  title="Site için birkaç soru | Mahal Komagene"
+  description="Mahal Komagene sitesi için dükkândan istenen bilgiler."
+  noindex
+>
+  <section class="kap sorular-sayfa" data-sorular data-toplam={toplam}>
+    <div class="serit">
+      <span class="kunye">Mahal Komagene · Site</span>
+      <span class="kunye">{toplam} soru</span>
+    </div>
+    <h1 class="d-l">Ali, site için <span class="vurgu">birkaç soru</span></h1>
+    <p class="lead giris-metin">
+      Dükkânın sitesi yayında. Daha çok müşteri getirsin diye birkaç bilgiye ihtiyacımız var.
+      Sitede yalnız doğru bilgiyi kullanacağız; tahminle hiçbir şey yazmıyoruz.
+    </p>
+
+    <noscript><p class="uyari">Bu form için tarayıcıda JavaScript açık olmalı.</p></noscript>
+
+    <!-- 1. adım: isim -->
+    <div class="adim" data-adim="giris">
+      <div class="kutu">
+        <label for="dolduran" class="etiket-buyuk">Önce adınız</label>
+        <input id="dolduran" type="text" autocomplete="name" placeholder="Adınız Soyadınız" value="Ali" />
+        <button type="button" class="btn btn-vurgu" data-basla disabled>Başla <span class="ok" aria-hidden="true">→</span></button>
+        <p class="hata" data-giris-hata role="alert" hidden></p>
+        <ul class="ipucu">
+          <li>Çoğu soruda bir seçeneğe dokunmanız yeterli. Emin değilseniz "Emin değilim" deyin.</li>
+          <li>Cevaplar siz yazdıkça kendiliğinden kaydedilir; yarıda bırakıp sonra devam edebilirsiniz.</li>
+          <li>En altta fotoğraf yükleyebilirsiniz.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2. adım: sorular -->
+    <form class="adim" data-adim="sorular" hidden autocomplete="off" novalidate>
+      <p class="merhaba">Merhaba <b data-ad-goster></b>. <span class="kayit" data-kayit role="status" aria-live="polite"></span></p>
+
+      {
+        numarali.map((g) => (
+          <fieldset class="grup">
+            <legend class="d-m grup-baslik">{g.ad}</legend>
+            {g.sorular.map((q) => (
+              <div class="soru">
+                <div class="soru-ust">
+                  <span class="soru-no">{String(q.no).padStart(2, '0')}</span>
+                  <strong id={`q-${q.id}`}>{q.s}</strong>
+                </div>
+                {q.n && <p class="neden">{q.n}</p>}
+                <div class="icerik">
+                  {q.tip === 'metin' ? (
+                    <textarea name={q.id} aria-labelledby={`q-${q.id}`} placeholder={q.ph ?? ''} />
+                  ) : (
+                    <>
+                      <div class="secenek" role={q.tip === 'tek' ? 'radiogroup' : 'group'} aria-labelledby={`q-${q.id}`}>
+                        {q.o!.map((o) => (
+                          <label>
+                            <input type={q.tip === 'tek' ? 'radio' : 'checkbox'} name={q.id} value={o} />
+                            <span>{o}</span>
+                          </label>
+                        ))}
+                      </div>
+                      {q.not && (
+                        <textarea name={`${q.id}-not`} aria-label={`${q.s} — not`} placeholder={q.notPh ?? 'Not (isteğe bağlı)'} />
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+            ))}
+          </fieldset>
+        ))
+      }
+
+      <fieldset class="grup">
+        <legend class="d-m grup-baslik">Fotoğraflar</legend>
+        <p class="neden">
+          Sitede hiç ürün fotoğrafı yok. Telefonun ana kamerasıyla çekin, buradan yükleyin; orijinal kalitede gelir.
+          Fiyatlı afiş, kampanya panosu ve kayan LED yazı kadrajda olmasın. Müşteri yüzü görünüyorsa izin alınmış olsun.
+        </p>
+        <details class="cekim">
+          <summary>Hangi fotoğraflar lazım? (liste)</summary>
+          <ul>
+            {cekimListesi.map((c) => (
+              <li><b>{c.b}</b><span>{c.a}</span></li>
+            ))}
+          </ul>
+        </details>
+        <label class="yukle-alan">
+          <input type="file" accept="image/*" multiple data-dosya />
+          <span class="btn">Fotoğraf seç</span>
+          <span class="yukle-not">Birden fazla seçebilirsiniz · fotoğraf başına en fazla 40 MB</span>
+        </label>
+        <ul class="yuklenen" data-yuklenen aria-live="polite"></ul>
+      </fieldset>
+
+      <div class="bitir">
+        <button type="button" class="btn btn-vurgu" data-bitir>Bitirdim, gönder</button>
+        <p class="neden">Gönderdikten sonra da bu linkten girip değiştirebilirsiniz.</p>
+      </div>
+    </form>
+
+    <!-- 3. adım: teşekkür -->
+    <div class="adim" data-adim="tesekkur" hidden>
+      <div class="kutu">
+        <h2 class="d-m">Teşekkürler<span class="vurgu">!</span></h2>
+        <p>Cevaplarınız kaydedildi. Bir şey eklemek isterseniz aynı linkten tekrar girebilirsiniz.</p>
+        <button type="button" class="btn" data-geri>Cevaplara dön</button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { uploadPresigned } from '@vercel/blob/client';
+
+  const kok = document.querySelector<HTMLElement>('[data-sorular]')!;
+  const LS = 'mk-sorular-v1';
+  const adimlar = {
+    giris: kok.querySelector<HTMLElement>('[data-adim="giris"]')!,
+    sorular: kok.querySelector<HTMLFormElement>('[data-adim="sorular"]')!,
+    tesekkur: kok.querySelector<HTMLElement>('[data-adim="tesekkur"]')!,
+  };
+  const form = adimlar.sorular;
+  const adInput = kok.querySelector<HTMLInputElement>('#dolduran')!;
+  const basla = kok.querySelector<HTMLButtonElement>('[data-basla]')!;
+  const girisHata = kok.querySelector<HTMLElement>('[data-giris-hata]')!;
+  const kayitDurum = kok.querySelector<HTMLElement>('[data-kayit]')!;
+  const yuklenenListe = kok.querySelector<HTMLUListElement>('[data-yuklenen]')!;
+
+  // linkteki anahtar: #k=... (sunucuya URL'de gitmez); bir kez okunup saklanır
+  const hashK = new URLSearchParams(location.hash.slice(1)).get('k');
+  type Durum = {
+    id: string;
+    k: string;
+    ad: string;
+    alanlar: Record<string, string | string[]>;
+    fotograflar: { ad: string; yol: string; boyut: number }[];
+    tamam: boolean;
+  };
+  let durum: Durum;
+  try {
+    durum = JSON.parse(localStorage.getItem(LS) || 'null');
+  } catch {
+    durum = null as unknown as Durum;
+  }
+  if (!durum) durum = { id: crypto.randomUUID(), k: '', ad: '', alanlar: {}, fotograflar: [], tamam: false };
+  if (hashK) durum.k = hashK;
+  // anahtar adres çubuğunda kalmasın
+  if (hashK) history.replaceState(null, '', location.pathname);
+
+  const yerelKaydet = () => {
+    try {
+      localStorage.setItem(LS, JSON.stringify(durum));
+    } catch {
+      /* gizli sekme */
+    }
+  };
+
+  const goster = (ad: keyof typeof adimlar) => {
+    (Object.keys(adimlar) as (keyof typeof adimlar)[]).forEach((a) => (adimlar[a].hidden = a !== ad));
+    window.scrollTo({ top: 0 });
+  };
+
+  async function istek(govde: Record<string, unknown>) {
+    const r = await fetch('/api/form/kaydet', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ k: durum.k, id: durum.id, ...govde }),
+    });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw Object.assign(new Error(j.hata || 'Kaydedilemedi'), { status: r.status });
+    return j;
+  }
+
+  // ── form alanları ↔ durum ──
+  function alanlariOku() {
+    const a: Record<string, string | string[]> = {};
+    [...form.elements].forEach((e) => {
+      const el = e as HTMLInputElement;
+      if (!el.name || el.type === 'file') return;
+      if (el.type === 'radio') {
+        if (el.checked) a[el.name] = el.value;
+      } else if (el.type === 'checkbox') {
+        if (el.checked) ((a[el.name] ||= []) as string[]).push(el.value);
+      } else if (el.value.trim()) a[el.name] = el.value.trim();
+    });
+    return a;
+  }
+  function alanlariYaz() {
+    [...form.elements].forEach((e) => {
+      const el = e as HTMLInputElement;
+      const v = durum.alanlar[el.name];
+      if (!el.name || v == null) return;
+      if (el.type === 'radio' || el.type === 'checkbox') el.checked = Array.isArray(v) ? v.includes(el.value) : v === el.value;
+      else if (el.type !== 'file') el.value = String(v);
+    });
+  }
+  /** okunur cevap metni: soru başlığı → seçim — not */
+  function cevaplar() {
+    const c: Record<string, string> = {};
+    kok.querySelectorAll<HTMLElement>('.soru').forEach((s) => {
+      const baslik = s.querySelector('strong')!;
+      const id = baslik.id.slice(2);
+      const sec = durum.alanlar[id];
+      const not = durum.alanlar[`${id}-not`];
+      const metin = [Array.isArray(sec) ? sec.join(', ') : sec, not].filter(Boolean).join(' — ');
+      if (metin) c[`${s.querySelector('.soru-no')!.textContent}. ${baslik.textContent}`] = metin;
+    });
+    return c;
+  }
+
+  // ── sunucuya kaydetme (yazdıkça, 1,5 sn gecikmeyle; hata olursa 10 sn sonra yeniden) ──
+  let zamanlayici: number | undefined;
+  let yenidenZamanlayici: number | undefined;
+  let surenKayit: Promise<boolean> | null = null;
+  let bekleyen = false;
+  const saat = () => new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+  async function tekKayit(): Promise<boolean> {
+    kayitDurum.textContent = 'Kaydediliyor…';
+    try {
+      await istek({ ad: durum.ad, cevaplar: cevaplar(), fotograflar: durum.fotograflar, tamam: durum.tamam });
+      kayitDurum.textContent = `Kaydedildi ✓ ${saat()}`;
+      kayitDurum.dataset.hata = 'false';
+      return true;
+    } catch {
+      kayitDurum.textContent = 'Kaydedilemedi, internet bağlantısını kontrol edin. Cevaplar telefonda duruyor, birazdan tekrar denenecek.';
+      kayitDurum.dataset.hata = 'true';
+      window.clearTimeout(yenidenZamanlayici);
+      yenidenZamanlayici = window.setTimeout(sunucuyaKaydet, 10_000);
+      return false;
+    }
+  }
+  /** sürmekte olan kayıt varsa bitmesini bekler, sonra son durumu bir kez daha yazar; sonucu döner */
+  async function sunucuyaKaydet(): Promise<boolean> {
+    if (surenKayit) {
+      // sürmekte olan döngü bekleyen bayrağını görüp son durumu da yazar; onun sonucu döner
+      bekleyen = true;
+      return surenKayit;
+    }
+    surenKayit = (async () => {
+      let ok = await tekKayit();
+      while (bekleyen) {
+        bekleyen = false;
+        ok = await tekKayit();
+      }
+      return ok;
+    })();
+    try {
+      return await surenKayit;
+    } finally {
+      surenKayit = null;
+    }
+  }
+  window.addEventListener('online', () => {
+    if (kayitDurum.dataset.hata === 'true') sunucuyaKaydet();
+  });
+  function degisti() {
+    durum.alanlar = alanlariOku();
+    yerelKaydet();
+    kayitDurum.textContent = 'Değişiklik var…';
+    window.clearTimeout(zamanlayici);
+    zamanlayici = window.setTimeout(sunucuyaKaydet, 1500);
+  }
+  form.addEventListener('input', degisti);
+  form.addEventListener('change', (e) => {
+    if ((e.target as HTMLInputElement).type !== 'file') degisti();
+  });
+
+  // ── fotoğraflar ──
+  const boyutYaz = (b: number) => (b > 1048576 ? `${(b / 1048576).toFixed(1)} MB` : `${Math.round(b / 1024)} KB`);
+  function fotoSatiri(ad: string) {
+    const li = document.createElement('li');
+    const s1 = document.createElement('span');
+    s1.className = 'f-ad';
+    s1.textContent = ad;
+    const s2 = document.createElement('span');
+    s2.className = 'f-durum';
+    li.append(s1, s2);
+    yuklenenListe.append(li);
+    return s2;
+  }
+  durum.fotograflar.forEach((f) => (fotoSatiri(f.ad).textContent = `Yüklendi ✓ ${boyutYaz(f.boyut)}`));
+
+  const turTahmin = (f: File) => {
+    if (f.type) return f.type;
+    const u = f.name.split('.').pop()?.toLowerCase();
+    return u === 'heic' ? 'image/heic' : u === 'heif' ? 'image/heif' : u === 'png' ? 'image/png' : 'image/jpeg';
+  };
+  kok.querySelector<HTMLInputElement>('[data-dosya]')!.addEventListener('change', async (e) => {
+    const input = e.target as HTMLInputElement;
+    const dosyalar = [...(input.files || [])];
+    input.value = '';
+    for (const f of dosyalar) {
+      const durumYazi = fotoSatiri(f.name);
+      if (f.size > 40 * 1024 * 1024) {
+        durumYazi.textContent = 'Çok büyük (en fazla 40 MB)';
+        continue;
+      }
+      const temiz = f.name.normalize('NFKD').replace(/[^\w.-]+/g, '-').replace(/\.{2,}/g, '.').replace(/^[.-]+/, '').slice(-80) || 'foto.jpg';
+      try {
+        durumYazi.textContent = 'Yükleniyor… %0';
+        const sonuc = await uploadPresigned(`fotograflar/${durum.id}/${temiz}`, f, {
+          access: 'private',
+          handleUploadUrl: '/api/form/yukle',
+          clientPayload: JSON.stringify({ k: durum.k, id: durum.id }),
+          contentType: turTahmin(f),
+          onUploadProgress: ({ percentage }) => (durumYazi.textContent = `Yükleniyor… %${Math.round(percentage)}`),
+        });
+        durum.fotograflar.push({ ad: f.name, yol: sonuc.pathname, boyut: f.size });
+        yerelKaydet();
+        durumYazi.textContent = `Yüklendi ✓ ${boyutYaz(f.size)}`;
+        sunucuyaKaydet();
+      } catch {
+        durumYazi.textContent = 'Yüklenemedi, tekrar deneyin';
+        durumYazi.dataset.hata = 'true';
+      }
+    }
+  });
+
+  // ── adımlar ──
+  if (durum.ad) adInput.value = durum.ad;
+  const adKontrol = () => (basla.disabled = adInput.value.trim().length < 2);
+  adInput.addEventListener('input', adKontrol);
+  adInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !basla.disabled) basla.click();
+  });
+  adKontrol();
+
+  function sorulariAc() {
+    kok.querySelector('[data-ad-goster]')!.textContent = durum.ad;
+    alanlariYaz();
+    goster('sorular');
+  }
+
+  basla.addEventListener('click', async () => {
+    girisHata.hidden = true;
+    if (!durum.k) {
+      girisHata.textContent = 'Bu link eksik. Linki Mustafa\'dan tekrar isteyin.';
+      girisHata.hidden = false;
+      return;
+    }
+    basla.disabled = true;
+    basla.textContent = 'Kontrol ediliyor…';
+    try {
+      await istek({ kontrol: true });
+      durum.ad = adInput.value.trim();
+      yerelKaydet();
+      sorulariAc();
+      sunucuyaKaydet();
+    } catch (e) {
+      const s = (e as { status?: number }).status;
+      girisHata.textContent = s === 401 ? 'Bu link geçersiz. Linki Mustafa\'dan tekrar isteyin.' : 'Bağlantı kurulamadı, internetinizi kontrol edip tekrar deneyin.';
+      girisHata.hidden = false;
+    } finally {
+      basla.innerHTML = 'Başla <span class="ok" aria-hidden="true">→</span>';
+      adKontrol();
+    }
+  });
+
+  kok.querySelector('[data-bitir]')!.addEventListener('click', async () => {
+    durum.tamam = true;
+    durum.alanlar = alanlariOku();
+    yerelKaydet();
+    window.clearTimeout(zamanlayici);
+    const ok = await sunucuyaKaydet();
+    if (!ok) {
+      durum.tamam = false;
+      kayitDurum.scrollIntoView({ block: 'center' });
+      return;
+    }
+    goster('tesekkur');
+  });
+  kok.querySelector('[data-geri]')!.addEventListener('click', () => goster('sorular'));
+
+  // daha önce başladıysa doğrudan sorulara geç
+  if (durum.ad && durum.k) sorulariAc();
+</script>
+
+<style>
+  .sorular-sayfa {
+    padding-top: calc(var(--hdr-h) + clamp(1.5rem, 5vw, 3rem));
+    padding-bottom: clamp(4rem, 9vw, 6rem);
+    max-width: 820px;
+  }
+  .sorular-sayfa h1 {
+    margin: 1.2rem 0 0.8rem;
+  }
+  .giris-metin {
+    color: var(--fg-dim);
+    max-width: 40rem;
+  }
+  .uyari,
+  .hata {
+    color: var(--ember);
+    font-weight: 600;
+  }
+  .kutu {
+    margin-top: 2rem;
+    padding: clamp(1.2rem, 4vw, 2rem);
+    border: 1px solid var(--line-strong);
+    background: var(--bg-raise);
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+  }
+  .etiket-buyuk {
+    font-family: var(--display);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    text-transform: uppercase;
+    line-height: 1.08;
+  }
+  input[type='text'],
+  textarea {
+    width: 100%;
+    background: var(--bg);
+    color: var(--fg);
+    border: 1px solid var(--line-strong);
+    padding: 0.7rem 0.85rem;
+    font: inherit;
+    font-size: 16px;
+    border-radius: 0;
+  }
+  textarea {
+    min-height: 3.2rem;
+    resize: vertical;
+    margin-top: 0.6rem;
+  }
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--ember);
+    outline-offset: 2px;
+  }
+  .btn[disabled] {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+  .ipucu {
+    margin: 0.4rem 0 0;
+    padding-left: 1.1rem;
+    color: var(--fg-dim);
+    font-size: 0.95rem;
+  }
+  .merhaba {
+    margin-top: 2rem;
+    color: var(--fg-dim);
+  }
+  .kayit {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    margin-left: 0.4rem;
+  }
+  .kayit[data-hata='true'] {
+    color: var(--ember);
+  }
+  .grup {
+    border: 0;
+    margin: 2.4rem 0 0;
+    padding: 0;
+    min-width: 0;
+  }
+  .grup-baslik {
+    padding: 0;
+    margin-bottom: 0.4rem;
+  }
+  .soru {
+    border-top: 1px solid var(--line);
+    padding: 1.15rem 0;
+  }
+  .soru-ust {
+    display: flex;
+    gap: 0.8rem;
+    align-items: baseline;
+  }
+  .soru-no {
+    font: 700 0.75rem var(--mono);
+    color: var(--ember);
+    min-width: 1.8rem;
+  }
+  .soru-ust strong {
+    font-size: 1.04rem;
+    line-height: 1.45;
+  }
+  .neden {
+    color: var(--fg-mute);
+    font-size: 0.92rem;
+    margin: 0.3rem 0 0;
+  }
+  .soru .neden,
+  .icerik {
+    margin-left: 2.6rem;
+  }
+  @media (max-width: 520px) {
+    .soru .neden,
+    .icerik {
+      margin-left: 0;
+    }
+  }
+  .secenek {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.7rem;
+  }
+  .secenek label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    border: 1px solid var(--line-strong);
+    background: var(--bg-raise);
+    padding: 0.35rem 0.85rem;
+    cursor: pointer;
+    font-size: 0.96rem;
+    user-select: none;
+  }
+  .secenek input {
+    accent-color: var(--ember);
+    margin: 0;
+    width: 18px;
+    height: 18px;
+  }
+  .secenek label:has(input:checked) {
+    border-color: var(--ember);
+    background: rgb(var(--ember-rgb) / 0.12);
+  }
+  .secenek label:focus-within {
+    outline: 2px solid var(--ember);
+    outline-offset: 2px;
+  }
+  .cekim {
+    margin: 1rem 0;
+    border: 1px solid var(--line);
+    padding: 0.8rem 1rem;
+  }
+  .cekim summary {
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .cekim ul {
+    list-style: none;
+    margin: 0.6rem 0 0;
+    padding: 0;
+  }
+  .cekim li {
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--line);
+    display: grid;
+  }
+  .cekim li span {
+    color: var(--fg-dim);
+    font-size: 0.92rem;
+  }
+  .yukle-alan {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 1rem;
+    cursor: pointer;
+  }
+  .yukle-alan input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+  .yukle-alan:focus-within .btn {
+    outline: 2px solid var(--ember);
+    outline-offset: 2px;
+  }
+  .yukle-not {
+    color: var(--fg-mute);
+    font-size: 0.88rem;
+  }
+  .yuklenen {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+  }
+  .yuklenen :global(li) {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border-top: 1px solid var(--line);
+    font-size: 0.92rem;
+  }
+  .yuklenen :global(.f-ad) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .yuklenen :global(.f-durum) {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    white-space: nowrap;
+    color: var(--fg-dim);
+  }
+  .yuklenen :global(.f-durum[data-hata='true']) {
+    color: var(--ember);
+  }
+  .bitir {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+</style>
