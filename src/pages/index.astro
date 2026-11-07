@@ -433,6 +433,43 @@ const kareler = [
     }
   }
 
+  /* GÜNDÜZ: giriş yine koyu kalır ama perde hafifler; fotoğraf daha aydınlık görünür,
+     koyuluk yalnız yazının arkasında toplanır (gece ile eski krem perde arası). */
+  :global(:root[data-theme='light']) .hero {
+    --hero-shade:
+      linear-gradient(to bottom, rgb(var(--bg-rgb) / 0.32) 0, rgb(var(--bg-rgb) / 0) 12%),
+      linear-gradient(to top, rgb(var(--bg-rgb) / 0.88) 0, rgb(var(--bg-rgb) / 0.58) 20%, rgb(var(--bg-rgb) / 0.16) 42%, rgb(var(--bg-rgb) / 0) 54%);
+    --hero-shade-side: linear-gradient(to right, rgb(var(--bg-rgb) / 0.5) 0, rgb(var(--bg-rgb) / 0.2) 28%, rgb(var(--bg-rgb) / 0) 44%);
+  }
+  :global(:root[data-theme='light']) .hero-foto :global(img) {
+    filter: brightness(1.24) saturate(1.08);
+  }
+  @media (prefers-color-scheme: light) {
+    :global(:root:not([data-theme='dark'])) .hero {
+      --hero-shade:
+        linear-gradient(to bottom, rgb(var(--bg-rgb) / 0.32) 0, rgb(var(--bg-rgb) / 0) 12%),
+        linear-gradient(to top, rgb(var(--bg-rgb) / 0.88) 0, rgb(var(--bg-rgb) / 0.58) 20%, rgb(var(--bg-rgb) / 0.16) 42%, rgb(var(--bg-rgb) / 0) 54%);
+      --hero-shade-side: linear-gradient(to right, rgb(var(--bg-rgb) / 0.5) 0, rgb(var(--bg-rgb) / 0.2) 28%, rgb(var(--bg-rgb) / 0) 44%);
+    }
+    :global(:root:not([data-theme='dark'])) .hero-foto :global(img) {
+      filter: brightness(1.24) saturate(1.08);
+    }
+  }
+  @media (max-width: 799px) {
+    :global(:root[data-theme='light']) .hero-perde {
+      background:
+        linear-gradient(to bottom, rgb(var(--bg-rgb) / 0.32) 0, rgb(var(--bg-rgb) / 0) 12%),
+        linear-gradient(to top, rgb(var(--bg-rgb) / 0.92) 0, rgb(var(--bg-rgb) / 0.7) 32%, rgb(var(--bg-rgb) / 0.28) 52%, rgb(var(--bg-rgb) / 0) 68%);
+    }
+  }
+  @media (max-width: 799px) and (prefers-color-scheme: light) {
+    :global(:root:not([data-theme='dark'])) .hero-perde {
+      background:
+        linear-gradient(to bottom, rgb(var(--bg-rgb) / 0.32) 0, rgb(var(--bg-rgb) / 0) 12%),
+        linear-gradient(to top, rgb(var(--bg-rgb) / 0.92) 0, rgb(var(--bg-rgb) / 0.7) 32%, rgb(var(--bg-rgb) / 0.28) 52%, rgb(var(--bg-rgb) / 0) 68%);
+    }
+  }
+
   .hero-ic {
     position: relative;
     display: flex;
