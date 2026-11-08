@@ -7,6 +7,7 @@ import { business } from '../config/business';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileBar from '../components/MobileBar.astro';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title: string;
@@ -152,6 +153,7 @@ const yapilandirilmisVeri = {
     </main>
     <Footer />
     <MobileBar />
+    {!noindex && <Analytics />}
 
     <script>
       import { baslat } from '../scripts/site';
