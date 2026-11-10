@@ -15,60 +15,35 @@ export type Soru = {
 };
 export type Grup = { ad: string; sorular: Soru[] };
 
+/**
+ * 2. tur (10 Kas 2026): ilk turda (8 Kas) boş kalanlar. İlk tur cevapları
+ * ../../ali-cevaplari.md dosyasında ve Blob'da duruyor.
+ */
 export const gruplar: Grup[] = [
   {
-    ad: 'Dükkân ve marka',
+    ad: 'Linkler',
     sorular: [
-      { id: 'ad', s: 'Şubenin resmî adı ne?', n: 'Google, site ve tabelada aynı ad geçmeli.', tip: 'tek', o: ['Mahal Komagene', 'Komagene İldem', 'Başka bir ad (aşağıya yazın)', 'Emin değilim'], not: true },
-      { id: 'izin', s: 'Komagene merkezi, şubenin ayrı bir sitesi olmasına ve logonun kullanılmasına izin veriyor mu?', tip: 'tek', o: ['Yazılı izin var', 'Sözlü izin var', 'Konuşulmadı', 'Emin değilim'] },
-      { id: 'merkez', s: 'Merkezin şubeler için kendi sitesi, şube sayfası ya da bir kuralı var mı?', tip: 'tek', o: ['Var', 'Yok', 'Emin değilim'], not: true },
-      { id: 'adres', s: 'Adres böyle mi yazılmalı? "Alparslan Türkeş Blv. No: 31/3D, Gesi Fatih Mah., 38180 Melikgazi / Kayseri"', tip: 'tek', o: ['Doğru', 'Düzeltme var (aşağıya yazın)'], not: true },
-      { id: 'tel', s: 'Sitede 0531 520 50 04 numarası duruyor. Doğru numara bu mu?', tip: 'tek', o: ['Doğru', 'Başka numara olsun (aşağıya yazın)'], not: true },
+      { id: 'gbplink', s: 'Dükkânın Google Haritalar linki', n: 'Google Haritalar\'da dükkâna dokunun, "Paylaş" deyip linki buraya yapıştırın.', tip: 'metin', ph: 'https://maps.app.goo.gl/...' },
+      { id: 'gbpkim', s: 'Google Haritalar kaydını kimin yönettiğini öğrenebildiniz mi?', n: 'Fotoğraf, saat ve yorum cevabı oradan yönetiliyor; kimde olduğunu bilirsek güncel tutarız.', tip: 'tek', o: ['Merkez yönetiyor', 'Biz yönetiyoruz', 'Eski bir çalışanda / ajansta', 'Öğrenemedim'], not: true, notPh: 'Kimde? (isim ya da e-posta)' },
+      { id: 'platformlink', s: 'Sipariş uygulamalarındaki dükkân linkleri', n: 'Yemeksepeti, Getir, Trendyol, Migros ve Komagene uygulamasında dükkân sayfasını açıp "Paylaş" deyin. Sitede "Sipariş ver" düğmeleri bunlarla çalışacak.', tip: 'metin', ph: 'Her satıra bir link' },
+      { id: 'instagram', s: 'Instagram kullanıcı adı', tip: 'metin', ph: '@...' },
     ],
   },
   {
-    ad: 'Google Haritalar',
+    ad: 'Menü ve kampanyalar',
     sorular: [
-      { id: 'gbp', s: 'Dükkânın Google Haritalar kaydı var mı, kimde?', n: '"Çiğ köfte yakınımda" diye arayan müşterilerin çoğu dükkânı haritada bulur.', tip: 'tek', o: ['Var, biz yönetiyoruz', 'Var, merkez yönetiyor', 'Var ama kimde bilmiyorum', 'Yok', 'Emin değilim'] },
-      { id: 'gbplink', s: 'Varsa Google Haritalar linki (haritada dükkâna dokunup "Paylaş" deyin)', tip: 'metin', ph: 'https://maps.app.goo.gl/...' },
-      { id: 'harita3', s: 'Dükkândayken telefondan "çiğ köfte" aratınca haritada ilk 3 sırada kimler çıkıyor?', n: 'İsterseniz aşağıdaki fotoğraf bölümünden ekran görüntüsü de yükleyebilirsiniz.', tip: 'metin', ph: '1) ...  2) ...  3) ...' },
-      { id: 'yorum', s: "Müşterilerden Google'da yorum istemeye sıcak bakar mısınız?", n: 'Kasada küçük bir rica ya da masada QR kart. Yorum karşılığı indirim verilmiyor, bu Google kuralı.', tip: 'tek', o: ['Evet, QR kart da koyarız', 'Yalnız sözlü rica', 'Hayır', 'Düşüneyim'] },
+      { id: 'menuliste', s: 'Menü ve fiyatlar', n: 'Buraya yazabilir ya da en alttan menü panosunun / fiyat listesinin fotoğrafını yükleyebilirsiniz.', tip: 'metin', ph: 'ör. Çiğ köfte dürüm — ... TL' },
+      { id: 'tatlilar', s: 'Hangi tatlılar var?', tip: 'metin' },
+      { id: 'kampanyalar', s: 'Güncel kampanyalar neler?', n: 'Hangi gün, hangi ürün, ne kadar indirim. Sitede böyle duyuracağız.', tip: 'metin', ph: 'ör. Her ayın 15\'i çiğ köfte %50' },
+      { id: 'fiyatkisi', s: 'Fiyat ya da kampanya değişince kim haber verecek?', tip: 'metin', ph: 'İsim ve telefon' },
     ],
   },
   {
-    ad: 'Sipariş',
+    ad: 'Servis ve saatler',
     sorular: [
-      { id: 'platform', s: 'Şube hangi sipariş uygulamalarında var?', n: 'Birden fazla seçebilirsiniz. Sitede "Sipariş ver" düğmesi koymak için.', tip: 'cok', o: ['Yemeksepeti', 'Getir Yemek', 'Trendyol Yemek', 'Migros Yemek', 'Komagene uygulaması', 'Hiçbiri'] },
-      { id: 'platformlink', s: 'Varsa bu uygulamalardaki dükkân linkleri', tip: 'metin', ph: 'Uygulamada dükkân sayfasını açıp "Paylaş" deyin' },
-      { id: 'paket', s: 'Telefonla paket sipariş alıyor musunuz, kendi kuryeniz var mı?', tip: 'tek', o: ['Evet, belli bir bölgeye', 'Evet, her yere', 'Hayır, yalnız gel-al', 'Uygulamalar üzerinden'], not: true, notPh: 'Hangi bölgelere? Minimum tutar var mı?' },
-      { id: 'whatsapp', s: "Dükkânın numarası WhatsApp'ta mı, oradan sipariş alır mısınız?", tip: 'tek', o: ['Evet, WhatsApp Business', 'Evet, normal WhatsApp', 'WhatsApp var ama sipariş almayız', 'Hayır'] },
-    ],
-  },
-  {
-    ad: 'Menü',
-    sorular: [
-      { id: 'menu', s: 'Sitede menü ve fiyatlar görünsün mü?', n: 'Fiyatları fotoğraftaki panodan yazmıyoruz; güncel listeyi sizden alırız.', tip: 'tek', o: ['Evet, fiyatlarıyla', 'Ürünler olsun, fiyat olmasın', 'Menü olmasın'] },
-      { id: 'menuliste', s: 'Menüyü buraya yazabilir ya da menü/fiyat listesinin fotoğrafını aşağıdan yükleyebilirsiniz', tip: 'metin', ph: 'ör. Çiğ köfte dürüm — ... TL' },
-      { id: 'fiyatguncel', s: 'Fiyatlar değişince kim haber verecek?', tip: 'tek', o: ['Ben haber veririm', 'Dükkândan biri', 'Fiyat koymayalım'], not: true, notPh: 'Kim? (isim/telefon)' },
-      { id: 'tatli', s: 'Dükkânda tatlı satılıyor mu?', n: 'Satılmıyorsa siteden kaldıracağız.', tip: 'tek', o: ['Evet', 'Hayır', 'Mevsimlik / bazen'], not: true, notPh: 'Hangi tatlılar?' },
-      { id: 'etsiz', s: 'Sitede "etsiz çiğ köfte" ifadesi geçsin mi?', tip: 'tek', o: ['Evet', 'Hayır'] },
-      { id: 'kampanya', s: 'Panodaki kampanyalar (ör. "her ayın 15\'i %50") hâlâ geçerli mi? Sitede duyurulsun mu?', tip: 'tek', o: ['Geçerli, duyuralım', 'Geçerli ama sitede olmasın', 'Artık yok'], not: true, notPh: 'Güncel kampanyalar neler?' },
-    ],
-  },
-  {
-    ad: 'Saatler',
-    sorular: [
-      { id: 'saat', s: 'Her gün 11.00 – 02.00 arası açık mısınız?', tip: 'tek', o: ['Evet', 'Bazı günler farklı (aşağıya yazın)'], not: true },
-      { id: 'ozelsaat', s: 'Ramazan, bayram ya da yılbaşında saatler değişiyor mu?', tip: 'tek', o: ['Evet, değişiyor', 'Hayır'], not: true, notPh: 'Nasıl değişiyor?' },
-    ],
-  },
-  {
-    ad: 'Dükkânı anlatalım',
-    sorular: [
-      { id: 'acilis', s: 'Dükkân ne zaman açıldı?', tip: 'metin', ph: 'Yıl yeterli' },
-      { id: 'fark', s: 'Müşteriler dükkânı en çok neden seviyor? Öne çıkan 2-3 şey', n: 'Örneğin oturma alanı, otopark, porsiyon, servis hızı... Yalnız doğru olanlar.', tip: 'metin' },
-      { id: 'olanak', s: 'Dükkânda neler var?', tip: 'cok', o: ['Oturma alanı', 'Dış mekân / bahçe', 'Otopark', 'Kartla ödeme', 'Engelli girişi', 'Wi-Fi', 'Paket servis', 'Gel-al'] },
-      { id: 'instagram', s: 'Dükkânın Instagram hesabı var mı?', tip: 'tek', o: ['Var', 'Yok, açabiliriz', 'Yok, açmayacağız'], not: true, notPh: 'Varsa kullanıcı adı' },
+      { id: 'paketbolge', s: 'Paket servis hangi bölgelere? Minimum tutar var mı?', tip: 'metin', ph: 'ör. İldem, Gesi Fatih... · min. ... TL' },
+      { id: 'ozelsaat', s: 'Ramazan, bayram ve yılbaşında saatler nasıl değişiyor?', tip: 'metin' },
+      { id: 'ad', s: 'Şubenin resmî adı ne?', n: 'Google, site ve tabelada aynı ad geçmeli.', tip: 'tek', o: ['Mahal Komagene', 'Komagene İldem', 'Komagene Alparslan Türkeş Bulvarı', 'Başka bir ad (aşağıya yazın)'], not: true },
       { id: 'son', s: 'Eklemek istediğiniz başka bir şey', tip: 'metin' },
     ],
   },

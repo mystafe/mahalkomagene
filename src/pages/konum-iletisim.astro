@@ -45,6 +45,9 @@ import { business } from '../config/business';
           <a href={business.phone.href} data-olay="click_call">{business.phone.display}</a>
         </p>
         <p>Yolu tarif edelim ya da ürün sorularınızı yanıtlayalım.</p>
+        <a class="ulink" href={business.whatsapp.href} target="_blank" rel="noopener" data-olay="click_whatsapp">
+          WhatsApp'tan yazın <span class="ok" aria-hidden="true">↗</span>
+        </a>
       </article>
       <article class="ulasim-kart" data-reveal style="--d:2">
         <h3 class="kunye"><b>03</b> Çalışma saatleri</h3>
@@ -52,6 +55,27 @@ import { business } from '../config/business';
         <p>Gece {business.openingHours.closes.replace(':', '.')}'ye kadar açığız.</p>
         <OpenStatus yedek={false} />
       </article>
+    </div>
+
+    <div class="olanak-blok">
+      <div class="olanak-sutun" data-reveal>
+        <h3 class="kunye"><b>04</b> Dükkânda neler var?</h3>
+        <ul class="olanak-liste">
+          {business.olanaklar.map((o) => <li>{o}</li>)}
+        </ul>
+      </div>
+      <div class="olanak-sutun" data-reveal style="--d:1">
+        <h3 class="kunye"><b>05</b> Paket servis</h3>
+        <p>
+          Belirli bir bölgeye kendi kuryemizle paket servis yapıyoruz. Adresinize gelip
+          gelmediğimizi{' '}
+          <a class="ulink" href={business.phone.href} data-olay="click_call">telefonla</a>
+          {' '}ya da{' '}
+          <a class="ulink" href={business.whatsapp.href} target="_blank" rel="noopener" data-olay="click_whatsapp">WhatsApp'tan</a>
+          {' '}sorabilirsiniz.
+        </p>
+        <p>Ayrıca {business.siparisUygulamalari.join(', ').replace(/, ([^,]*)$/, ' ve $1')} üzerinden de sipariş verebilirsiniz.</p>
+      </div>
     </div>
   </section>
 </BaseLayout>
@@ -122,5 +146,50 @@ import { business } from '../config/business';
   }
   .ulasim-kart p:not(.ulasim-deger) {
     color: var(--fg-dim);
+  }
+  .olanak-blok {
+    display: grid;
+    gap: 0;
+  }
+  @media (min-width: 900px) {
+    .olanak-blok {
+      grid-template-columns: 1fr 2fr;
+    }
+    .olanak-sutun + .olanak-sutun {
+      border-left: 1px solid var(--line);
+      padding-left: clamp(1.25rem, 2.5vw, 2rem);
+    }
+  }
+  .olanak-sutun {
+    display: grid;
+    align-content: start;
+    gap: 0.85rem;
+    padding: 1.75rem 1.25rem 1.75rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .olanak-sutun h3.kunye {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+  }
+  .olanak-sutun p {
+    color: var(--fg-dim);
+    max-width: 60ch;
+  }
+  .olanak-liste {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .olanak-liste li {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    font-size: 0.92rem;
   }
 </style>

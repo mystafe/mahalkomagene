@@ -12,10 +12,29 @@ export const business = {
   url: 'https://mahalkomagene.com',
 
   phone: {
-    display: '+90 531 520 50 04',
-    e164: '+905315205004',
-    href: 'tel:+905315205004',
+    display: '+90 541 104 90 25',
+    e164: '+905411049025',
+    href: 'tel:+905411049025',
   },
+
+  // Aynı numara WhatsApp'ta; sipariş de alınıyor (dükkân cevabı, 8 Kas 2026)
+  whatsapp: {
+    href: 'https://wa.me/905411049025',
+  },
+
+  // Şubenin bulunduğu sipariş uygulamaları (linkler gelince eklenecek)
+  siparisUygulamalari: ['Yemeksepeti', 'Getir Yemek', 'Trendyol Yemek', 'Migros Yemek', 'Komagene uygulaması'],
+
+  // Dükkân olanakları (dükkân cevabı, 8 Kas 2026)
+  olanaklar: [
+    'Oturma alanı',
+    'Dış mekân / bahçe',
+    'Otopark',
+    'Kartla ödeme',
+    'Engelli girişi',
+    'Paket servis',
+    'Gel-al',
+  ],
 
   address: {
     street: 'Alparslan Türkeş Blv. 31/3D',

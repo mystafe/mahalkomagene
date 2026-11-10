@@ -22,10 +22,10 @@ const toplam = no;
       <span class="kunye">Mahal Komagene · Site</span>
       <span class="kunye">{toplam} soru</span>
     </div>
-    <h1 class="d-l">Ali, site için <span class="vurgu">birkaç soru</span></h1>
+    <h1 class="d-l">Ali, birkaç <span class="vurgu">eksik kaldı</span></h1>
     <p class="lead giris-metin">
-      Dükkânın sitesi yayında. Daha çok müşteri getirsin diye birkaç bilgiye ihtiyacımız var.
-      Sitede yalnız doğru bilgiyi kullanacağız; tahminle hiçbir şey yazmıyoruz.
+      İlk cevaplarınız için teşekkürler, hepsi siteye işlendi. Birkaç link ve bilgi eksik kaldı,
+      bir de fotoğraflar. Müsait olduğunuzda doldurun, acele yok; yarıda bırakıp sonra devam edebilirsiniz.
     </p>
 
     <noscript><p class="uyari">Bu form için tarayıcıda JavaScript açık olmalı.</p></noscript>
@@ -43,7 +43,7 @@ const toplam = no;
         <button type="button" class="btn btn-vurgu" data-basla disabled>Başla <span class="ok" aria-hidden="true">→</span></button>
         <p class="hata" data-giris-hata role="alert" hidden></p>
         <ul class="ipucu">
-          <li>Çoğu soruda bir seçeneğe dokunmanız yeterli. Emin değilseniz "Emin değilim" deyin.</li>
+          <li>Bilmediğiniz soruyu boş bırakabilirsiniz.</li>
           <li>Cevaplar siz yazdıkça kendiliğinden kaydedilir; yarıda bırakıp sonra devam edebilirsiniz.</li>
           <li>En altta fotoğraf yükleyebilirsiniz.</li>
         </ul>
@@ -93,7 +93,8 @@ const toplam = no;
       <fieldset class="grup">
         <legend class="d-m grup-baslik">Fotoğraflar</legend>
         <p class="neden">
-          Sitede hiç ürün fotoğrafı yok. Telefonun ana kamerasıyla çekin, buradan yükleyin; orijinal kalitede gelir.
+          En çok buna ihtiyacımız var: sitede hiç ürün fotoğrafı yok. Telefonun ana kamerasıyla çekin,
+          buradan yükleyin; orijinal kalitede gelir. Hepsini bir seferde çekmek gerekmez, her girişte birkaç tane ekleyebilirsiniz.
           Fiyatlı afiş, kampanya panosu ve kayan LED yazı kadrajda olmasın. Müşteri yüzü görünüyorsa izin alınmış olsun.
         </p>
         <details class="cekim">
@@ -133,7 +134,7 @@ const toplam = no;
   import { uploadPresigned } from '@vercel/blob/client';
 
   const kok = document.querySelector<HTMLElement>('[data-sorular]')!;
-  const LS = 'mk-sorular-v1';
+  const LS = 'mk-sorular-v2'; // 2. tur; v1 (ilk tur) kaydının üzerine yazılmasın diye yeni kimlik
   const adimlar = {
     giris: kok.querySelector<HTMLElement>('[data-adim="giris"]')!,
     sorular: kok.querySelector<HTMLFormElement>('[data-adim="sorular"]')!,
@@ -163,7 +164,16 @@ const toplam = no;
   } catch {
     durum = null as unknown as Durum;
   }
-  if (!durum) durum = { id: crypto.randomUUID(), k: '', ad: '', alanlar: {}, fotograflar: [], tamam: false };
+  if (!durum) {
+    // ilk turdan kalan erişim kodu ve ad taşınır; cevaplar ve kimlik yeni
+    let eski: Partial<Durum> | null = null;
+    try {
+      eski = JSON.parse(localStorage.getItem('mk-sorular-v1') || 'null');
+    } catch {
+      /* yok */
+    }
+    durum = { id: crypto.randomUUID(), k: eski?.k || '', ad: eski?.ad || '', alanlar: {}, fotograflar: [], tamam: false };
+  }
   if (hashK) durum.k = hashK;
   // anahtar adres çubuğunda kalmasın
   if (hashK) history.replaceState(null, '', location.pathname);
