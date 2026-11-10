@@ -5,25 +5,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHead from '../components/PageHead.astro';
 
 import disCephe from '../assets/images/mahal-komagene-dis-cephe.jpeg';
-import disCepheKose from '../assets/images/mahal-komagene-dis-cephe-kose.jpeg';
 import aksamGorunum from '../assets/images/mahal-komagene-aksam-gorunum.jpeg';
 import giris from '../assets/images/mahal-komagene-giris.jpeg';
 import bulvarGorunum from '../assets/images/mahal-komagene-bulvar-gorunum.jpeg';
-import dondurmaKosesi from '../assets/images/mahal-komagene-dondurma-kosesi.jpeg';
-import dondurmaDolabi from '../assets/images/mahal-komagene-dondurma-dolabi.jpeg';
 import mezeTezgahi from '../assets/images/mahal-komagene-meze-tezgahi.jpeg';
 import icMekanTezgah from '../assets/images/mahal-komagene-ic-mekan-tezgah.jpeg';
 
 // yerlesim: genis = 2 sütun yatay, uzun = dikey
 const ham: { src: ImageMetadata; alt: string; etiket: string; yerlesim: string; pos?: string }[] = [
   { src: disCephe, alt: 'Mahal Komagene İldem şubesinin Alparslan Türkeş Bulvarı üzerindeki dış görünümü', etiket: 'Dış cephe', yerlesim: 'genis' },
-  { src: dondurmaKosesi, alt: 'Neon Dondurma tabelalı girişin akşam görünümü', etiket: 'Dondurma köşesi', yerlesim: 'uzun' },
-  { src: mezeTezgahi, alt: 'Taze garnitürlerle hazırlanmış self servis çiğ köfte ve meze tezgahı', etiket: 'Tezgah', yerlesim: 'genis' },
-  { src: disCepheKose, alt: 'Dükkanın köşeden akşam görünümü', etiket: 'Köşe', yerlesim: 'uzun' },
-  { src: dondurmaDolabi, alt: 'Dondurma köşesindeki dolaplarda dondurma çeşitleri', etiket: 'Dondurma dolabı', yerlesim: 'uzun' },
   { src: bulvarGorunum, alt: "Mahal Komagene'nin bulvar tarafından görünümü", etiket: 'Bulvar', yerlesim: 'uzun' },
-  { src: icMekanTezgah, alt: 'Tezgah ve menü panolarıyla iç mekan', etiket: 'İç mekan', yerlesim: 'genis' },
+  { src: mezeTezgahi, alt: 'Taze garnitürlerle hazırlanmış self servis çiğ köfte ve meze tezgahı', etiket: 'Tezgah', yerlesim: 'genis' },
   { src: giris, alt: 'Girişin bayraklı akşam görünümü', etiket: 'Giriş', yerlesim: 'uzun' },
+  { src: icMekanTezgah, alt: 'Tezgah ve menü panolarıyla iç mekan', etiket: 'İç mekan', yerlesim: 'genis' },
   { src: aksamGorunum, alt: 'Dükkanın geniş açıdan akşam görünümü', etiket: 'Akşam', yerlesim: 'genis', pos: '50% 86%' },
 ];
 
@@ -38,7 +32,7 @@ const toplam = String(fotograflar.length).padStart(2, '0');
 
 <BaseLayout
   title="Galeri | Mahal Komagene – İldem, Kayseri"
-  description="Mahal Komagene İldem şubesinden gerçek fotoğraflar: dış cephe, dondurma köşesi, self servis çiğ köfte tezgahı ve iç mekan."
+  description="Mahal Komagene İldem şubesinden gerçek fotoğraflar: dış cephe, self servis çiğ köfte tezgahı ve iç mekan."
 >
   <PageHead
     etiket="Galeri"

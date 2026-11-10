@@ -11,8 +11,6 @@ import disCephe from '../assets/images/mahal-komagene-dis-cephe.jpeg';
 import disCepheKose from '../assets/images/mahal-komagene-dis-cephe-kose.jpeg';
 import mezeTezgahi from '../assets/images/mahal-komagene-meze-tezgahi.jpeg';
 import icMekanTezgah from '../assets/images/mahal-komagene-ic-mekan-tezgah.jpeg';
-import dondurmaDolabi from '../assets/images/mahal-komagene-dondurma-dolabi.jpeg';
-import dondurmaKosesi from '../assets/images/mahal-komagene-dondurma-kosesi.jpeg';
 import giris from '../assets/images/mahal-komagene-giris.jpeg';
 import aksamGorunum from '../assets/images/mahal-komagene-aksam-gorunum.jpeg';
 import bulvarGorunum from '../assets/images/mahal-komagene-bulvar-gorunum.jpeg';
@@ -44,14 +42,6 @@ const tezgah = [
     gorsel: null,
     alt: '',
     etiket: 'Tezgah · Tatlı',
-  },
-  {
-    id: 'dondurma',
-    ad: 'Dondurma',
-    metin: 'Neon tabelalı dondurma köşemizde dolap boyu çeşit. Gece geç saatte de dondurma alabilirsiniz.',
-    gorsel: dondurmaDolabi,
-    alt: "Mahal Komagene'nin neon Dondurma tabelalı köşesinde dondurma dolapları",
-    etiket: 'Köşe · Dondurma',
   },
 ];
 
@@ -103,8 +93,8 @@ const kareler = [
         <div class="hero-alt-izgara">
           <p class="hero-lead">
             Mahal Komagene, İldem Gesi Fatih Mahallesi'nde çiğ köftenin adresi.
-            Alparslan Türkeş Bulvarı üzerindeyiz; çiğ köftenin yanında meze, tatlı
-            ve dondurma da bulabilirsiniz. Her gün {acilis}'den gece {kapanis}'ye kadar açığız.
+            Alparslan Türkeş Bulvarı üzerindeyiz; çiğ köftenin yanında meze ve
+            tatlı da bulabilirsiniz. Her gün {acilis}'den gece {kapanis}'ye kadar açığız.
           </p>
           <div class="hero-eylem">
             <div class="hero-dugmeler">
@@ -133,8 +123,8 @@ const kareler = [
   </section>
 
   <Marquee
-    ozet="Çiğ köfte, meze, tatlı ve dondurma — her gün 11.00 ile 02.00 arası, Alparslan Türkeş Bulvarı, İldem."
-    ogeler={['Çiğ köfte', 'Meze', 'Tatlı', 'Dondurma', `Her gün ${acilis} – ${kapanis}`, 'Alparslan Türkeş Blv.', 'İldem · Kayseri']}
+    ozet="Çiğ köfte, meze ve tatlı — her gün 11.00 ile 02.00 arası, Alparslan Türkeş Bulvarı, İldem."
+    ogeler={['Çiğ köfte', 'Etsiz çiğ köfte', 'Meze', 'Tatlı', `Her gün ${acilis} – ${kapanis}`, 'Alparslan Türkeş Blv.', 'İldem · Kayseri']}
   />
 
   <!-- ═══ 01 · MAHALLE ═══ -->
@@ -151,12 +141,12 @@ const kareler = [
             Mahallenin{' '}<br /><span class="vurgu">çiğ köftecisi.</span>
           </h2>
           <p class="tanitim-buyuk" data-reveal style="--d:1">
-            Melikgazi'nin İldem bölgesinde, Gesi Fatih Mahallesi'nde bir çiğ köfte
-            ve dondurma noktası. Gündüz de gece de uğrayabileceğiniz bir yer olmayı
+            Melikgazi'nin İldem bölgesinde, Gesi Fatih Mahallesi'nde bir mahalle
+            çiğ köftecisi. Gündüz de gece de uğrayabileceğiniz bir yer olmayı
             amaçlıyoruz.
           </p>
           <p class="lead" data-reveal style="--d:2">
-            Çiğ köftenin yanında meze, tatlı ve dondurma çeşitlerimizle
+            Çiğ köftenin yanında meze ve tatlı çeşitlerimizle
             Alparslan Türkeş Bulvarı üzerindeyiz; İldem'deyseniz bize uğrayın.
           </p>
           <a href="/hakkimizda" class="tanitim-link kunye" data-reveal style="--d:3">
@@ -207,7 +197,7 @@ const kareler = [
           <div class="tezgah-yapiskan">
             <h2 id="tezgah-baslik" class="d-l">Tezgahta{' '}<br />neler var?</h2>
             <p class="lead">
-              Çiğ köfteden dondurmaya dört ana kategori; hepsi bir arada, tek durakta.
+              Çiğ köfte, meze ve tatlı; hepsi bir arada, tek durakta.
             </p>
             <ol class="tezgah-liste" aria-label="Kategoriler">
               {
@@ -282,12 +272,12 @@ const kareler = [
   <section class="gece" aria-labelledby="gece-baslik">
     <figure class="gece-foto">
       <Picture
-        src={dondurmaKosesi}
+        src={giris}
         widths={[600, 900, 1300, 1536]}
         sizes="(min-width: 1000px) 50vw, 100vw"
         formats={['avif', 'webp']}
         width={1200}
-        alt="Neon Dondurma tabelası altında dondurma dolaplarıyla Mahal Komagene'nin dondurma köşesi"
+        alt="Mahal Komagene girişinin bayraklı akşam görünümü"
         loading="lazy"
       />
     </figure>
@@ -300,9 +290,8 @@ const kareler = [
         Gece{' '}<br />{kapanis}'ye{' '}<br /><span class="vurgu">kadar açığız.</span>
       </h2>
       <p class="lead" data-reveal style="--d:1">
-        Gündüz yemek arası, gece tatlı ya da dondurma — ne zaman yolunuz düşerse
-        bekleriz. Neon tabelalı dondurma köşemiz özellikle yaz akşamlarının uğrak
-        noktası.
+        Gündüz yemek arası, gece bir porsiyon çiğ köfte ya da tatlı — ne zaman
+        yolunuz düşerse bekleriz.
       </p>
       <div class="saat-blok" data-reveal style="--d:2">
         <div>
@@ -332,7 +321,7 @@ const kareler = [
       <div class="kareler-ust">
         <h2 id="kareler-baslik" class="d-l" data-reveal>Dükkandan{' '}<br />kareler</h2>
         <div class="kareler-ust-sag" data-reveal style="--d:1">
-          <p class="lead">Dış cephe, tezgah ve dondurma köşemizden gerçek fotoğraflar.</p>
+          <p class="lead">Dış cephe, tezgah ve iç mekândan gerçek fotoğraflar.</p>
           <a href="/galeri" class="btn">
             Galerinin tamamı <span class="ok ok-sag" aria-hidden="true">→</span>
           </a>

@@ -69,8 +69,9 @@ export const business = {
   },
 
   // Ürün kategorileri (fiyat ve ürün listesi girilmedikçe eklenmez)
-  categories: ['Çiğ Köfte', 'Meze', 'Tatlı', 'Dondurma'],
-  servesCuisine: ['Çiğ Köfte', 'Türk Mutfağı', 'Meze', 'Tatlı', 'Dondurma'],
+  // Dondurma 11 Kas 2026'da ara verildiği için çıkarıldı; dönünce geri eklenir
+  categories: ['Çiğ Köfte', 'Meze', 'Tatlı'],
+  servesCuisine: ['Çiğ Köfte', 'Türk Mutfağı', 'Meze', 'Tatlı'],
 
   /**
    * Sosyal medya — hesap açılınca URL'yi buraya yazmanız yeterli,

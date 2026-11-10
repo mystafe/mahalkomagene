@@ -6,7 +6,6 @@ import { business } from '../config/business';
 
 import mezeTezgahi from '../assets/images/mahal-komagene-meze-tezgahi.jpeg';
 import icMekanTezgah from '../assets/images/mahal-komagene-ic-mekan-tezgah.jpeg';
-import dondurmaDolabi from '../assets/images/mahal-komagene-dondurma-dolabi.jpeg';
 
 const kategoriler = [
   {
@@ -35,28 +34,19 @@ const kategoriler = [
     alt: '',
     metin: '',
   },
-  {
-    id: 'dondurma',
-    ad: 'Dondurma',
-    etiket: 'Köşe · Dondurma',
-    gorsel: dondurmaDolabi,
-    alt: 'Mahal Komagene dondurma köşesindeki dolaplarda çeşit çeşit dondurma',
-    metin:
-      'Neon tabelalı dondurma köşemizde dolap boyu dondurma çeşidi bulunuyor. Yaz kış açığız; gece geç saatte de dondurma alabilirsiniz.',
-  },
 ];
 ---
 
 <BaseLayout
-  title="Ürünler | Çiğ Köfte, Meze, Tatlı ve Dondurma – Mahal Komagene"
-  description="Mahal Komagene İldem'de çiğ köfte, meze, tatlı ve dondurma kategorilerinde servis yapar. Ürün kategorilerimize göz atın, tezgahımıza uğrayın."
+  title="Ürünler | Çiğ Köfte, Meze ve Tatlı – Mahal Komagene"
+  description="Mahal Komagene İldem'de çiğ köfte, meze ve tatlı kategorilerinde servis yapar. Ürün kategorilerimize göz atın, tezgahımıza uğrayın."
 >
   <PageHead
     etiket="Ürünler · Tezgah"
-    no="04 kategori"
-    lead={`Dört ana kategoride servis yapıyoruz. Tezgahımız her gün ${business.openingHours.displayShort} arası açık; gelin, seçin, tadına bakın.`}
+    no="03 kategori"
+    lead={`Üç ana kategoride servis yapıyoruz. Tezgahımız her gün ${business.openingHours.displayShort} arası açık; gelin, seçin, tadına bakın.`}
   >
-    <Fragment slot="baslik">Çiğ Köfte, Meze,{' '}<br /><span class="vurgu">Tatlı ve Dondurma</span></Fragment>
+    <Fragment slot="baslik">Çiğ Köfte,{' '}<br /><span class="vurgu">Meze ve Tatlı</span></Fragment>
     <nav slot="sag" class="atla" aria-label="Kategoriler">
       {
         kategoriler.map((k, i) => (

@@ -5,14 +5,14 @@ import PageHead from '../components/PageHead.astro';
 import OpenStatus from '../components/OpenStatus.astro';
 import { business } from '../config/business';
 
-import dondurmaKosesi from '../assets/images/mahal-komagene-dondurma-kosesi.jpeg';
+import giris from '../assets/images/mahal-komagene-giris.jpeg';
 import aksamGorunum from '../assets/images/mahal-komagene-aksam-gorunum.jpeg';
 import mezeTezgahi from '../assets/images/mahal-komagene-meze-tezgahi.jpeg';
 ---
 
 <BaseLayout
   title="Hakkımızda | Mahal Komagene – İldem, Melikgazi"
-  description="Mahal Komagene, Kayseri Melikgazi'nin İldem bölgesinde, Gesi Fatih Mahallesi'nde çiğ köfte, meze, tatlı ve dondurma servisi yapan bir mahalle dükkanıdır."
+  description="Mahal Komagene, Kayseri Melikgazi'nin İldem bölgesinde, Gesi Fatih Mahallesi'nde çiğ köfte, meze ve tatlı servisi yapan bir mahalle dükkanıdır."
 >
   <PageHead etiket="Hakkımızda" no={business.locality}>
     <Fragment slot="baslik">İldem'in{' '}<br /><span class="vurgu">Mahal Komagene'si</span></Fragment>
@@ -39,8 +39,8 @@ import mezeTezgahi from '../assets/images/mahal-komagene-meze-tezgahi.jpeg';
 
     <div class="hikaye-metin">
       <p class="hikaye-buyuk" data-reveal>
-        Alparslan Türkeş Bulvarı üzerindeki dükkanımızda çiğ köftenin yanında meze,
-        tatlı ve dondurma çeşitleri de bulunuyor.
+        Alparslan Türkeş Bulvarı üzerindeki dükkanımızda çiğ köftenin yanında meze
+        ve tatlı çeşitleri de bulunuyor.
       </p>
       <div class="hikaye-paragraflar">
         <p data-reveal style="--d:1">
@@ -51,13 +51,12 @@ import mezeTezgahi from '../assets/images/mahal-komagene-meze-tezgahi.jpeg';
         </p>
         <p data-reveal style="--d:2">
           Self servis tezgahımızda çiğ köftenizi taze yeşillik ve soslarla
-          kendinize göre hazırlatabilirsiniz. Neon tabelalı dondurma köşemizde de
-          dondurma çeşitlerimiz sizi bekliyor.
+          kendinize göre hazırlatabilirsiniz.
         </p>
         <p data-reveal style="--d:3">
           Her gün {business.openingHours.opens.replace(':', '.')}'den gece
           {' '}{business.openingHours.closes.replace(':', '.')}'ye kadar açığız. Gündüz yemek arası,
-          gece tatlı ya da dondurma — ne zaman yolunuz düşerse bekleriz.
+          gece bir porsiyon çiğ köfte ya da tatlı — ne zaman yolunuz düşerse bekleriz.
         </p>
       </div>
       <div class="hikaye-dugmeler">
@@ -89,15 +88,15 @@ import mezeTezgahi from '../assets/images/mahal-komagene-meze-tezgahi.jpeg';
       </figure>
       <figure class="kadraj" data-reveal="perde" style="--d:2">
         <Picture
-          src={dondurmaKosesi}
+          src={giris}
           widths={[480, 720, 1000]}
           sizes="(min-width: 760px) 44vw, 92vw"
           formats={['avif', 'webp']}
           width={1200}
-          alt="Mahal Komagene'nin neon Dondurma tabelalı girişi"
+          alt="Mahal Komagene girişinin bayraklı akşam görünümü"
           loading="lazy"
         />
-        <figcaption class="kadraj-etiket"><b>02</b> Neon dondurma köşesi</figcaption>
+        <figcaption class="kadraj-etiket"><b>02</b> Giriş</figcaption>
       </figure>
     </div>
   </section>
@@ -118,7 +117,7 @@ import mezeTezgahi from '../assets/images/mahal-komagene-meze-tezgahi.jpeg';
       </div>
       <div class="ozet-satir" data-reveal>
         <dt><span class="kunye">02</span> Ne var?</dt>
-        <dd>Etsiz çiğ köfte, meze, tatlı ve dondurma. Oturma alanı, bahçe ve otopark da var.</dd>
+        <dd>Etsiz çiğ köfte, meze ve tatlı. Oturma alanı, bahçe ve otopark da var.</dd>
       </div>
       <div class="ozet-satir" data-reveal>
         <dt><span class="kunye">03</span> Ne zaman açığız?</dt>
